@@ -144,7 +144,7 @@ if (isset($_GET['data']) && isset($_GET['action'])) {
 		mysql_query($query, $db) or die(mysql_error());
 	}
 } else {
-	if (isset($_GET['action']) && ($action == "songplaylists")) include("songplaylists.inc.php");
+	if (isset($_GET['action']) && ($action == "songplaylists")) include("playlists.inc.php");
 	elseif (isset($_GET['action']) && ($action == "friendplaylists")) {
 		$query = 'SELECT user_id, yt_playlist FROM hns_desktop WHERE yt_playlist != ""';
 		$result = mysql_query($query, $db) or die(mysql_error($db));
@@ -268,7 +268,7 @@ if (isset($_GET['action']) && ($action == "getkey")) {
 }
 
 break;
-case 'ytinstant':
+case 'twitter':
 
 if (isset($_GET['data']) && isset($_GET['action'])) {
 	if ($action == "add") {

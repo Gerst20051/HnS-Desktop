@@ -909,6 +909,41 @@ function getdate() {
 	else getthedate();
 }
 
+function two(x) { return ((x > 9) ? "" : "0") + x; }
+function three(x) { return ((x > 99) ? "" : "0") + ((x > 9) ? "" : "0") + x; }
+function gettime(s) {
+	var m=Math.floor(s/60),h=Math.floor(m/60),d=Math.floor(h/60);
+	if (d>0) t=d+":"+two(h%60)+":"+two(m%60)+":"+two(s%60);
+	else if (h%60>0) t=(h%60)+":"+two(m%60)+":"+two(s%60);
+	else t=(m%60)+":"+two(s%60);
+	return t;
+}
+function gettimems(ms) {
+	var sec = Math.floor(ms / 1000); ms = ms % 1000; t = three(ms);
+	var min = Math.floor(sec / 60); sec = sec % 60; t = two(sec) + ":" + t;
+	var hr = Math.floor(min / 60); min = min % 60; t = two(min) + ":" + t;
+	var day = Math.floor(hr / 60); hr = hr % 60; t = two(hr) + ":" + t;
+	t = day + ":" + t;
+	return t;
+
+/*
+lSeconds = Seconds
+lHrs = Int(lSeconds / 3600)
+lMinutes = (Int(lSeconds / 60)) - (lHrs * 60)
+lSeconds = Int(lSeconds Mod 60)
+
+If lSeconds = 60 Then
+    lMinutes = lMinutes + 1
+    lSeconds = 0
+End If
+
+If lMinutes = 60 Then
+    lMinutes = 0
+    lHrs = lHrs + 1
+End If
+*/
+}
+
 function div_selection(e, eq) {
 	this.e = e;
 	this.eq = eq;
@@ -1262,7 +1297,7 @@ function panel(a,b,c,d,e,f,g,h,i,j,k,l,x,y,xPos,yPos,z,content) {
 		'<td class="button-left"></td>',
 		'<td class="button-center">',
 		'<em unselectable="on">',
-		'<button type="button" id="taskbutton-', app, '" class="task icon-' + app + '">' + name + '</button>',
+		'<button type="button" id="taskbutton-', app, '" class="task icon-' + app + '"><img src="i/ux/s.gif" class="item-icon icon-' + app + '" alt="" />' + name + '</button>',
 		'</em>',
 		'</td>',
 		'<td class="button-right"></td>',
@@ -1323,7 +1358,7 @@ function panel(a,b,c,d,e,f,g,h,i,j,k,l,x,y,xPos,yPos,z,content) {
 		var header;
 		if (this.draggable === true) header = '<div class="phdr drsMoveHandle icon-' + app + '">';
 		else header = '<div class="phdr icon-' + app + '">';
-		header += '<span class="phdr-text">' + name + '</span>';
+		header += '<img src="i/ux/s.gif" class="item-icon icon-' + app + '" alt="" /><span class="phdr-text">' + name + '</span>';
 		if (this.showTools === true) {
 			var tlConfig, tools, maintls, subtls;
 			if (dC.user.logged) {
@@ -1525,7 +1560,7 @@ function desktop() {
 		'<td class="button-left"></td>',
 		'<td class="button-center">',
 		'<em unselectable="on">',
-		'<button type="button" id="quickbutton-' + app + '" class="quick icon-' + app + '"></button>',
+		'<button type="button" id="quickbutton-' + app + '" class="quick icon-' + app + '"><img src="i/ux/s.gif" class="item-icon icon-' + app + '" alt="" /></button>',
 		'</em>',
 		'</td>',
 		'<td class="button-right"></td>',
@@ -1730,7 +1765,7 @@ return [
 '<div><span>YouTube Instant</span></div>',
 '</div>',
 '<input type="text" id="searchBox" value="" spellcheck="false"></input>',
-'<div id="searchTermWrapper"><div id="searchTermKeyword"><strong>Search YouTube Instantly</strong></div></div>',
+'<div id="searchTermWrapper"><div id="searchTermKeyword">Search YouTube Instantly</div></div>',
 '</div>',
 '<div id="main" class="clearfix">',
 '<div id="videoDiv">',
@@ -1771,6 +1806,9 @@ return [
 '</div>',
 '</div>',
 '<div id="gallery" class="clearfix">',
+'<div class="container">&nbsp;</div>',
+'</div>',
+'<div id="suggestions" class="clearfix">',
 '<div class="container">&nbsp;</div>',
 '</div>',
 '</div>',
@@ -1870,7 +1908,7 @@ $range = 18;
 $limit1 = mt_rand(0, ($members - $range));
 $count = 0;
 
-$query = 'SELECT u.user_id, username, firstname, lastname, default_image FROM login u JOIN info i ON u.user_id = i.user_id WHERE u.user_id != 2 ORDER BY $order $sort LIMIT $limit1, $range';
+$query = 'SELECT u.user_id, u.username, i.firstname, i.lastname, i.default_image FROM login u JOIN info i ON u.user_id = i.user_id WHERE u.user_id != 2 ORDER BY $order $sort LIMIT $limit1, $range';
 $friends_result = mysql_query($query, $db) or die(mysql_error($db));
 
 while ($friends_row = mysql_fetch_array($friends_result)) {
@@ -2888,7 +2926,7 @@ var bImages = '"i/ux/blank.gif","i/ux/s.gif","i/ux/default.jpg","i/ux/applicatio
 bImages += ',"i/apps/icons/documents.png","i/apps/icons/preferences.png","i/apps/icons/notepad.png","i/apps/icons/flash_name.png","i/apps/icons/ytinstant.png","i/apps/icons/piano.png","i/apps/icons/about_hnsdesktop.png","i/apps/icons/feedback.png","i/apps/icons/tic_tac_toe.png","i/apps/icons/friends.png","i/apps/icons/goom_radio.png","i/apps/icons/search.png","i/apps/icons/chat.png","i/apps/icons/music.png","i/apps/icons/web_browser.png","i/apps/icons/torus.png","i/apps/icons/calendar.png","i/apps/icons/app_explorer.png","i/apps/icons/calculator.png","i/apps/icons/twitter.png"';
 bImages += ',"i/apps/thumbs/documents.png","i/apps/thumbs/preferences.png","i/apps/thumbs/notepad.png","i/apps/thumbs/flash_name.png","i/apps/thumbs/ytinstant.png","i/apps/thumbs/piano.png","i/apps/thumbs/about_hnsdesktop.png","i/apps/thumbs/feedback.png","i/apps/thumbs/tic_tac_toe.png","i/apps/thumbs/friends.png","i/apps/thumbs/goom_radio.png","i/apps/thumbs/search.png","i/apps/thumbs/chat.png","i/apps/thumbs/music.png","i/apps/thumbs/web_browser.png","i/apps/thumbs/torus.png","i/apps/thumbs/calendar.png","i/apps/thumbs/app_explorer.png","i/apps/thumbs/calculator.png","i/apps/thumbs/twitter.png"';
 bImages += ',"i/ux/preferences/thumbs.png","i/ux/preferences/autorun.png","i/ux/preferences/quickstart.png","i/ux/preferences/appearance.png","i/ux/preferences/wallpaper.png"';
-bImages += ',"i/apps/ytinstant/logo2.png","i/apps/ytinstant/loading.gif","i/apps/ytinstant/playing.gif","i/apps/ytinstant/player_play-1.png","i/apps/ytinstant/player_pause-1.png"';
+bImages += ',"i/apps/ytinstant/logo2.png","i/apps/ytinstant/loading.gif","i/apps/ytinstant/playing.gif","i/apps/ytinstant/player_play-1.png","i/apps/ytinstant/player_pause-1.png","i/apps/ytinstant/overlay-play.png"';
 bImages += ',"i/apps/torus/but_main.png","i/apps/torus/but_resume.png","i/apps/torus/but_restart.png","i/apps/torus/but_quit.png","i/apps/torus/but_play.png","i/apps/torus/but_pause.png","i/apps/torus/but_go.png","i/apps/torus/but_settings.png","i/apps/torus/but_help.png","i/apps/torus/but_high.png","i/apps/torus/title_traditional.png","i/apps/torus/title_time.png","i/apps/torus/title_garbage.png","i/apps/torus/title_help.png","i/apps/torus/title_high.png","i/apps/torus/title_settings.png","i/apps/torus/base0.png","i/apps/torus/panel.png","i/apps/torus/blocks.png","i/apps/torus/menu.png","i/apps/torus/modes.png","i/apps/torus/close.png","i/apps/torus/coins.png","i/apps/torus/paused.png","i/apps/torus/game_over.png","i/apps/torus/skull.png"';
 setTimeout('preloadImages("' + (pImage++) + '",' + bImages + ');', 2000);
 <?php } else { ?>
@@ -2921,7 +2959,7 @@ var bImages = '"i/ux/blank.gif","i/ux/s.gif","i/ux/default.jpg","i/ux/applicatio
 bImages += ',"i/apps/icons/documents.png","i/apps/icons/preferences.png","i/apps/icons/notepad.png","i/apps/icons/flash_name.png","i/apps/icons/ytinstant.png","i/apps/icons/piano.png","i/apps/icons/about_hnsdesktop.png","i/apps/icons/feedback.png","i/apps/icons/tic_tac_toe.png","i/apps/icons/friends.png","i/apps/icons/goom_radio.png","i/apps/icons/search.png","i/apps/icons/chat.png","i/apps/icons/music.png","i/apps/icons/web_browser.png","i/apps/icons/torus.png","i/apps/icons/calendar.png","i/apps/icons/app_explorer.png","i/apps/icons/calculator.png","i/apps/icons/twitter.png"';
 bImages += ',"i/apps/thumbs/documents.png","i/apps/thumbs/preferences.png","i/apps/thumbs/notepad.png","i/apps/thumbs/flash_name.png","i/apps/thumbs/ytinstant.png","i/apps/thumbs/piano.png","i/apps/thumbs/about_hnsdesktop.png","i/apps/thumbs/feedback.png","i/apps/thumbs/tic_tac_toe.png","i/apps/thumbs/friends.png","i/apps/thumbs/goom_radio.png","i/apps/thumbs/search.png","i/apps/thumbs/chat.png","i/apps/thumbs/music.png","i/apps/thumbs/web_browser.png","i/apps/thumbs/torus.png","i/apps/thumbs/calendar.png","i/apps/thumbs/app_explorer.png","i/apps/thumbs/calculator.png","i/apps/thumbs/twitter.png"';
 bImages += ',"i/ux/preferences/thumbs.png","i/ux/preferences/autorun.png","i/ux/preferences/quickstart.png","i/ux/preferences/appearance.png","i/ux/preferences/wallpaper.png"';
-bImages += ',"i/apps/ytinstant/logo2.png","i/apps/ytinstant/loading.gif","i/apps/ytinstant/playing.gif","i/apps/ytinstant/player_play-1.png","i/apps/ytinstant/player_pause-1.png"';
+bImages += ',"i/apps/ytinstant/logo2.png","i/apps/ytinstant/loading.gif","i/apps/ytinstant/playing.gif","i/apps/ytinstant/player_play-1.png","i/apps/ytinstant/player_pause-1.png","i/apps/ytinstant/overlay-play.png"';
 bImages += ',"i/apps/torus/but_main.png","i/apps/torus/but_resume.png","i/apps/torus/but_restart.png","i/apps/torus/but_quit.png","i/apps/torus/but_play.png","i/apps/torus/but_pause.png","i/apps/torus/but_go.png","i/apps/torus/but_settings.png","i/apps/torus/but_help.png","i/apps/torus/but_high.png","i/apps/torus/title_traditional.png","i/apps/torus/title_time.png","i/apps/torus/title_garbage.png","i/apps/torus/title_help.png","i/apps/torus/title_high.png","i/apps/torus/title_settings.png","i/apps/torus/base0.png","i/apps/torus/panel.png","i/apps/torus/blocks.png","i/apps/torus/menu.png","i/apps/torus/modes.png","i/apps/torus/close.png","i/apps/torus/coins.png","i/apps/torus/paused.png","i/apps/torus/game_over.png","i/apps/torus/skull.png"';
 preloadImages((pImage++) + ',' + bImages);
 
@@ -3793,11 +3831,9 @@ $("div#ytinstant div.tl.search").click(function() {
 
 $("div#ytinstant div.tl.help").click(function() {
 	$("div#ytinstant div.tl.help").toggleClass("on");
-	if ($("div#ytinstant div#playlistWrapper").is(":visible")) $("div#ytinstant div#playlistWrapper").hide();
-	else if ($("div#ytinstant div.tl.config").hasClass("on") || $("div#ytinstant div#userPlaylist").is(":visible")) { $("div#ytinstant div.tl.config").removeClass("on"); $("div#ytinstant div#userPlaylist").hide(); }
-	else if ($("div#ytinstant div.tl.search").hasClass("on") || $("div#ytinstant div#songPlaylists").is(":visible")) { $("div#ytinstant div.tl.search").removeClass("on"); $("div#ytinstant div#songPlaylists").hide(); }
-	if ($("div#ytinstant div#help").is(":hidden")) $("div#ytinstant div#help").show();
-	else { $("div#ytinstant div#playlistWrapper").show(); $("div#ytinstant div#help").hide(); }
+	if ($("div#ytinstant div#main").is(":visible")) $("div#ytinstant div#main").hide();
+	if ($("div#ytinstant div#suggestions").is(":hidden")) $("div#ytinstant div#suggestions").show();
+	else { $("div#ytinstant div#main").show(); $("div#ytinstant div#suggestions").hide(); }
 });
 
 $("div#ytinstant div#userPlaylist input[type='text']#playlistBox").focus(function() {
@@ -3955,7 +3991,7 @@ $("div#ytinstant div#playlistWrapper div#playlist img.daudiolink").live('click',
 	window.open('http://www.listentoyoutube.com/index.php?url=http://www.youtube.com/watch?v=' + videoId);
 });
 
-$("div#ytinstant div.tl.help").attr('title','Show Instructions');
+$("div#ytinstant div.tl.help").attr('title','Show Search Suggestions');
 $("div#ytinstant div.tl.search").attr('title','Show Song Playlists');
 $("div#ytinstant div.tl.plus").attr('title','Add Term To Playlist');
 $("div#ytinstant div.tl.refresh").attr('title','Random From Playlist');
@@ -5433,7 +5469,7 @@ function onKeyDown(e) {
 	else if (e.keyCode == 37 || e.keyCode == 38) goPrevVideo();
 	else if (e.keyCode == 13) {
 		if (dC.user.apps.ytinstant.playlistBoxFocus && $("div#ytinstant div#userPlaylist").is(":visible") && $("div#ytinstant div#playlistWrapper").is(":hidden")) {
-			if (($.trim($("div#ytinstant div#userPlaylist input[type='text']#playlistBox").val()) != ('') && $.trim($("div#ytinstant div#userPlaylist input[type='text']#playlistBox").val()) != ('Add to Playlist'))) {
+			if (($.trim($("div#ytinstant div#userPlaylist input[type='text']#playlistBox").val()) != '' && $.trim($("div#ytinstant div#userPlaylist input[type='text']#playlistBox").val()) != 'Add to Playlist')) {
 				addItemYTPlaylist($.trim($("div#ytinstant div#userPlaylist input[type='text']#playlistBox").val()).capitalize(), 1);
 			}
 		} else playPause();
@@ -5505,7 +5541,54 @@ yt.www.suggest.handleResponse = function(suggestions) {
 	else { updateSuggestedKeyword(searchTerm); if (searchTerm == currentSuggestion) { doneWorking(); return; }}
 	getTopSearchResult(searchTerm);
 	currentSuggestion = searchTerm;
+	if ($("div#ytinstant div#suggestions").is(":visible")) {
+		var ItemCounter = 0;
+		SearchCorrection.value = "";
+		var FoundBestSuggest = 0;
+		var CurrentQuery = suggestions[0];
+		var html = ['<ul>'];
+		for (var i = 0; i < suggestions[1].length; i++) {
+			if ((suggestions[1][i][0].startsWith(CurrentQuery)) && (FoundBestSuggest == 0)) {
+				SearchCorrection.value = suggestions[1][i][0];
+				CurrentTopSuggestion = suggestions[1][i][0];
+				FoundBestSuggest = 1;
+			}
+			if (suggestions[1][i][0] != CurrentQuery) {
+				html.push("<li title=\"" + suggestions[1][i][0] + "\" id=\"suggest_" + ItemCounter + "\" onclick=\"SuggestListClick(this)\" >" + suggestions[1][i][0].replace(CurrentTextboxQuery, "<b>" + CurrentTextboxQuery + "</b>") + "</li>");
+				ItemCounter++;
+			}
+		}
+		html.push('</ul><h4 onclick="SuggestionClose()">close</h4>');
+		$("div#ytinstant div#suggestions").html(html.join(''));
+	}
+/*
+if (ItemCounter > 0) {
+	SuggestionDiv.style.visibility = "visible";
+	SuggestionListLength = data[1].length;
+} else {
+	SuggestionDiv.innerHTML = "";
+	SuggestionDiv.style.visibility = "hidden";
+	SuggestionListLength = 0;
+}
+if (EnterPress == 1) {
+	SuggestionDiv.innerHTML = "";
+	SuggestionDiv.style.visibility = "hidden";
+	SuggestionListLength = 0;
+}
+*/
 };
+/*
+function SuggestListClick(ListItem) {
+	document.getElementById("txtInput").value = ListItem.title;
+	LoopIt(document.getElementById("txtInput").value);
+	document.getElementById("SearchSuggestion").innerHTML = "";
+	document.getElementById("SearchSuggestion").style.visibility = "hidden";
+}
+function SuggestionClose() {
+	document.getElementById("SearchSuggestion").innerHTML = "";
+	document.getElementById("SearchSuggestion").style.visibility = "hidden";
+}
+*/
 
 function getTopSearchResult(keyword) {
 	var the_url = 'http://gdata.youtube.com/feeds/api/videos?q=' + encodeURIComponent(keyword) + '&format=5&max-results=' + dC.user.apps.ytinstant.vidThumbs + '&v=2&alt=jsonc';
@@ -5528,18 +5611,29 @@ function updateVideoDisplay(videos) {
 	var playlist = $("<div />").attr('id','playlist');
 
 	for (var i = 0; i < numThumbs; i++) {
-		var videoId = videos[i].id, videoTitle = videos[i].title, currentVideoTitles = []; currentVideoTitles.push(videoTitle);
+		var vID = videos[i].id, vTitle = videos[i].title, currentVideoTitles = []; currentVideoTitles.push(vTitle);
 		var videoWrap = $("<div />").attr('class','videoWrap');
-		var img = $("<img />").attr('class','thumb').attr('src',videos[i].thumbnail.sqDefault).attr('title',videos[i].description);
-		var a = $("<a />").attr('href',"javascript:loadAndPlayVideo('" + videoId + "'," + i + ");");
-		var title = $("<div />").attr('class','title').html(videoTitle);
-		var addimg = $("<img />").attr('class','addvideo').attr('src','i/apps/ytinstant/add.png').attr('title','Add To Playlist').attr('content',videoTitle);
-		var viewimg = $("<img />").attr('class','viewvideo').attr('src','i/apps/ytinstant/view.png').attr('title','Watch Related Videos').attr('content',videoTitle);
-		var videolinkimg = $("<img />").attr('class','videolink').attr('src','i/apps/ytinstant/film_link.png').attr('title','Watch on YouTube').attr('content',videoId);
-		var dvideolinkimg = $("<img />").attr('class','dvideolink').attr('src','i/apps/ytinstant/film_save.png').attr('title','Download Video').attr('content',videoId);
-		var daudiolinkimg = $("<img />").attr('class','daudiolink').attr('src','i/apps/ytinstant/music.png').attr('title','Download MP3').attr('content',videoId);
+		var a = $("<a />").attr('href',"javascript:loadAndPlayVideo('" + vID + "'," + i + ");");
+		var overlay = $("<div />").attr('class','overlay');
+		var img = $("<img />").attr('class','thumb').attr('src',videos[i].thumbnail.sqDefault);
+		var title = $("<div />").attr('class','title').html(vTitle);
+		var playdiv = $("<div />").attr('class','play-symbol');
+		var playimg = $("<img />").attr('src','i/apps/ytinstant/overlay-play.png').attr('title',videos[i].description);
+		var tinfo = $("<div />").attr('class','thumb-info');
+		var newdate = new Date(videos[i].uploaded);
+		var day = new Array("Sun","Mon","Tue","Wed","Thu","Fri","Sat");
+		var month = new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+		var fulldate = day[newdate.getDay()] + ", " + month[newdate.getMonth()] + " " + newdate.getDate() + ", " + newdate.getFullYear();
+		var udate = $("<p />").attr('class','date').html(fulldate);
+		var vtime = $("<p />").attr('class','time').html(gettime(videos[i].duration));
+		var addimg = $("<img />").attr('class','addvideo').attr('src','i/apps/ytinstant/add.png').attr('title','Add To Playlist').attr('content',vTitle);
+		var viewimg = $("<img />").attr('class','viewvideo').attr('src','i/apps/ytinstant/view.png').attr('title','Watch Related Videos').attr('content',vTitle);
+		var videolinkimg = $("<img />").attr('class','videolink').attr('src','i/apps/ytinstant/film_link.png').attr('title','Watch on YouTube').attr('content',vID);
+		var dvideolinkimg = $("<img />").attr('class','dvideolink').attr('src','i/apps/ytinstant/film_save.png').attr('title','Download Video').attr('content',vID);
+		var daudiolinkimg = $("<img />").attr('class','daudiolink').attr('src','i/apps/ytinstant/music.png').attr('title','Download MP3').attr('content',vID);
+		var videoTools = $("<span />").attr('class','videoTools');
 		var viewCount = $("<span />").attr('class','viewCount').html(videos[i].viewCount).digits();
-		playlist.append(videoWrap.html(a.append(img).append(title)).append(viewCount.append(addimg).append(viewimg).append(videolinkimg).append(dvideolinkimg).append(daudiolinkimg)));
+		playlist.append(videoWrap.html(a.append(overlay).append(img).append(title)).append(playdiv.html(playimg)).append(tinfo.append(udate).append(vtime)).append(videoTools.append(viewCount).append(addimg).append(viewimg).append(videolinkimg).append(dvideolinkimg).append(daudiolinkimg)));
 	}
 
 	var playlistWrapper = $("div#ytinstant div#playlistWrapper");

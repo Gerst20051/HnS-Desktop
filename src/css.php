@@ -63,7 +63,7 @@ if (isset($_GET['id']) && ($_GET['id'] >= 1)) $theme_id = $_GET['id']; else $the
 html {
 background-color: #fff;
 color: #000;
-font-size: 100.01%;/* 16px */
+font-size: 100.01%;
 }
 
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
@@ -136,7 +136,7 @@ box-sizing: content-box;
 -webkit-box-sizing: content-box;
 }
 
-textarea { // declared width
+textarea {  // declared width
 box-sizing: border-box;
 -moz-box-sizing: border-box;
 -webkit-box-sizing: border-box;
@@ -163,20 +163,13 @@ background-image: url(i/wallpapers/vista.jpg); /* http://i55.tinypic.com/2zggdq0
 background-position: center center;
 background-repeat: no-repeat;
 color: #000;
-user-select: text;
--khtml-user-select: text;
--moz-user-select: text;
--webkit-user-select: text;
 }
 
 body {
-height: 100%;
-overflow: hidden;
 user-select: none;
 -khtml-user-select: none;
 -moz-user-select: none;
 -webkit-user-select: none;
-width: 100%;
 }
 
 /*
@@ -190,9 +183,9 @@ background-position: center;
 }
 */
 
-h1 { font-size: 138.5%; /* 18px */ }
-h2 { font-size: 123.1%; /* 16px */ }
-h3 { font-size: 108%; /* 14px */ }
+h1 { font-size: 138.5%; }
+h2 { font-size: 123.1%; }
+h3 { font-size: 108%; }
 
 h1, h2, h3 {
 margin: 1em 0;
@@ -299,7 +292,7 @@ ul:after { clear: both; content: "."; display: block; height: 0; visibility: hid
 /* Begin Buttons */
 
 .buttons a,
-.buttons button {/* if no image in button add padding-left: 10px */
+.buttons button {
 background-color: #f5f5f5;
 border: 1px solid #dedede;
 border-left: 1px solid #eee;
@@ -309,27 +302,27 @@ cursor: pointer;
 display: block;
 float: left;
 font-family: "lucida grande", tahoma, arial, verdana, sans-serif;
-font-size: 10pt;/* 100% */
+font-size: 10pt;
 font-weight: bold;
 line-height: 130%;
 margin: 0 7px 0 0;
-padding: 5px 10px 6px 7px;/* links */
+padding: 5px 10px 6px 7px;
 text-decoration: none;
 }
 
 .buttons button {
 overflow: visible;
-padding: 4px 10px 3px 7px;/* IE6 */
+padding: 4px 10px 3px 7px;
 width: auto;
 }
 
 .buttons button[type] {
-line-height: 17px;/* Safari */
-padding: 5px 10px 5px 7px;/* Firefox */
+line-height: 17px;
+padding: 5px 10px 5px 7px;
 }
 
 *:first-child+html button[type] {
-padding: 4px 10px 3px 7px;/* IE7 */
+padding: 4px 10px 3px 7px;
 }
 
 .buttons a img,
@@ -1719,7 +1712,7 @@ div.dialog div.content {
 div.dialog div.content div.heading {
 color: #000;
 font-size: 16pt;
-margin: 14px;
+margin: 10px;
 text-align: center;
 }
 
@@ -3054,11 +3047,16 @@ width: 484px;
 div#ytinstant div#searchTermKeyword {
 font-family: 'reenie beanie', arial, serif;
 font-size: 30px;
+font-weight: bold;
 overflow: hidden;
 text-align: left;
 text-overflow: ellipsis;
 -o-text-overflow: ellipsis;
 white-space: nowrap;
+}
+
+div#ytinstant div#main {
+display: block;
 }
 
 div#ytinstant div#videoDiv {
@@ -3081,15 +3079,17 @@ div#ytinstant div#playlistWrapper div#playlist div.videoWrap {
 clear: both;
 display: block;
 height: 100px;
+position: relative;
 width: 298px;
 }
 
-div#ytinstant div#playlistWrapper div#playlist a {
+div#ytinstant div#playlistWrapper div#playlist div.videoWrap a {
+color: #183a52;
 display: block;
 width: 300px;
 }
 
-div#ytinstant div#playlistWrapper div#playlist img.thumb {
+div#ytinstant div#playlistWrapper div#playlist div.videoWrap img.thumb {
 clear: both;
 float: left;
 height: 90px;
@@ -3098,19 +3098,89 @@ vertical-align: top;
 width: 120px;
 }
 
-div#ytinstant div#playlistWrapper div#playlist div.title {
+div#ytinstant div#playlistWrapper div#playlist div.videoWrap div.title {
 float: left;
+font-family: helvetica;
 font-size: 12px;
 height: 40px;
+line-height: 15px;
 margin: 6px 0 0;
 width: 175px;
 }
 
-div#ytinstant div#playlistWrapper div#playlist div.selectedThumb div.title {
+div#ytinstant div#playlistWrapper div#playlist div.videoWrap.selectedThumb div.title {
 font-weight: bold;
 }
 
-div#ytinstant div#playlistWrapper div#playlist span.viewCount {
+div#ytinstant div#playlistWrapper div#playlist div.videoWrap div.overlay {
+background-color: #000;
+display: none;
+filter: alpha(opacity=70);
+height: 90px;
+left: 0;
+opacity: 0.7;
+position: absolute;
+top: 0;
+width: 120px;
+}
+
+div#ytinstant div#playlistWrapper div#playlist div.videoWrap:hover div.overlay {
+display: block;
+}
+
+div#ytinstant div#playlistWrapper div#playlist div.videoWrap div.play-symbol {
+display: none;
+left: 5px;
+position: absolute;
+top: 73px;
+}
+
+div#ytinstant div#playlistWrapper div#playlist div.videoWrap:hover div.play-symbol  {
+display: block;
+}
+
+div#ytinstant div#playlistWrapper div#playlist div.videoWrap div.play-symbol img {
+height: 9px;
+width: 9px;
+}
+
+div#ytinstant div#playlistWrapper div#playlist div.videoWrap div.thumb-info {
+cursor: pointer;
+display: none;
+line-height: 1.6em;
+position: absolute;
+right: 183px;
+top: 0;
+}
+
+div#ytinstant div#playlistWrapper div#playlist div.videoWrap:hover div.thumb-info {
+display: block;
+}
+
+div#ytinstant div#playlistWrapper div#playlist div.videoWrap div.thumb-info p {
+clear: both;
+display: block;
+float: right;
+font-family: helvetica;
+font-weight: normal;
+margin: 0;
+}
+
+div#ytinstant div#playlistWrapper div#playlist div.videoWrap div.thumb-info p.date {
+color: #ccc;
+font-size: 10px;
+margin-top: 8px;
+}
+
+div#ytinstant div#playlistWrapper div#playlist div.videoWrap div.thumb-info p.time {
+color: #fff;
+font-size: 18px;
+line-height: 14px;
+margin-top: 2px;
+zoom: 1;
+}
+
+div#ytinstant div#playlistWrapper div#playlist div.videoWrap span.videoTools {
 border: 1px solid transparent;
 color: #000;
 cursor: default;
@@ -3121,7 +3191,7 @@ position: relative;
 top: 27px;
 }
 
-div#ytinstant div#playlistWrapper div#playlist span.viewCount:hover {
+div#ytinstant div#playlistWrapper div#playlist div.videoWrap span.videoTools:hover {
 background-color: #666;
 border: 1px solid #000;
 border-radius: 4px;
@@ -3133,7 +3203,7 @@ color: #fff;
 padding: 0 5px 5px 5px;
 }
 
-div#ytinstant div#playlistWrapper div#playlist span.viewCount img {
+div#ytinstant div#playlistWrapper div#playlist div.videoWrap span.videoTools img {
 cursor: pointer;
 margin-left: 5px;
 position: relative;
@@ -3386,6 +3456,27 @@ width: 1050px;
 div#ytinstant div#gallery div.container {
 overflow-x: hidden;
 overflow-y: auto;
+}
+
+div#ytinstant div#suggestions {
+display: none;
+height: 428px;
+width: 1050px;
+}
+
+div#ytinstant div#suggestions div.container {
+background: #daf3fd;
+border: 3px solid #8edcf9;
+margin: 0;
+overflow-x: hidden;
+overflow-y: auto;
+padding: 5px;
+}
+
+div#ytinstant div#suggestions li {
+cursor: pointer;
+font-weight: bold;
+padding: 3px;
 }
 
 /* End YTInstant ***/
@@ -4376,6 +4467,10 @@ margin-right: 0 !important;
 div#twitter div.body {
 background-color: darkgrey;
 text-align: center;
+user-select: text;
+-khtml-user-select: text;
+-moz-user-select: text;
+-webkit-user-select: text;
 }
 
 div#twitter input[type="text"]#search {
