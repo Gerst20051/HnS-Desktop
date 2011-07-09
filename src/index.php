@@ -1,11 +1,14 @@
 <?php
+$expires = 60;
+header("Pragma: public");
+header("Cache-Control: maxage=" . $expires);
+header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $expires) . ' GMT');
 session_start();
 include ('db.inc.php');
 include ('login.inc.php');
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr" xmlns:fb="http://www.facebook.com/2008/fbml">
-
+<html lang="en" dir="ltr">
 <head>
 <title>Homenet Spaces OS | Welcome to HnS Desktop!</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -14,7 +17,7 @@ include ('login.inc.php');
 <meta name="copyright" content="HnS Desktop" />
 <meta name="keywords" content="Homenet, Spaces, HnS, Desktop, OS, Web, WebOS, Webtop, Online, Operating, System, Applications, Application, Apps, App, Services, Internet, The, Place, To, Be, Creative, Andrew, Gerst, Free, Profile, Profiles" />
 <meta name="description" content="Welcome to Homenet Spaces OS | This is the place to be creative! Feel free to add yourself to our wonderful community by registering!" />
-<link rel="image_src" href="i/apps/thumbs/friends.png" />
+<link rel="image_src" href="i/ux/friends.png" />
 <meta property="og:title" content="Homenet Spaces OS | Welcome to HnS Desktop!" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://hnsdesktop.tk" />
@@ -22,29 +25,23 @@ include ('login.inc.php');
 <meta property="fb:admins" content="637458869" />
 <meta property="og:description" content="Welcome to Homenet Spaces OS | This is the place to be creative! Feel free to add yourself to our wonderful community by registering!" />
 <noscript><meta http-equiv="X-Frame-Options" content="deny" /></noscript>
-<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Reenie+Beanie|Josefin+Sans+Std+Light" />
+<style type="text/css">
+@media screen {@font-face{font-family:'josefin sans std light';font-style:normal;font-weight:normal;src:local('josefin sans std light'),local('josefinsansstd-light'),url('http://themes.googleusercontent.com/font?kit=doRWK9Qks0OQGenH-kW8nje4rGmx_oKyPTpXBjgU-s4')format('truetype');}}
+@media screen {@font-face{font-family:'reenie beanie';font-style:normal;font-weight:normal;src:local('reenie beanie'),local('reeniebeanie'),url('http://themes.googleusercontent.com/font?kit=ljpKc6CdXusL1cnGUSamXybsRidxnYrfzLNRqJkHfFo')format('truetype');}}
+</style>
 <script type="text/javascript">
 (function() {
-var s=["https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js","https://ajax.googleapis.com/ajax/libs/swfobject/2/swfobject.js","js/min/jquery.ellipsis.min.js","js/min/jquery.scrollto.min.js"];
-var sc="script",tp="text/javascript",sa="setAttribute",doc=document,ua=window.navigator.userAgent;
-for(var i=0,l=s.length;i<l;++i){if(ua.indexOf("Firefox")!==-1||ua.indexOf("Opera")!==-1){var t=d.createElement(sc);t[sa]("src",s[i]);t[sa]("type",tp);doc.getElementsByTagName("head")[0].appendChild(t);}else{doc.write("<"+sc+" type=\""+tp+"\" src=\""+s[i]+"\"></"+sc+">");}}
+var s=["https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js","https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js","http://www.google.com/buzz/api/button.js","js/min/jquery.ellipsis.min.js","js/min/jquery.scrollto.min.js"]; // "js/min/jquery-1.5.min.js","js/min/swfobject-2.1.min.js","js/min/buzz.button.min.js"
+var sc="script",tp="text/javascript",ce="createElement",sa="setAttribute",d=document,tn="getElementsByTagName",ua=window.navigator.userAgent,ls=localStorage;
+for(var i=0,l=s.length;i<l;++i){if(ua.indexOf("Firefox")!==-1||ua.indexOf("Opera")!==-1){var t=d[ce](sc);t[sa]("type",tp);t[sa]("src",s[i]);d[tn]("head")[0].appendChild(t);}else{d.write("<"+sc+" type=\""+tp+"\" src=\""+s[i]+"\"></"+sc+">");}}
+function ss(id){var sc="link",tp="text/css",rel="stylesheet";if(ua.indexOf("Firefox")!==-1||ua.indexOf("Opera")!==-1){var t=d[ce](sc);t[sa]("rel",rel);t[sa]("type",tp);t[sa]("href","css.php?id="+id);d[tn]("head")[0].appendChild(t);}else{d.write("<"+sc+" rel=\""+rel+"\" type=\""+tp+"\" href=\"css.php?id="+id+"\" />");}}
+if(window.ls){if(ls.getItem('themeid')){ss(ls.getItem('themeid'));}else{ls.setItem('themeid',1);ss(1);}}else ss(1);
 })();
-
-/*
-if(!window.jQuery){document.write('<script type="text/javascript" src="js/min/jquery-1.4.4.min.js"></script>');}if(!swfobject){document.write('<script type="text/javascript" src="js/min/swfobject-2.1.min.js"></script>');}
-function ss(id){document.write('<link rel="stylesheet" type="text/css" href="css.php?id='+id+'" />');}
-*/
-if(window.localStorage){if(localStorage.getItem('themeid')){ss(localStorage.getItem('themeid'));}else{localStorage.setItem('themeid',1);/*ss(1);*/}}//else ss(1);
 </script>
 </head>
-
 <body id="main">
-<div class="noscript">
-We Are Sorry! HnS Desktop Requires A Browser That Supports HTML5, jQuery, and Javascript.
-</div>
 <canvas id="c_animation"></canvas>
 <script type="text/javascript" src="javascript.php"></script>
 </body>
-
 </html>
 <?php if ($db) mysql_close($db); ?>

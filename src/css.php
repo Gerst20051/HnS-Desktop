@@ -136,7 +136,7 @@ box-sizing: content-box;
 -webkit-box-sizing: content-box;
 }
 
-textarea { /* declared width */
+textarea { // declared width
 box-sizing: border-box;
 -moz-box-sizing: border-box;
 -webkit-box-sizing: border-box;
@@ -3030,7 +3030,8 @@ padding: 0 35px 0 4px;
 width: 310px;
 }
 
-div#ytinstant input[type="text"]#searchBox:focus {
+div#ytinstant input[type="text"]#searchBox:focus,
+div#ytinstant input[type="text"]#searchBox:hover {
 border: 2px solid #000;
 }
 
@@ -3051,7 +3052,7 @@ width: 484px;
 }
 
 div#ytinstant div#searchTermKeyword {
-font-family: 'Reenie Beanie', arial, serif;
+font-family: 'reenie beanie', arial, serif;
 font-size: 30px;
 overflow: hidden;
 text-align: left;
@@ -3280,14 +3281,14 @@ padding: 2px 6px;
 }
 
 div#ytinstant div#userPlaylist div#playlist div.searchItem {
-font-family: 'Reenie Beanie', arial, serif;
+font-family: 'reenie beanie', arial, serif;
 font-size: 14px;
 font-weight: bold;
 }
 
 div#ytinstant div#songPlaylists div.searchItem,
 div#ytinstant div#friendPlaylists div.searchItem {
-font-family: verdona;
+font-family: verdana;
 font-size: 11px;
 }
 
@@ -3350,7 +3351,7 @@ display: none;
 div#ytinstant div#songPlaylists div#playlistHeader div#songsHeader div#playlistName,
 div#ytinstant div#friendPlaylists div#playlistHeader div#songsHeader div#playlistName {
 cursor: default;
-font-family: 'Reenie Beanie', arial, serif;
+font-family: 'reenie beanie', arial, serif;
 font-size: 26px;
 font-weight: bold;
 }
@@ -3701,7 +3702,7 @@ top: 0;
 left: 170px;
 right: 170px;
 */
-font-family: Arial;
+font-family: arial;
 background-color: red;
 }
 
@@ -3761,7 +3762,7 @@ top: 33px;
 left: 19px;
 font-size: 14pt;
 color: #666;
-font-family: Arial;
+font-family: arial;
 font-weight: 700;
 }
 
@@ -3771,7 +3772,7 @@ top: 83px;
 left: 19px;
 font-size: 14pt;
 color: #666;
-font-family: Arial;
+font-family: arial;
 font-weight: 700;
 }
 
@@ -4046,7 +4047,7 @@ position: absolute;
 top: 7px;
 left: 62px;
 width: 250px;
-font-family: Arial;
+font-family: arial;
 color: #fff;
 font-weight: 700;
 font-size: 10pt;
@@ -4101,7 +4102,7 @@ background-image: url(i/apps/torus/title_high.png);
 background-repeat: no-repeat;
 background-position: 32px 5px;
 font-size: 9pt;
-font-family: Arial;
+font-family: arial;
 }
 
 div#torus #bestType {
@@ -4140,7 +4141,7 @@ width: 321px;
 background-image: url(i/apps/torus/title_settings.png);
 background-repeat: no-repeat;
 background-position: 32px 5px;
-font-family: Arial;
+font-family: arial;
 font-size: 10pt;
 }
 
@@ -4412,6 +4413,11 @@ div#twitter table#tweets tr td {
 margin: 2px;
 padding: 2px;
 spacing: 2px;
+}
+
+div#twitter table#tweets img.pimage {
+height: 48px;
+width: 48px;
 }
 
 /* End Calculator ***/
