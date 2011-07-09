@@ -1,6 +1,10 @@
 <?php
+$expires = 60;
+header("Pragma: public");
+header("Cache-Control: maxage=" . $expires);
+header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $expires) . ' GMT');
 session_start();
-header("Content-Type: application/x-javascript");
+header('Content-Type: application/x-javascript');
 ?>
 /* ---------------------------------------------------- */
 /* ----------- >>>  Global Javascript  <<< ------------ */
@@ -13,10 +17,11 @@ header("Content-Type: application/x-javascript");
 /* Last Updated: <?php echo date(r, filemtime('javascript.php')) . "\n"; ?>
 <?php if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) { ?>/* Current User: <?php echo $_SESSION['fullname'] . "\n"; } ?>
 /* ---------------------------------------------------- */
-
+<?php include('compress.php'); ob_start('compressJS'); ?>
 /* ---------------------------------------------------- */
 /* ------------ >>>  Table of Contents  <<< ----------- */
 /* ---------------------------------------------------- */
+/* Global Variables
 /* jQuery Plugins
 /* BrowserDetect
 /* Screen Dimensions
@@ -130,6 +135,11 @@ header("Content-Type: application/x-javascript");
 /* Drag Resize
 /* ---------------------------------------------------- */
 
+/* begin global variables */
+
+var w=window,doc=document,de="documentElement",b="body",n=navigator,ua="userAgent",v="vendor",tn="getElementsByTagName",ce="createElement",sa="setAttribute",ls=localStorage;
+
+/* end global variables */
 /* begin jquery plugins */
 
 $.fn.plugin_name = function(options) {   
@@ -201,6 +211,22 @@ $('.element').color({
 	});
 })(jQuery);
 
+$.fn.digits = function() {
+	return this.each(function() { $(this).text($(this).text().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")); });
+}
+
+$.fn.center = function() {
+	var w = $(window);
+	this.css("position","absolute");
+	this.css("top",(w.height() - this.height()) / 2 + w.scrollTop() + "px");
+	this.css("left",(w.width() - this.width()) / 2 + w.scrollLeft() + "px");
+	return this;
+}
+
+$.fn.toggleText = function(a,b) {
+	return this.html(this.html().replace(new RegExp("(" + a + "|" + b + ")"), function(x) { return(x == a) ? b : a; }));
+}
+
 /* end jquery plugins */
 /* begin browser detect */
 
@@ -210,7 +236,7 @@ var BrowserDetect = {
 		this.version = this.searchVersion(navigator.userAgent) || this.searchVersion(navigator.appVersion) || "an unknown version";
 		this.OS = this.searchString(this.dataOS) || "an unknown OS";
 		this.network = this.dataNetwork();
-		this.mobile = this.dataMobile(navigator.userAgent||navigator.vendor||window.opera);
+		this.mobile = this.dataMobile(navigator.userAgent || navigator.vendor || window.opera);
 	},
 
 	searchString: function (data) {
@@ -232,93 +258,25 @@ var BrowserDetect = {
 	},
 
 	dataBrowser: [
-		{
-			string: navigator.userAgent,
-			subString: "Chrome",
-			identity: "Chrome"
-		},
-		{
-			string: navigator.userAgent,
-			subString: "OmniWeb",
-			versionSearch: "OmniWeb/",
-			identity: "OmniWeb"
-		},
-		{
-			string: navigator.vendor,
-			subString: "Apple",
-			identity: "Safari"
-			// versionSearch: "Version"
-		},
-		{
-			prop: window.opera,
-			identity: "Opera"
-		},
-		{
-			string: navigator.vendor,
-			subString: "iCab",
-			identity: "iCab"
-		},
-		{
-			string: navigator.vendor,
-			subString: "KDE",
-			identity: "Konqueror"
-		},
-		{
-			string: navigator.userAgent,
-			subString: "Firefox",
-			identity: "Firefox"
-		},
-		{
-			string: navigator.vendor,
-			subString: "Camino",
-			identity: "Camino"
-		},
-		{ // for newer Netscapes (6+)
-			string: navigator.userAgent,
-			subString: "Netscape",
-			identity: "Netscape"
-		},
-		{
-			string: navigator.userAgent,
-			subString: "MSIE",
-			identity: "Explorer",
-			versionSearch: "MSIE"
-		},
-		{
-			string: navigator.userAgent,
-			subString: "Gecko",
-			identity: "Mozilla",
-			versionSearch: "rv"
-		},
-		{ // for older Netscapes (4-)
-			string: navigator.userAgent,
-			subString: "Mozilla",
-			identity: "Netscape",
-			versionSearch: "Mozilla"
-		}
+		{ string: navigator.userAgent, subString: "Chrome", identity: "Chrome" },
+		{ string: navigator.userAgent, subString: "OmniWeb", versionSearch: "OmniWeb/", identity: "OmniWeb" },
+		{ string: navigator.vendor, subString: "Apple", identity: "Safari" /* versionSearch: "Version" */ },
+		{ prop: window.opera, identity: "Opera" },
+		{ string: navigator.vendor, subString: "iCab", identity: "iCab" },
+		{ string: navigator.vendor, subString: "KDE", identity: "Konqueror" },
+		{ string: navigator.userAgent, subString: "Firefox", identity: "Firefox" },
+		{ string: navigator.vendor, subString: "Camino", identity: "Camino" },
+		{ string: navigator.userAgent, subString: "Netscape",	identity: "Netscape" }, // for newer Netscapes (6+)
+		{ string: navigator.userAgent, subString: "MSIE", identity: "Explorer", versionSearch: "MSIE" },
+		{ string: navigator.userAgent, subString: "Gecko", identity: "Mozilla", versionSearch: "rv" },
+		{ string: navigator.userAgent, subString: "Mozilla", identity: "Netscape", versionSearch: "Mozilla" } // for older Netscapes (4-)
 	],
 
 	dataOS: [
-		{
-			string: navigator.platform,
-			subString: "Win",
-			identity: "Windows"
-		},
-		{
-			string: navigator.platform,
-			subString: "Mac",
-			identity: "Mac"
-		},
-		{
-			string: navigator.platform,
-			subString: "Linux",
-			identity: "Linux"
-		},
-		{
-			string: navigator.userAgent,
-			subString: "iPhone",
-			identity: "iPhone/iPod"
-		}
+		{ string: navigator.platform, subString: "Win", identity: "Windows" },
+		{ string: navigator.platform, subString: "Mac", identity: "Mac" },
+		{ string: navigator.platform, subString: "Linux", identity: "Linux" },
+		{ string: navigator.userAgent, subString: "iPhone", identity: "iPhone/iPod" }
 	],
 	
 	dataNetwork: function() {
@@ -326,7 +284,7 @@ var BrowserDetect = {
 	},
 	
 	dataMobile: function(a) {
-		return (/android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|e\-|e\/|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(di|rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|xda(\-|2|g)|yas\-|your|zeto|zte\-/i.test(a.substr(0,4))) ? true : false;
+		return (/android|avantgo|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(a) || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|e\-|e\/|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(di|rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|xda(\-|2|g)|yas\-|your|zeto|zte\-/i.test(a.substr(0,4))) ? true : false;
 	}
 };
 
@@ -522,7 +480,7 @@ var dC = {
 "preferences":{"h":bC.user.apps.preferences[0],"w":bC.user.apps.preferences[1],"x":bC.user.apps.preferences[2],"y":bC.user.apps.preferences[3],"xPos":bC.user.apps.preferences[4],"yPos":bC.user.apps.preferences[5],"minimized":bC.user.apps.preferences[6],"maximized":bC.user.apps.preferences[7],"centered":bC.user.apps.preferences[8],"opened":bC.user.apps.preferences[9]},
 "notepad":{"h":bC.user.apps.notepad[0],"w":bC.user.apps.notepad[1],"x":bC.user.apps.notepad[2],"y":bC.user.apps.notepad[3],"xPos":bC.user.apps.notepad[4],"yPos":bC.user.apps.notepad[5],"minimized":bC.user.apps.notepad[6],"maximized":bC.user.apps.notepad[7],"centered":bC.user.apps.notepad[8],"opened":bC.user.apps.notepad[9]},
 "flash_name":{"h":bC.user.apps.flash_name[0],"w":bC.user.apps.flash_name[1],"x":bC.user.apps.flash_name[2],"y":bC.user.apps.flash_name[3],"xPos":bC.user.apps.flash_name[4],"yPos":bC.user.apps.flash_name[5],"minimized":bC.user.apps.flash_name[6],"maximized":bC.user.apps.flash_name[7],"centered":bC.user.apps.flash_name[8],"opened":bC.user.apps.flash_name[9]},
-"ytinstant":{"h":bC.user.apps.ytinstant[0],"w":bC.user.apps.ytinstant[1],"x":bC.user.apps.ytinstant[2],"y":bC.user.apps.ytinstant[3],"xPos":bC.user.apps.ytinstant[4],"yPos":bC.user.apps.ytinstant[5],"minimized":bC.user.apps.ytinstant[6],"maximized":bC.user.apps.ytinstant[7],"centered":bC.user.apps.ytinstant[8],"opened":bC.user.apps.ytinstant[9],"vidThumbs":10,"playlist":"<?php echo $row['yt_playlist']; ?>","playlistBoxFocus":false},
+"ytinstant":{"h":bC.user.apps.ytinstant[0],"w":bC.user.apps.ytinstant[1],"x":bC.user.apps.ytinstant[2],"y":bC.user.apps.ytinstant[3],"xPos":bC.user.apps.ytinstant[4],"yPos":bC.user.apps.ytinstant[5],"minimized":bC.user.apps.ytinstant[6],"maximized":bC.user.apps.ytinstant[7],"centered":bC.user.apps.ytinstant[8],"opened":bC.user.apps.ytinstant[9],"vidThumbs":10,"playlist":"<?php echo $row['yt_playlist']; ?>","playlistBoxFocus":false,"songPlaylistsLoaded":false},
 "piano":{"h":bC.user.apps.piano[0],"w":bC.user.apps.piano[1],"x":bC.user.apps.piano[2],"y":bC.user.apps.piano[3],"xPos":bC.user.apps.piano[4],"yPos":bC.user.apps.piano[5],"minimized":bC.user.apps.piano[6],"maximized":bC.user.apps.piano[7],"centered":bC.user.apps.piano[8],"opened":bC.user.apps.piano[9]},
 "about_hnsdesktop":{"h":bC.user.apps.about_hnsdesktop[0],"w":bC.user.apps.about_hnsdesktop[1],"x":bC.user.apps.about_hnsdesktop[2],"y":bC.user.apps.about_hnsdesktop[3],"xPos":bC.user.apps.about_hnsdesktop[4],"yPos":bC.user.apps.about_hnsdesktop[5],"minimized":bC.user.apps.about_hnsdesktop[6],"maximized":bC.user.apps.about_hnsdesktop[7],"centered":bC.user.apps.about_hnsdesktop[8],"opened":bC.user.apps.about_hnsdesktop[9]},
 "feedback":{"h":bC.user.apps.feedback[0],"w":bC.user.apps.feedback[1],"x":bC.user.apps.feedback[2],"y":bC.user.apps.feedback[3],"xPos":bC.user.apps.feedback[4],"yPos":bC.user.apps.feedback[5],"minimized":bC.user.apps.feedback[6],"maximized":bC.user.apps.feedback[7],"centered":bC.user.apps.feedback[8],"opened":bC.user.apps.feedback[9]},
@@ -602,7 +560,7 @@ var dC = {
 "height":30,
 "height2":32,
 "start_width":90,
-"quickstart_width":60,
+"quickstart_width":82,
 "quickstart_minwidth":30,
 "quickstart_maxwidth":300,
 "tray_width":110,
@@ -638,7 +596,7 @@ var dC = {
 "preferences":{"h":302,"w":400,"x":0,"y":0,"xPos":'r',"yPos":'b',"minimized":1,"maximized":0,"centered":0,"opened":0,"tools":[1,1,1,1,1,1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0]},
 "notepad":{"h":200,"w":400,"x":0,"y":0,"xPos":'l',"yPos":'b',"minimized":1,"maximized":0,"centered":0,"opened":0,"tools":[1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0]},
 "flash_name":{"h":270,"w":470,"x":215,"y":80,"xPos":'l',"yPos":'t',"minimized":1,"maximized":0,"centered":0,"opened":0,"tools":[1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
-"ytinstant":{"h":560,"w":1100,"x":0,"y":0,"xPos":'l',"yPos":'t',"minimized":1,"maximized":0,"centered":1,"opened":0,"tools":[1,1,1,1,1,1,1,3,2,2,2,0,2,0,0,0,2,4,0,0,0,1,0]},
+"ytinstant":{"h":560,"w":1150,"x":0,"y":0,"xPos":'l',"yPos":'t',"minimized":1,"maximized":0,"centered":1,"opened":0,"tools":[1,1,1,1,1,1,1,3,2,2,2,2,2,0,0,0,2,4,0,1,0,1,0]},
 "piano":{"h":560,"w":1200,"x":0,"y":0,"xPos":'l',"yPos":'t',"minimized":1,"maximized":0,"centered":1,"opened":0,"tools":[1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
 "about_hnsdesktop":{"h":402,"w":520,"x":0,"y":0,"xPos":'l',"yPos":'t',"minimized":1,"maximized":0,"centered":1,"opened":0,"tools":[1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
 "feedback":{"h":402,"w":520,"x":0,"y":0,"xPos":'r',"yPos":'b',"minimized":1,"maximized":0,"centered":0,"opened":0,"tools":[1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},
@@ -665,16 +623,6 @@ try {	for (a in dC.apps.list) eval('for (var i = 0; i < 10; i++) { if (dC.user.a
 /* end desktop config variable arrays */
 
 if (dC.user.logged) {
-	if (dC.user.styles.theme_id != "") var stylesheet = '<link rel="stylesheet" type="text/css" href="css.php?id=' + dC.user.styles.theme_id + '" media="all" />';
-	else var stylesheet = '<link rel="stylesheet" type="text/css" href="css.php?id=' + dC.styles.theme_id + '" media="all" />';
-} else {
-	var stylesheet = '<link rel="stylesheet" type="text/css" href="css.php?id=' + dC.styles.theme_id + '" media="all" />';
-}
-
-if ($) $('head').append(stylesheet);
-else alert("We Are Sorry! HnS Desktop Requires A Browser That Supports jQuery.");
-
-if (dC.user.logged) {
 	if (dC.user.styles.bg_color != "") $("html").css('background-color','#' + dC.user.styles.bg_color);
 	if (dC.user.styles.wallpaper_file != "") $("html").css('background-image','url("i/wallpapers/' + dC.user.styles.wallpaper_file + '")');
 	if (dC.user.styles.wallpaper_position != "") $("html").css('background-position', dC.user.styles.wallpaper_position);
@@ -687,6 +635,22 @@ var whiteout = document.createElement('div'); whiteout.setAttribute('id','whiteo
 
 /* begin misc functions */
 
+function g(e) { return document.getElementById(e); }
+function refreshCaptcha() { document.captchaimg.src += '?'; }
+function removeSpaces(string) { return string.split(' ').join(''); }
+function getHash() { return decodeURIComponent(window.location.hash.substring(1)); }
+function clearHash() { window.location.replace("#"); }
+function setHash(hash) { window.location.replace("#" + encodeURI(hash)); }
+function setAHash(hash, app) { window.location.replace("#" + app + "|" + encodeURI(hash)); }
+function getTitle() { return document.title; }
+function resetTitle() { document.title = dC.settings.title; }
+function setTitle(title) { document.title = title; }
+
+String.prototype.capitalize = function() { return this.replace(/(^|\s)([a-z])/g, function(m, p1, p2) { return p1 + p2.toUpperCase(); }); };
+String.prototype.trim = function() { return this.replace(/^\s+|\s+$/g,''); };
+String.prototype.ltrim = function() { return this.replace(/^\s+/,''); };
+String.prototype.rtrim = function() { return this.replace(/\s+$/,''); };
+String.prototype.whitespace = function() { return this.replace(/^\s*|\s*$/g,''); };
 String.prototype.toTitleCase = function() {
 	return this.replace(/([\w&`'‘’"“.@:\/\{\(\[<>_]+-? *)/g,function(match,p1,index,title) {
 		if (index > 0 && title.charAt(index - 2) !== ":" && match.search(/^(a(nd?|s|t)?|b(ut|y)|en|for|i[fn]|o[fnr]|t(he|o)|vs?\.?|via)[ \-]/i) > -1)
@@ -699,47 +663,100 @@ String.prototype.toTitleCase = function() {
 	});
 };
 
-String.prototype.capitalize = function() { return this.replace(/(^|\s)([a-z])/g, function(m, p1, p2) { return p1 + p2.toUpperCase(); }); };
-String.prototype.trim = function() { return this.replace(/^\s+|\s+$/g,""); }
-String.prototype.ltrim = function() { return this.replace(/^\s+/,""); }
-String.prototype.rtrim = function() { return this.replace(/\s+$/,""); }
-
-function g(e) { return document.getElementById(e); }
-function refreshCaptcha() { document.captchaimg.src += '?'; }
-function getHash() { return decodeURIComponent(window.location.hash.substring(1)); }
-function clearHash() { window.location.replace("#"); }
-function setHash(hash) { window.location.replace("#" + encodeURI(hash)); }
-function getTitle() { return document.title; }
-function resetTitle() { document.title = dC.settings.title; }
-function setTitle(title) { document.title = title; }
+function replaceHtml(el, html) {
+	var oldEl = typeof el === "string" ? document.getElementById(el) : el;
+	/*@cc_on oldEl.innerHTML = html; return oldEl; @*/
+	var newEl = oldEl.cloneNode(false);
+	newEl.innerHTML = html;
+	oldEl.parentNode.replaceChild(newEl, oldEl);
+	return newEl;
+}
 
 function rotateTitle(title) {
-	if (arguments.length == 1) {	var reps = 10, delay = 1800;
-	} else if (arguments.length == 2) { var reps = Math.abs(arguments[1]), delay = 1800;
-	} else if (arguments.length == 3) { var reps = Math.abs(arguments[1]), delay = Math.abs(arguments[2]);
-	}
-
+	if (arguments.length == 1) {	var reps = 10, delay = 1800;	}
+	else if (arguments.length == 2) { var reps = Math.abs(arguments[1]), delay = 1800; }
+	else if (arguments.length == 3) { var reps = Math.abs(arguments[1]), delay = Math.abs(arguments[2]); }
 	rotateTitle.flag = !rotateTitle.flag;
 	if (isNaN(reps)) reps = 10; if (isNaN(delay)) delay = 1800;
 	if (rotateTitle.flag) { setTitle(title); reps--; } else resetTitle();
 	if (reps > -1) setTimeout('rotateTitle("' + title + '", ' + reps + ', ' + delay + ')', delay); else resetTitle();
 }
 
+function isDefined(variable) {
+	return (typeof(window[variable]) == "undefined") ? false : true;
+}
+
+function mt_rand(min, max) {
+	var argc = arguments.length;
+	if (argc === 0) { min = 0; max = 2147483647; }
+	else if (argc === 1) throw new SyntaxError('Warning: mt_rand() expects exactly 2 parameters, 1 given');
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function implode(glue, pieces) {
+	var i = '', retVal = '', tGlue = '';
+	if (arguments.length === 1) { pieces = glue; glue = ''; }
+	if (typeof(pieces) === 'object') {
+		if (pieces instanceof Array) return pieces.join(glue);
+		else { for (i in pieces) { retVal += tGlue + pieces[i]; tGlue = glue; } return retVal; }
+	} else return pieces;
+}
+
+function explode(delimiter, string, limit) { 
+	var emptyArray = { 0 : '' };
+	if (arguments.length < 2 || typeof arguments[0] == 'undefined' || typeof arguments[1] == 'undefined') return null;
+	if (delimiter === '' || delimiter === false || delimiter === null) return false;
+	if (typeof delimiter == 'function' || typeof delimiter == 'object' || typeof string == 'function' || typeof string == 'object') return emptyArray;
+	if (delimiter === true) delimiter = '1';
+	if (!limit) return string.toString().split(delimiter.toString());
+	else {
+		var splitted = string.toString().split(delimiter.toString());
+		var partA = splitted.splice(0, (limit - 1));
+		var partB = splitted.join(delimiter.toString());
+		partA.push(partB);
+		return partA;
+	}
+}
+
+function array_map(callback) {
+	var argc = arguments.length, argv = arguments;
+	var j = argv[1].length, i = 0, k = 1, m = 0;
+	var tmp = [], tmp_ar = [];
+	while (i < j) {
+		while (k < argc) { tmp[m++] = argv[k++][i]; }
+		m = 0; k = 1;
+		if (callback) {
+			if (typeof callback === 'string') callback = this.window[callback];
+			tmp_ar[i++] = callback.apply(null, tmp);
+		} else tmp_ar[i++] = tmp;
+		tmp = [];
+	}
+	return tmp_ar;
+}
+
+function ucfirst(str) {
+    str += '';
+    var f = str.charAt(0).toUpperCase();
+    return f + str.substr(1);
+}
+
+function ucwords(str) {
+	return (str + '').replace(/^([a-z])|\s+([a-z])/g, function ($1) { return $1.toUpperCase(); });
+}
+
 function ucname(string) {
 	string = string.toLowerCase().capitalize();
-	$(nameReg).each(function(i, delimiter) {
-		if (string.indexOf(delimiter) !== false) {
-			// string = implode(delimiter, array_map('ucfirst', explode(delimiter, string)).join();
-			string = string.toString().split(delimiter);
-			// string = string.capitalize().join(delimiter)
-		}
+	$(["-", "'", "Mc"]).each(function(i, delimiter) {
+		if (string.indexOf(delimiter) !== false) string = implode(delimiter, array_map('ucfirst', explode(delimiter, string)));
 	});
-
 	return string;
 }
 
-function in_array(string, array) {
-	for (i = 0; i < array.length; i++) return (array[i] == string) ? true : false;
+function in_array(needle, haystack, argStrict) {
+	var key = '', strict = !!argStrict;
+	if (strict) {	for (key in haystack) { if (haystack[key] === needle) return true; }}
+	else { for (key in haystack) { if (haystack[key] == needle) return true; }}
+	return false;
 }
 
 function removeKey(arrayName, key) {
@@ -875,6 +892,7 @@ function div_selection(e, eq) {
 	this.target_class = function() { return $(this.event).attr('class'); }
 	this.target_id = function() { return $(this.event).attr('id'); }
 	this.target_html = function() { return $(this.event).html(); }
+	this.target_content = function() { return $(this.event).attr('content'); }
 	this.main = function() { return this.selection; }
 	this.div_main = function() { return ['div#', this.selection].join(''); }
 	this.div_panel = function() { return ['div#', this.selection, ' div.panel'].join(''); }
@@ -885,10 +903,8 @@ function div_selection(e, eq) {
 
  function maxWindow() {
 	window.moveTo(0, 0);
-
-	if (document.all) {
-		top.window.resizeTo(screen.availWidth, screen.availHeight);
-	} else if (document.layers || document.getElementById) {
+	if (document.all) top.window.resizeTo(screen.availWidth, screen.availHeight);
+	else if (document.layers || document.getElementById) {
 		if (top.window.outerHeight < screen.availHeight || top.window.outerWidth < screen.availWidth) {
 			top.window.outerHeight = screen.availHeight; top.window.outerWidth = screen.availWidth;
 		}
@@ -896,64 +912,44 @@ function div_selection(e, eq) {
 }
 
 function noFrame() {
+	var topURL = document.referrer;
+	var urlChars = topURL.length;
+
 	if (top.location != self.location) {
-		var topURL = document.referrer;
-		var subURL = topURL.slice(7,10);
-		var chars = topURL.length;
-		var hash = window.location.hash
-
-		/* begin location hashes */
-
-		if (!dC.user.logged) {
-			if (window.location.hash == "#register") {
-				$("button[type='button']#signup").click();
-			}
+		if (topURL.indexOf("?") != "-1") {
+			var query = topURL.slice((topURL.indexOf("?") + 1), urlChars);
+			top.location = self.location + "#" + query;
 		} else {
-
-		}
-
-		if (window.location.hash == "#ytinstant") {
-			window.location = "";
-		}
-
-		/* end location hashes */
-
-		if (subURL == "hns") {
-			if (chars > 21) {
-				var qchars = (chars - 21);
-				var query = topURL.slice(21, chars);
-				
-				$.ajax({
-					url: 'load.php',
-					data: 'id=user_info&data=' + query,
-					dataType: 'text',
-					type: 'get',
-					success: function (data) {
-						if (isNaN(data)) top.location = self.location;
-						else top.location = "http://" + dC.settings.ip + "/user_profile.php?id=" + data;
-					}
-				});
+			var subURL = topURL.slice(7,10);
+			if (subURL == "hns") {
+				if (urlChars > 21) {
+					var qchars = (urlChars - 21);
+					var query = topURL.slice(21, urlChars);
+					
+					$.ajax({
+						url: 'load.php',
+						data: 'id=user_info&data=' + query,
+						dataType: 'text',
+						type: 'get',
+						success: function (data) { if (!isNaN(data)) top.location = "http://" + dC.settings.ip + "/user_profile.php?id=" + data; }
+					});
+				}
 			} else {
-				top.location = self.location;
+				if (urlChars > 25) {
+					var qchars = (urlChars - 25);
+					var query = topURL.slice(25, urlChars);
+					
+					$.ajax({
+						url: 'load.php',
+						data: 'id=user_info&data=' + query,
+						dataType: 'text',
+						type: 'get',
+						success: function (data) { if (!isNaN(data)) top.location = "http://" + dC.settings.ip + "/user_profile.php?id=" + data; }
+					});
+				}
 			}
-		} else {
-			if (chars > 25) {
-				var qchars = (chars - 25);
-				var query = topURL.slice(25, chars);
-				
-				$.ajax({
-					url: 'load.php',
-					data: 'id=user_info&data=' + query,
-					dataType: 'text',
-					type: 'get',
-					success: function (data) {
-						if (isNaN(data)) top.location = self.location;
-						else top.location = "http://" + dC.settings.ip + "/user_profile.php?id=" + data;
-					}
-				});
-			} else {
-				top.location = self.location;
-			}
+			
+			top.location = self.location;
 		}
 	}
 
@@ -1088,6 +1084,34 @@ document.createElement('section');
 document.createElement('time');
 */ ?>
 
+function launchApps() {
+	var hash = window.location.hash.substring(1), found = false;
+	if (!dC.user.logged) {
+		if (hash == "register" || hash == "reg" || hash == "signup") $("button[type='button']#signup").click();
+		else { clearHash(); return false; }
+	} else {
+		if (hash.indexOf("|") != "-1") var subhash = hash.slice((hash.indexOf("|") + 1), hash.length);
+		for (a in dC.apps.list) { if (!found) { if (hash.slice(0,dC.apps.list[a].length) == dC.apps.list[a]) { found = true; eval('display(' + dC.apps.list[a] + ');'); }}}
+		if (!found) {
+			if (hash.slice(0,2) == "yt") eval('display(ytinstant);');
+			else if (hash.slice(0,2) == "wb") eval('display(web_browser);');
+			else if (hash.slice(0,2) == "gr") eval('display(goom_radio);');
+			else { clearHash(); return false; }
+		}
+	}
+}
+
+var pImage = 0;
+var pImages = new Array();
+function preloadImages() {
+	var id = preloadImages.arguments[0];
+	pImages[id] = new Array();
+	for (i = 0, alength = (preloadImages.arguments.length - 1); i < alength; i++) {
+		pImages[id][i] = new Image();
+		pImages[id][i].src = preloadImages.arguments[(i + 1)];
+	}
+}
+
 function setCookie(name, value, expires, path, domain, secure) {
 	var today = new Date();
 	today.setTime(today.getTime());
@@ -1141,8 +1165,8 @@ return null;
 /* end misc functions */
 /* begin cookie functions */
 
-setCookie('hnsmaintheme', 1, 365, '/');
-setCookie('hnslanguage', 'en', 365, '/');
+if (window.localStorage) { if (!localStorage.getItem('hnsmaintheme')) localStorage.setItem('hnsmaintheme',1); if (!localStorage.getItem('hnslanguage')) localStorage.setItem('hnslanguage','en');}
+else { setCookie('hnsmaintheme', 1, 365, '/'); setCookie('hnslanguage', 'en', 365, '/'); }
 
 /* end cookie functions*/
 
@@ -1177,7 +1201,7 @@ function panel(a,b,c,d,e,f,g,h,i,j,k,l,x,y,xPos,yPos,z,content) {
 
 	this.createTaskButton = function(app, name) {
 		return [
-		'<li id="taskbutton-', app, '" class="taskbutton icon-' + app + '">',
+		'<li id="taskbutton-', app, '" class="taskbutton">',
 		'<table class="button-wrap">',
 		'<tbody>',
 		'<tr>',
@@ -1185,7 +1209,7 @@ function panel(a,b,c,d,e,f,g,h,i,j,k,l,x,y,xPos,yPos,z,content) {
 		'</td>',
 		'<td class="button-center">',
 		'<em unselectable="on">',
-		'<button type="button" id="taskbutton-', app, '" class="task">',
+		'<button type="button" id="taskbutton-', app, '" class="task icon-' + app + '">',
 		name,
 		'</button>',
 		'</em>',
@@ -1234,16 +1258,12 @@ function panel(a,b,c,d,e,f,g,h,i,j,k,l,x,y,xPos,yPos,z,content) {
 			else if (this.xPos == "r") this.div.style.left = (dC.config.width - (this.width + this.x)) + 'px';
 			if (this.yPos == "t") this.div.style.top = this.y + 'px';
 			else if (this.yPos == "b") if (dC.user.logged) this.div.style.top = ((dC.config.height - (dC.taskbar.height2)) - (this.height + this.y)) + 'px'; else this.div.style.top = (dC.config.height - (this.height + this.y)) + 'px';
-		} else {
-			this.div.style.left = this.x + 'px'; this.div.style.top = this.y + 'px';
-		}
+		} else { this.div.style.left = this.x + 'px'; this.div.style.top = this.y + 'px'; }
 
 		if (dC.user.logged) {
 			document.getElementById("desktop").appendChild(this.div);
 			$("div#taskbar ul#taskbuttons-strip").append(this.createTaskButton(this.id, this.title));
-		} else {
-			document.getElementById("main").appendChild(this.div);
-		}
+		} else document.getElementById("main").appendChild(this.div);
 
 		this.assemble();
 	}
@@ -1252,7 +1272,7 @@ function panel(a,b,c,d,e,f,g,h,i,j,k,l,x,y,xPos,yPos,z,content) {
 		return [
 		'<div class="panel">',
 		'<div class="panel-tl"><div class="panel-tr"><div class="panel-tc"></div></div></div><div class="panel-bwrap">',
-		'<div class="panel-ml"><div class="panel-mr"><div class="panel-mc">', content, '</div></div></div>',
+		'<div class="panel-ml"><div class="panel-mr"><div class="panel-mc"><div class="content"><div class="body"><div class="wrapper">', content, '</div></div></div></div></div></div>',
 		'<div class="panel-bl"><div class="panel-br"><div class="panel-bc"></div></div></div>',
 		'</div></div>'
 		].join('');
@@ -1343,13 +1363,8 @@ function panel(a,b,c,d,e,f,g,h,i,j,k,l,x,y,xPos,yPos,z,content) {
 		var ptdiv = maindiv + ' div.panel-tc';
 		$(ptdiv).append(this.addHeader(this.id, this.title));
 		$(bwrapdiv).height((this.height - 30));
-
-		if (!$(maindiv).hasClass("fullscreen")) {
-			$(maindiv + " div.content").height((this.height - 32)); $(maindiv + " div.content").width((this.width - 16));
-		} else {
-			$(maindiv + " div.content").height((this.height - 32)); $(maindiv + " div.content").width((this.width - 16));
-		}
-
+		if (!$(maindiv).hasClass("fullscreen")) { $(maindiv + " div.content").height((this.height - 32)); $(maindiv + " div.content").width((this.width - 16)); }
+		else { $(maindiv + " div.content").height((this.height - 32)); $(maindiv + " div.content").width((this.width - 16)); }
 		if (this.minimized === true) $(maindiv).css('display','none');
 	}
 }
@@ -1398,9 +1413,7 @@ function dialog(a,b,c,d,e,f,g,h,i,j,k,x,y,xPos,yPos,z,content) {
 			else if (this.xPos == "r") this.div.style.left = (dC.config.width - (this.width + this.x)) + 'px';
 			if (this.yPos == "t") this.div.style.top = this.y + 'px';
 			else if (this.yPos == "b") if (dC.user.logged) this.div.style.top = ((dC.config.height - (dC.taskbar.height2)) - (this.height + this.y)) + 'px'; else this.div.style.top = (dC.config.height - (this.height + this.y)) + 'px';
-		} else {
-			this.div.style.left = this.x + 'px'; this.div.style.top = this.y + 'px';
-		}
+		} else { this.div.style.left = this.x + 'px'; this.div.style.top = this.y + 'px'; }
 
 		document.getElementById("main").appendChild(this.div);
 		this.assemble();
@@ -1414,7 +1427,6 @@ function dialog(a,b,c,d,e,f,g,h,i,j,k,x,y,xPos,yPos,z,content) {
 		this.html = this.createDialog(this.content);
 		this.div.innerHTML = this.html;
 		var maindiv = 'div#' + this.id;
-
 		if (this.visible === false) $(maindiv).css('display','none');
 	}
 }
@@ -1440,23 +1452,13 @@ function display(app) {
 	});
 
 	$(app_name + " div.panel-bwrap").css('visibility','visible');
-	
-	$("div.application").each(function() {
-		cur = parseInt($(this).css('z-index'));
-		zmax = (cur > zmax) ? cur : zmax;
-	});
-	
+	$("div.application").each(function() { cur = parseInt($(this).css('z-index')); zmax = (cur > zmax) ? cur : zmax; });
 	$(app_name).css('z-index', (zmax + dC.settings.zindexint));
-
-	if ($(app_name).is(":hidden")) {
-		$(app_name).show();
-	} else {
-		if ($(app_name).css('visibility') == "hidden") $(app_name).css('visibility','visibile');
-	}
-
+	if ($(app_name).is(":hidden")) $(app_name).show();
+	else if ($(app_name).css('visibility') == "hidden") $(app_name).css('visibility','visibile');
 	if ($(app_tbutton).is(":hidden")) $(app_tbutton).show();
 }
-<?php if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) { include ("auth.inc.php"); ?>
+<?php if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) { include ('auth.inc.php'); ?>
 
 function desktop() {
 	this.desktop = document.createElement('div');
@@ -1491,7 +1493,7 @@ function desktop() {
 
 	this.createDesktopThumb = function(app, name) {
 		return [
-		'<div id="thumb-', app, '" class="desktop-thumb">',
+		'<div id="thumb-', app, '" class="desktop-thumb thumb-', app, '">',
 		'<div class="thumb-button"><img src="i/apps/thumbs/blank.gif" class="thumb-image" alt="', app, '" /></div>',
 		'<div class="thumb-name" unselectable="on">', name, '</div>',
 		'</div>'
@@ -1500,7 +1502,7 @@ function desktop() {
 	
 	this.createQuickStart = function(app) {
 		return [
-		'<li id="quickbutton-', app, '" class="quickbutton icon-', app, '">',
+		'<li id="quickbutton-', app, '" class="quickbutton">',
 		'<table class="button-wrap">',
 		'<tbody>',
 		'<tr>',
@@ -1508,7 +1510,7 @@ function desktop() {
 		'</td>',
 		'<td class="button-center">',
 		'<em unselectable="on">',
-		'<button type="button" id="quickbutton-', app, '" class="quick"></button>',
+		'<button type="button" id="quickbutton-', app, '" class="quick icon-', app, '"></button>',
 		'</em>',
 		'</td>',
 		'<td class="button-right">',
@@ -1541,7 +1543,7 @@ function desktop() {
 		'<div id="start">', taskbar_start_content, '</div>',
 		'<div id="panel-wrap">',
 		'<div id="quickstart-panel">',
-		'<ul id="taskbuttons-strip">', quickstart, '</ul>',
+		'<ul id="quickstart-strip">', quickstart, '</ul>',
 		'<div id="arrow"></div>',
 		'</div>',
 		'<div id="taskbuttons-panel">',
@@ -1571,13 +1573,13 @@ function desktop() {
 		$.each(dC.launchers.startmenuapps, function(index, value) {
 			vindex = dC.apps.list.vIndex(value);
 			vname = dC.apps.name[vindex];
-			useramenu += '<li id="' + value + '" class="list-item"><a href="javascript: void(0);" id="' + value + '" class="menu-item"><img src="i/ux/s.gif" class="item-icon icon-' + value + '" alt="" />' + vname + '</a></li>';
+			useramenu += '<li id="' + value + '" class="list-item"><a href="javascript:void(0);" id="' + value + '" class="menu-item" onclick="return false;"><img src="i/ux/s.gif" class="item-icon icon-' + value + '" alt="" />' + vname + '</a></li>';
 		});
 
 		$.each(dC.launchers.startmenutools, function(index, value) {
 			vindex = dC.apps.list.vIndex(value);
 			vname = dC.apps.name[vindex];
-			usertmenu += '<li id="' + value + '" class="list-item"><a href="javascript: void(0);" id="' + value + '" class="menu-item"><img src="i/ux/s.gif" class="item-icon icon-' + value + '" alt="" />' + vname + '</a></li>';
+			usertmenu += '<li id="' + value + '" class="list-item"><a href="javascript:void(0);" id="' + value + '" class="menu-item" onclick="return false;"><img src="i/ux/s.gif" class="item-icon icon-' + value + '" alt="" />' + vname + '</a></li>';
 		});
 
 		return [
@@ -1596,9 +1598,9 @@ function desktop() {
 		'<div class="tools"><div class="tools-menu">',
 		'<ul class="tools-menu-list">', usertmenu, '</ul>',
 		'<ul class="tools-logout-list">',
-		'<li id="feedback" class="list-item item-feedback"><a href="javascript: void(0);" id="feedback" class="menu-item"><img src="i/ux/s.gif" class="item-icon icon-feedback" alt="" />Send Feedback</a></li>',
-		'<li id="about_hnsdesktop" class="list-item item-about_hnsdesktop"><a href="javascript: void(0);" id="about_hnsdesktop" class="menu-item"><img src="i/ux/s.gif" class="item-icon icon-about_hnsdesktop" alt="" />About HnS Desktop</a></li>',
-		'<li id="logout" class="list-item item-logout"><a href="javascript: void(0);" id="logout" class="menu-item"><img src="i/ux/s.gif" class="item-icon icon-logout" alt="" />Logout</a></li>',
+		'<li id="feedback" class="list-item item-feedback"><a href="javascript:void(0);" id="feedback" class="menu-item" onclick="return false;"><img src="i/ux/s.gif" class="item-icon icon-feedback" alt="" />Send Feedback</a></li>',
+		'<li id="about_hnsdesktop" class="list-item item-about_hnsdesktop"><a href="javascript:void(0);" id="about_hnsdesktop" class="menu-item" onclick="return false;"><img src="i/ux/s.gif" class="item-icon icon-about_hnsdesktop" alt="" />About HnS Desktop</a></li>',
+		'<li id="logout" class="list-item item-logout"><a href="javascript:void(0);" id="logout" class="menu-item" onclick="return false;"><img src="i/ux/s.gif" class="item-icon icon-logout" alt="" />Logout</a></li>',
 		'</ul>',
 		'</div></div>',
 		'</div>',
@@ -1625,25 +1627,18 @@ function desktop() {
 		this.taskbar_quickstart = "";
 		var quickstart_amount = (dC.user.taskbar.quickstart_width / 20);
 		
-		if (dC.user.launchers.quickstart != "") {
-			for (var i = 0; i < dC.user.launchers.quickstart.length; i++) {
-				this.taskbar_quickstart += this.createQuickStart(dC.user.launchers.quickstart[i]);
-			}
-		} else {
-			for (var i = 0; i < dC.launchers.quickstart.length; i++) {
-				this.taskbar_quickstart += this.createQuickStart(dC.launchers.quickstart[i]);
-			}
-		}
+		if (dC.user.launchers.quickstart != "") for (var i = 0; i < dC.user.launchers.quickstart.length; i++) this.taskbar_quickstart += this.createQuickStart(dC.user.launchers.quickstart[i]);
+		else for (var i = 0; i < dC.launchers.quickstart.length; i++) this.taskbar_quickstart += this.createQuickStart(dC.launchers.quickstart[i]);
 
 		this.desktop_html = this.createDesktop(this.desktop_thumbs);
 		this.desktop.innerHTML = this.desktop_html;
-		this.taskbar_quickstart = this.quickstart;
 		this.taskbar_html = this.createTaskbar(this.taskbar_quickstart);
 		this.taskbar.innerHTML = this.taskbar_html;
 		this.startmenu.innerHTML = this.createStartmenu();
 	}
 }
 
+/*
 var contextMenu_content = [
 '<ul id="myMenu" class="contextMenu">',
 '<li class="insert"><a href="#insert">Add New</a></li>',
@@ -1651,18 +1646,16 @@ var contextMenu_content = [
 '<li class="delete"><a href="#delete">Delete</a></li>',
 '</ul>'
 ].join('');
+*/
 
 /* begin app content */
 
-var documents_content = [
-'<div class="content"><div class="body">',
-'<div class="documents"></div>',
-'</div></div>'
-].join('');
+function _documents() {
+return ['<div class="documents"></div>'].join('');
+}
 
-// function preferences_content() {
-var preferences_content = [
-'<div class="content"><div class="body">',
+function _preferences() {
+return [
 '<div id="splash">',
 '<ul>',
 '<li class="thumbs">',
@@ -1701,33 +1694,29 @@ var preferences_content = [
 '<div id="themes">',
 '<input type="checkbox" name="taskbar_transparency" id="taskbar_transparency" accesskey="t" tabindex="1" checked="checked" />', // remove checked
 '<label for="taskbar_transparency"> Taskbar Transparency</label>',
-'<br />',
+'<div id="new" class="shiny-button3">Register!<span></span></div>',
+'</div>',
 '<div id="wallpaper">',
 '<div class="lc"></div>',
 '<div class="rc"></div>',
-'</div>',
-'</div></div>'
+'</div>'
 ].join('');
+}
 
-//return "hey";
-//}
+function _notepad() {
+return ['<textarea><?php if ($row['notepad'] == null) { echo "Hello ',dC.user.firstname,' ',dC.user.lastname,'!"; } else { echo addslashes(html_entity_decode($row['notepad'])); } ?></textarea>'].join('');
+}
 
-var notepad_content = [
-'<div class="content"><div class="body">',
-'<textarea><?php if ($row['notepad'] == null) { echo "Hello ',dC.user.firstname,' ',dC.user.lastname,'!"; } else { echo addslashes(html_entity_decode($row['notepad'])); } ?></textarea>',
-'</div></div>'
-].join('');
-
-var flash_name_content = [
-'<div class="content"><div class="body">',
+function _flash_name() {
+return [
 '<script id="movie-template" type="text/x-jquery-template">',
 '<li>{%= Title.Regular %} ({%= ReleaseYear %})</li>',
-'</script>',
-'</div></div>'
+'</script>'
 ].join('');
+}
 
-var ytinstant_content = [
-'<div class="content"><div class="body">',
+function _ytinstant() {
+return [
 '<div id="outerWrapper">',
 '<div id="wrapper">',
 '<div id="header" class="clearfix">',
@@ -1735,46 +1724,53 @@ var ytinstant_content = [
 '<div><span>YouTube Instant</span></div>',
 '</div>',
 '<input type="text" id="searchBox" value="" spellcheck="false"></input>',
-'<span id="searchTermKeyword"><strong>Search YouTube Instantly</strong></span>',
+'<div id="searchTermWrapper"><div id="searchTermKeyword"><strong>Search YouTube Instantly</strong></div></div>',
 '</div>',
 '<div id="main" class="clearfix">',
 '<div id="videoDiv">',
 '<div id="innerVideoDiv">Loading...</div>',
 '</div>',
 '<div id="playlistWrapper">',
-'<div id="buttonControl" class="pauseButton"><a href="javascript:void(0);">&nbsp;</a></div>',
+'<div id="buttonControl" class="pauseButton"><a href="javascript:void(0);" onclick="return false;">&nbsp;</a></div>',
 '<div id="playlist" class="clearfix">&nbsp;</div>',
 '</div>',
 '<div id="userPlaylist">',
 '<div id="playlistInput"><input type="text" id="playlistBox" value="Add to Playlist" spellcheck="false"></input></div>',
-'<div id="playlist" class="clearfix"><div id="containter">&nbsp;</div></div>',
+'<div id="playlist" class="clearfix"></div>',
+'</div>',
+'<div id="songPlaylists">',
+'<div id="playlistHeader"><div id="playlistName">&nbsp;</div><img src="i/apps/ytinstant/back.png" id="backtoplaylists" /></div>',
+'<div id="playlists">&nbsp;</div>',
 '</div>',
 '<div id="help">',
-'<div id="containter">&nbsp;</div>',
-'</div>',
+'<div class="container">&nbsp;</div>',
 '</div>',
 '<div id="footer" class="clearfix">',
+'<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fyoutube.com&amp;layout=standard&amp;show_faces=true&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=24&amp;width=720" id="fblike" scrolling="no" frameborder="0" allowTransparency="true"></iframe>',
 '</div>',
 '</div>',
+'<div id="gallery" class="clearfix">',
+'<div class="container">&nbsp;</div>',
 '</div>',
-'<div id="hidden"></div>',
-'</div></div>'
+'</div>',
+'</div>'
 ].join('');
+}
 
-var piano_content = [
-'<div class="content"><div class="body">',
+function _piano() {
+return [
 '<div id="instruments">',
 '<div class="buttons">',
-'<a href="javascript: void(0);" id="piano">Piano</a>',
-'<a href="javascript: void(0);" id="organ">Organ</a>',
-'<a href="javascript: void(0);" id="saxophone">Saxophone</a>',
-'<a href="javascript: void(0);" id="flute">Flute</a>',
-'<a href="javascript: void(0);" id="panpipes">Pan Pipes</a>',
-'<a href="javascript: void(0);" id="strings">Strings</a>',
-'<a href="javascript: void(0);" id="guitar">Guitar</a>',
-'<a href="javascript: void(0);" id="steeldrums">Steel Drums</a>',
-'<a href="javascript: void(0);" id="doublebass">Double Bass</a>',
-'<a href="javascript: void(0);" id="all">All</a>',
+'<a href="javascript:void(0);" id="piano" onclick="return false;">Piano</a>',
+'<a href="javascript:void(0);" id="organ" onclick="return false;">Organ</a>',
+'<a href="javascript:void(0);" id="saxophone" onclick="return false;">Saxophone</a>',
+'<a href="javascript:void(0);" id="flute" onclick="return false;">Flute</a>',
+'<a href="javascript:void(0);" id="panpipes" onclick="return false;">Pan Pipes</a>',
+'<a href="javascript:void(0);" id="strings" onclick="return false;">Strings</a>',
+'<a href="javascript:void(0);" id="guitar" onclick="return false;">Guitar</a>',
+'<a href="javascript:void(0);" id="steeldrums" onclick="return false;">Steel Drums</a>',
+'<a href="javascript:void(0);" id="doublebass" onclick="return false;">Double Bass</a>',
+'<a href="javascript:void(0);" id="all" onclick="return false;">All</a>',
 '</div>',
 '</div>',
 '<div id="pianoswf">',
@@ -1783,23 +1779,25 @@ var piano_content = [
 '<param name="quality" value="high">',
 '<embed type="application/x-shockwave-flash" src="flash/piano/piano.swf" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" class="pianoswf" style="height: 88%; width: 99%; "></embed>',
 '</object>',
-'</div>',
-'</div></div>'
+'</div>'
 ].join('');
+}
 
-var about_hnsdesktop_content = [
-'<div class="content"><div class="body">',
+function _about_hnsdesktop() {
+return [
 '<div class="about_hnsdesktop">',
 'Homenet Spaces OS is an open source web desktop.<br />',
 'HnS Desktop\'s goal is to be a web desktop that embraces simplicity that everyone can use and understand.<br />',
 'HnS Desktop uses PHP, jQuery, AJAX, and JavaScript programming languages.<br /><br />',
-'<h3>Features</h3>',
+'<iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fhnsdesktop.tk&amp;layout=standard&amp;show_faces=true&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=70&amp;width=450" id="hnsfblike" scrolling="no" frameborder="0" allowTransparency="true"></iframe>',
+'<h2>Features</h3>',
 '<h4>Desktop</h4>',
 'Taskbar: start menu<br />',
 'Taskbar: quickstart<br />',
 'Taskbar: taskbuttons<br />',
 'Taskbar: tray<br /><br />',
-'<h3>Monthly Progress</h3>',
+'<a href="http://code.google.com/p/hnsdesktop/">HnS Desktop on Google Code</a>',
+'<h2>Monthly Progress</h3>',
 '<h4>2010</h4>',
 'March - <a href="http://hnsdesktop.googlecode.com/files/hnsdesktop-v0.3.zip">hnsdesktop-v0.3</a><br />',
 'April - <a href="http://hnsdesktop.googlecode.com/files/hnsdesktop-v0.4.zip">hnsdesktop-v0.4</a><br />',
@@ -1811,66 +1809,66 @@ var about_hnsdesktop_content = [
 'October - <a href="http://hnsdesktop.googlecode.com/files/hnsdesktop-v0.10.zip">hnsdesktop-v0.10</a><br />',
 'November - <a href="http://hnsdesktop.googlecode.com/files/hnsdesktop-v0.11.zip">hnsdesktop-v0.11</a><br />',
 'December - <a href="http://hnsdesktop.googlecode.com/files/hnsdesktop-v0.12.zip">hnsdesktop-v0.12</a>',
-'</div>',
-'</div></div>'
+'<br /><br />',
+'<h4>2011</h4>',
+'January - <a href="http://hnsdesktop.googlecode.com/files/hnsdesktop-v1.1.zip">hnsdesktop-v1.1</a><br />',
+'February - <a href="http://hnsdesktop.googlecode.com/files/hnsdesktop-v1.2.zip">hnsdesktop-v1.2</a><br />',
+'</div>'
 ].join('');
+}
 
-var feedback_content = [
-'<div class="content"><div class="body">',
-'<div class="feedback"></div>',
-'</div></div>'
-].join('');
+function _feedback() {
+return [''].join('');
+}
 
-var tic_tac_toe_content = [
-'<div class="content"><div class="body">',
-'<div class="tic_tac_toe"></div>',
-'</div></div>'
-].join('');
+function _tic_tac_toe() {
+return [''].join('');
+}
 
-var friends_content = [
-'<div class="content"><div class="body">',
+function _friends() {
+return [
 <?php
-if ($_SESSION['username'] == "Admin") {
+if ($_SESSION['username'] == 'Admin') {
 $members_result = mysql_query('SELECT user_id FROM login WHERE user_id != 2', $db) or die(mysql_error($db));
 $members = mysql_num_rows($members_result);
 $rorder = mt_rand(0, 3);
 
 switch ($rorder) {
-case 0: $order = "user_id"; break;
-case 1: $order = "username"; break;
-case 2: $order = "firstname"; break;
-case 3: $order = "lastname"; break;
+case 0: $order = 'user_id'; break;
+case 1: $order = 'username'; break;
+case 2: $order = 'firstname'; break;
+case 3: $order = 'lastname'; break;
 }
 
 $rsort = mt_rand(0, 1);
 
-if ($rsort == 0) $sort = "ASC";
-else $sort = "DESC";
+if ($rsort == 0) $sort = 'ASC';
+else $sort = 'DESC';
 
 $range = 18;
 $limit1 = mt_rand(0, ($members - $range));
 $count = 0;
 
-$query = "SELECT u.user_id, username, firstname, lastname, default_image FROM login u JOIN info i ON u.user_id = i.user_id WHERE u.user_id != 2 ORDER BY $order $sort LIMIT $limit1, $range";
+$query = 'SELECT u.user_id, username, firstname, lastname, default_image FROM login u JOIN info i ON u.user_id = i.user_id WHERE u.user_id != 2 ORDER BY $order $sort LIMIT $limit1, $range';
 $friends_result = mysql_query($query, $db) or die(mysql_error($db));
 
 while ($friends_row = mysql_fetch_array($friends_result)) {
-if ($count > 0) $friends .= ", " . $friends_row['username'];
+if ($count > 0) $friends .= ', ' . $friends_row['username'];
 else $friends = $friends_row['username'];
 $count++;
 }
 }
 
 if ($friends == null) {
-$friends = "Admin";
+$friends = 'Admin';
 $numfriends = 1;
 } else {
-if ($_SESSION['username'] != "Admin") $friends = "Admin, " . $friends;
-if ($_SESSION['username'] != "Admin") $numfriends = count(explode(", ", $friends));
+if ($_SESSION['username'] != 'Admin') $friends = 'Admin, ' . $friends;
+if ($_SESSION['username'] != 'Admin') $numfriends = count(explode(', ', $friends));
 else $numfriends = $members;
 }
 
-$friends = explode(", ", $friends);
+$friends = explode(', ', $friends);
 $fcount = 1;
 
 if ($numfriends > 0) {
@@ -1905,43 +1903,40 @@ $fcount++;
 echo $break;
 }
 ?>
-'</div></div>'
-].join('');
+''].join('');
+}
 
-var goom_radio_content = [
-'<div class="content"><div class="body">',
+function _goom_radio() {
+return [
 '<div id="data"><div id="goom">',
-'</div></div>',
 '</div></div>'
 ].join('');
+}
 
-var search_content = [
-'<div class="content"><div class="body">',
-'</div></div>'
-].join('');
+function _search() {
+return [''].join('');
+}
 
-var chat_content = [
-'<div class="content"><div class="body">',
+function _chat() {
+return [
 '<div id="chatarea"></div><br />',
-'<div id="messagearea"><input type="text" id="message" value="" maxlength="1500" /></div>',
-'</div></div>'
+'<div id="messagearea"><input type="text" id="message" value="" maxlength="1500" /></div>'
 ].join('');
+}
 
-var music_content = [
-'<div class="content"><div class="body">',
-'<audio src="/media/mp/<?php echo $profile_song_artist . " - " . $profile_song_name; ?>" id="musicplayer" controls="controls" loop="loop">Your browser does not support the audio element.</audio>',
-'</div></div>'
-].join('');
+function _music() {
+return ['<audio src="/media/mp/<?php echo $profile_song_artist . " - " . $profile_song_name; ?>" id="musicplayer" controls="controls" loop="loop">Your browser does not support the audio element.</audio>'].join('');
+}
 
-var web_browser_content = [
-'<div class="content"><div class="body">',
+function _web_browser() {
+return [
 '<div id="nav"></div>',
-'<div id="window"></div>',
-'</div></div>'
+'<div id="window"></div>'
 ].join('');
+}
 
-var torus_content = [
-'<div class="content"><div class="body">',
+function _torus() {
+return [
 '<div id="content">',
 '<div id="loading">',
 'You must enable JavaScript to play this game.',
@@ -2035,12 +2030,12 @@ var torus_content = [
 '</div>',
 '<div id="close" class="nonstick"></div>',
 '</div>',
-'</div>',
-'</div></div>'
+'</div>'
 ].join('');
+}
 
-var calendar_content = [
-'<div class="content"><div class="body">',
+function _calendar() {
+return [
 '<table id="maincontentcell" class="maintable" border="0" cellpadding="0" cellspacing="0">',
 '<tr>',
 '<td>',
@@ -2067,24 +2062,36 @@ var calendar_content = [
 '</table>',
 '</td>',
 '</tr>',
-'</table>',
-'</div></div>'
+'</table>'
 ].join('');
+}
 
-var app_explorer_content = [
-'<div class="content"><div class="body">',
-'</div></div>'
-].join('');
+function _app_explorer() {
+	var menuItems = '';
+	function createMenuItem(app, name) {
+		return [
+		'<div id="thumb-', app, '" class="desktop-thumb thumb-', app, '">',
+		'<div class="thumb-button"><img src="i/apps/thumbs/blank.gif" class="thumb-image" alt="', app, '" /></div>',
+		'<div class="thumb-name" unselectable="on">', name, '</div>',
+		'</div>'
+		].join('');
+	}
+	$.each(dC.apps.list, function(index, value) {
+		menuItems += createMenuItem(value, dC.apps.name[dC.apps.list.vIndex(value)]);
+		// if (((i + 1) % items_width) == 0) this.menuItems += '<div class="clearfix"></div>';
+	});
+	return menuItems;
+}
 
-var calculator_content = [
-'<div class="content"><div class="body">',
+function _calculator() {
+return [
 '<div id="out"><div id="out-scroll"><div id="out-inner">',
 '</div></div></div>',
 '<div id="in">',
 '<div class="left">&gt;</div><input type="text" spellcheck="false" value="" />',
-'</div>',
-'</div></div>'
+'</div>'
 ].join('');
+}
 
 /* end app content */
 /* begin panel variables */
@@ -2094,25 +2101,25 @@ var user_desktop = new desktop();
 
 /** begin app variables */
 
-var documents = new panel('Documents','documents',true,false,true,false,false,400,402,520,520,'absolute',0,0,'r','b',true,documents_content);
-var preferences = new panel('Preferences','preferences',true,false,true,false,false,300,302,400,400,'absolute',0,0,'r','b',true,preferences_content);
-var notepad = new panel('Notepad','notepad',true,false,true,false,false,200,200,400,400,'absolute',0,0,'l','b',false,notepad_content);
-var flash_name = new panel('Flash Name','flash_name',true,false,true,false,false,270,270,470,470,'absolute',215,80,'l','t',false,flash_name_content);
-var ytinstant = new panel('YouTube Instant','ytinstant',true,true,true,true,true,500,560,900,1100,'absolute',0,0,'l','t',true,ytinstant_content);
-var piano = new panel('Piano','piano',true,false,true,false,true,570,570,770,1200,'absolute',0,0,'l','t',true,piano_content);
-var about_hnsdesktop = new panel('About HnS Desktop','about_hnsdesktop',true,false,true,false,false,400,402,520,520,'absolute',0,0,'r','b',true,about_hnsdesktop_content);
-var feedback = new panel('Feedback','feedback',true,false,true,false,false,400,402,520,520,'absolute',0,0,'r','b',false,feedback_content);
-var tic_tac_toe = new panel('Tic Tac Toe','tic_tac_toe',true,false,true,false,true,550,599,534,540,'absolute',0,0,'l','t',true,tic_tac_toe_content);
-var friends  = new panel('Friends','friends',true,false,true,false,true,550,599,534,538,'absolute',0,0,'l','t',true,friends_content);
-var goom_radio  = new panel('Goom Radio','goom_radio',true,false,true,false,true,242,242,231,231,'absolute',0,0,'l','t',true,goom_radio_content);
-var search = new panel('Search','search',true,false,true,false,true,550,599,534,538,'absolute',0,0,'l','t',true,search_content);
-var chat = new panel('Chat','chat',true,false,true,false,true,550,550,628,628,'absolute',0,0,'l','t',true,chat_content);
-var music = new panel('Music','music',true,false,true,false,true,64,64,316,316,'absolute',0,0,'l','t',true,music_content);
-var web_browser = new panel('Web Browser','web_browser',true,false,true,false,true,570,570,770,1200,'absolute',0,0,'l','t',true,web_browser_content);
-var torus = new panel('Torus','torus',true,false,true,false,true,550,599,534,538,'absolute',0,0,'l','t',true,torus_content);
-var calendar = new panel('Calendar','calendar',true,false,true,false,true,450,450,540,580,'absolute',0,0,'l','t',true,calendar_content);
-var app_explorer = new panel('App Explorer','app_explorer',true,false,true,false,true,450,450,540,580,'absolute',0,0,'l','t',true,app_explorer_content);
-var calculator = new panel('Calculator','calculator',true,false,true,false,true,642,642,708,708,'absolute',0,0,'l','t',true,calculator_content);
+var documents = new panel('Documents','documents',true,false,true,false,false,400,402,520,520,'absolute',0,0,'r','b',true,_documents());
+var preferences = new panel('Preferences','preferences',true,false,true,false,false,300,302,400,400,'absolute',0,0,'r','b',true,_preferences());
+var notepad = new panel('Notepad','notepad',true,false,true,false,false,200,200,400,400,'absolute',0,0,'l','b',false,_notepad());
+var flash_name = new panel('Flash Name','flash_name',true,false,true,false,false,270,270,470,470,'absolute',215,80,'l','t',false,_flash_name());
+var ytinstant = new panel('YouTube Instant','ytinstant',true,true,true,true,true,500,560,900,1100,'absolute',0,0,'l','t',true,_ytinstant());
+var piano = new panel('Piano','piano',true,false,true,false,true,570,570,770,1200,'absolute',0,0,'l','t',true,_piano());
+var about_hnsdesktop = new panel('About HnS Desktop','about_hnsdesktop',true,false,true,false,false,400,402,520,520,'absolute',0,0,'r','b',true,_about_hnsdesktop());
+var feedback = new panel('Feedback','feedback',true,false,true,false,false,400,402,520,520,'absolute',0,0,'r','b',false,_feedback());
+var tic_tac_toe = new panel('Tic Tac Toe','tic_tac_toe',true,false,true,false,true,550,599,534,540,'absolute',0,0,'l','t',true,_tic_tac_toe());
+var friends  = new panel('Friends','friends',true,false,true,false,true,550,599,534,538,'absolute',0,0,'l','t',true,_friends());
+var goom_radio  = new panel('Goom Radio','goom_radio',true,false,true,false,true,242,242,231,231,'absolute',0,0,'l','t',true,_goom_radio());
+var search = new panel('Search','search',true,false,true,false,true,550,599,534,538,'absolute',0,0,'l','t',true,_search());
+var chat = new panel('Chat','chat',true,false,true,false,true,550,550,628,628,'absolute',0,0,'l','t',true,_chat());
+var music = new panel('Music','music',true,false,true,false,true,64,64,316,316,'absolute',0,0,'l','t',true,_music());
+var web_browser = new panel('Web Browser','web_browser',true,false,true,false,true,570,570,770,1200,'absolute',0,0,'l','t',true,_web_browser());
+var torus = new panel('Torus','torus',true,false,true,false,true,550,599,534,538,'absolute',0,0,'l','t',true,_torus());
+var calendar = new panel('Calendar','calendar',true,false,true,false,true,450,450,540,580,'absolute',0,0,'l','t',true,_calendar());
+var app_explorer = new panel('App Explorer','app_explorer',true,false,true,false,true,450,450,540,580,'absolute',0,0,'l','t',true,_app_explorer());
+var calculator = new panel('Calculator','calculator',true,false,true,false,true,642,642,708,708,'absolute',0,0,'l','t',true,_calculator());
 
 /* end app variables **/
 /* end panel variables */
@@ -2121,10 +2128,10 @@ var calculator = new panel('Calculator','calculator',true,false,true,false,true,
 
 /* begin panel content */
 
-var login_content = [
-'<div class="content"><div class="body">',
+function _login() {
+return [
 '<div class="heading">Homenet Spaces OS</div>',
-'<form action="javascript: void(0);" name="login" id="login">',
+'<form action="javascript:void(0);" name="login" id="login" onsubmit="return false;">',
 '<table style="margin : 0 auto; margin-bottom : 10px; margin-top : 10px; width: 95%; ">',
 '<tbody>',
 '<tr>',
@@ -2139,9 +2146,9 @@ var login_content = [
 '<td class="input">',
 '<input type="checkbox" name="remember" id="remember" accesskey="m" tabindex="3" value="remember" />',
 '<div class="buttons right">',
-'<button type="submit" name="signin" id="signin" class="positive" accesskey="l" tabindex="4"><img src="i/icons/tick.png" alt="" />Login!</button>',
-'<button type="reset" name="reset" id="reset" accesskey="c" tabindex="5"><img src="i/icons/textfield_key.png" alt="" />Clear</button>',
-'<button type="button" name="register" id="signup" class="negative" accesskey="r" tabindex="6"><img src="i/icons/cross.png" alt="" />Register</button>',
+'<button type="submit" name="signin" id="signin" class="positive" accesskey="l" tabindex="4"><img src="i/ux/tick.png" alt="" />Login!</button>',
+'<button type="reset" name="reset" id="reset" accesskey="c" tabindex="5"><img src="i/ux/textfield_key.png" alt="" />Clear</button>',
+'<button type="button" name="register" id="signup" class="negative" accesskey="r" tabindex="6"><img src="i/ux/cross.png" alt="" />Register</button>',
 '</div>',
 '</td>',
 '</tr>',
@@ -2153,14 +2160,14 @@ var login_content = [
 '</tr>',
 '</tbody>',
 '</table>',
-'</form>',
-'</div></div>'
+'</form>'
 ].join('');
+}
 
-var register_content = [
-'<div class="content"><div class="body">',
+function _register() {
+return [
 '<div class="heading">Register</div>',
-'<form action="javascript: void(0);" name="register" id="register">',
+'<form action="javascript:void(0);" name="register" id="register" onsubmit="return false;">',
 '<fieldset>',
 '<legend>Login Credentials</legend>',
 '<table>',
@@ -2196,8 +2203,8 @@ var register_content = [
 '<tr class="gender">',
 '<td class="label"><label for="gender">Gender:</label></td>',
 '<td class="input">',
-'<input type="radio" name="gender" id="gender" value="Male" <?php if ($gender == "Male") { echo 'checked="checked"'; } ?> /><span class="radio">Male</span> ',
-'<input type="radio" name="gender" id="gender" value="Female" <?php if ($gender == "Female") { echo 'checked="checked"'; } ?> /><span class="radio">Female</span>',
+'<input type="radio" name="gender" id="gender" value="Male" <?php if ($gender == 'Male') { echo 'checked="checked"'; } ?> /><span class="radio">Male</span> ',
+'<input type="radio" name="gender" id="gender" value="Female" <?php if ($gender == 'Female') { echo 'checked="checked"'; } ?> /><span class="radio">Female</span>',
 '</td>',
 '</tr>',
 '<tr class="birthdate">',
@@ -2251,7 +2258,7 @@ var register_content = [
 <?php
 $hobbies_list = array('Aircraft Spotting','Airbrushing','Airsofting','Acting','Aeromodeling','Amateur Astronomy','Amateur Radio','Animals/Pets/Dogs','Arts','Astrology','Astronomy','Backgammon','Badminton','Baseball','Basketball','Beach/Sun Tanning','Beachcombing','Beadwork','Beatboxing','Becoming A Child Advocate','Bell Ringing','Belly Dancing','Bicycling','Billiards','Biology','Bird Watching','Birding','BMX','Blacksmithing','Blogging','Board Games','Boating','Body Building','Bonsai Tree','Boomerangs','Bowling','Brewing Beer','Bridge Building','Bringing Food To The Disabled','Building A House For Habitat For Humanity','Building Dollhouses','Bungee Jumping','Butterfly Watching','Button Collecting',
 'Cake Decorating','Calculus','Call of Duty','Calligraphy','Camping','Candle Making','Canoeing','Car Racing','Casino Gambling','Cave Diving','Celebrating Your Favorite Pastimes/Collections','Checkers','Cheerleading','Chemistry','Chess','Church/Church Activities','Cigar Smoking','Cloud Watching','Coin Collecting','Collecting','Collecting Antiques','Collecting Artwork','Collecting Music Albums','Compose Music','Computer Activities','Cooking','Cosplay','Crafts','Crafts (Unspecified)','Crochet','Crocheting','Cross-Stitch','Crossword Puzzles','Dancing','Darts','Dating','Dating Online','Diecast Collectibles','Digital Photography','Dolls','Dominoes','Drawing','Dumpster Diving','Eating Out','Educational Courses','Electronics','Embroidery','Entertaining','Exercise (Aerobics, Weights)',
-'Fast Cars','Fencing','Fishing','Flying','Football','Four Wheeling','Freecell','Freshwater Aquariums','Frisbee Golf (Frolf)','Games','Gardening','Garage Saleing','Genealogy','Geocaching','Ghost Hunting','Glowsticking','Going To Movies','Golfing','Go Kart Racing','Grip Strength','Guitar','Handwriting Analysis','Hang Gliding','Hiking','History','Home Brewing','Home Repair','Home Theater','Horseback Riding','Hot Air Ballooning','Hula Hooping','Hunting','Illusion','Internet','Jet Engines','Jewelry Making','Jigsaw Puzzles','Juggling','Keep A Journal','Kayaking','Kitchen Chemistry','Kites','Kite Boarding','Knitting','Knotting',
+'Facebook','Fast Cars','Fencing','Fishing','Flying','Football','Four Wheeling','Freecell','Freshwater Aquariums','Frisbee Golf (Frolf)','Games','Gardening','Garage Saleing','Genealogy','Geocaching','Ghost Hunting','Glowsticking','Going To Movies','Golfing','Go Kart Racing','Grip Strength','Guitar','Handwriting Analysis','Hang Gliding','Hiking','History','Home Brewing','Home Repair','Home Theater','Horseback Riding','Hot Air Ballooning','Hula Hooping','Hunting','Illusion','Internet','Jet Engines','Jewelry Making','Jigsaw Puzzles','Juggling','Keep A Journal','Kayaking','Kitchen Chemistry','Kites','Kite Boarding','Knitting','Knotting',
 'Lasers','Lawn Darts','Learning A Foreign Language','Learning An Instrument','Learning To Pilot A Plane','Leathercrafting','Legos','Listening To Music','Macram&eacute;','Magic','Making Model Cars','Matchstick Modeling','Mathematics','Meditation','Microscopy','Minesweeper','Mixed Martial Arts','Metal Detecting','Model Rockets','Modeling Ships','Models','Motorcycle Racing','Motorcycles','Mountain Biking','Mountain Climbing','Musical Instruments','Needlepoint',
 'Online Gambling','Origami','Other than listed','Owning An Antique Car','Pac-Man','Painting','Paintball','Papermaking','Papermache','Parachuting','People Watching','Photography','Piano','Pinball','Pinochle','Playing Cards','Playing Music','Playing Poker','Playing Team Sports','Pottery','Puppetry','Pyrotechnics','Quilting','Rafting','Railfans','R/C Boats','R/C Cars','R/C Helicopters','R/C Planes','Read Ghost Stories','Reading','Reading To The Elderly','Relaxing','Renting Movies','Rescuing Abused Or Abandoned Animals','Reviving Old Interests','Robotics','Rock Climbing','Rock Collecting','Rockets','Rocking AIDS Babies','Rubik&apos;s Cubes','Running',
 'Saltwater Aquariums','School','Scrapbooking','Scuba Diving','Sewing','Shark Fishing','Shopping','Singing','Singing In Choir','Skateboarding','Sketching','Skeet Shooting','Skiing','Sky Diving','Sleeping','Smoking Pipes','Snorkeling','Soap Making','Soccer','Socializing With Friends/Neighbors','Solitaire','Spelunkering','Spending Time With Family/Kids','Spider Solitaire','Stamp Collecting','Storytelling','String Figures','Surf Fishing','Swimming',
@@ -2338,7 +2345,7 @@ foreach ($hobbies_list as $hobby) {
 '<small class="formreminder">( If you ever forget your password you will need to answer these questions to get it reset )</small>',
 '</div>',
 '</fieldset>',
-'<br /><br />',
+'<br /><div class="different" style="display: none; "></div><br />',
 '<fieldset>',
 '<legend>Security Code</legend>',
 '<table style="width: 400px;">',
@@ -2354,18 +2361,15 @@ foreach ($hobbies_list as $hobby) {
 '<div id="register-button" class="shiny-button3">Register!<span></span></div>',
 '</fieldset>',
 '</form>',
-'<br />',
-'<script type="text/javascript">',
-'document.register.username.focus();',
-'</script>',
-'</div></div>'
+'<br />'
 ].join('');
+}
 
 /* end panel content */
 /* begin panel variables */
 
-var login = new panel('Login','login',false,false,false,false,false,200,260,400,433,'absolute',0,0,'l','t',true,login_content);
-var register = new panel('Register','register',true,false,false,false,true,200,250,400,450,'absolute',0,0,'l','t',true,register_content);
+var login = new panel('Login','login',false,false,false,false,false,200,260,400,433,'absolute',0,0,'l','t',true,_login());
+var register = new panel('Register','register',true,false,false,false,true,200,250,400,450,'absolute',0,0,'l','t',true,_register());
 var dialog_tryagain = new dialog('Try Again','notice',false,false,false,false,50,50,100,200,'absolute',0,0,'l','t',true,'Please Try Again!');
 
 /* end panel variables */
@@ -2373,8 +2377,6 @@ var dialog_tryagain = new dialog('Try Again','notice',false,false,false,false,50
 $(document).ready(function() {
 
 noFrame();
-
-if ($)	$("div.noscript").remove();
 
 if (dC.styles.screensaver == 1) {
 	$(document.body).mousemove(function(e) {
@@ -2392,7 +2394,6 @@ if (dC.styles.screensaver == 1) {
 
 	var animation_canvas, animation_ctx, animation_timer;
 	var currentX = 0, currentY = 0, lastX = 0, lastY = 0;
-
 	animation_canvas = document.getElementById('c_animation');
 
 	if (animation_canvas && animation_canvas.getContext) {
@@ -2401,7 +2402,6 @@ if (dC.styles.screensaver == 1) {
 		if (animation_ctx) {
 			animation_canvas.height = dC.config.height;
 			animation_canvas.width = dC.config.width;
-
 			lastX = (animation_canvas.width * Math.random());
 			lastY = (animation_canvas.height * Math.random());
 
@@ -2413,7 +2413,6 @@ if (dC.styles.screensaver == 1) {
 				animation_ctx.beginPath();
 				animation_ctx.lineWidth = (5 + (Math.random() * 10));
 				animation_ctx.moveTo(lastX, lastY);
-
 				lastX = (animation_canvas.width * Math.random());
 				lastY = (animation_canvas.height * Math.random());
 
@@ -2446,11 +2445,10 @@ if (dC.styles.screensaver == 1) {
 	function inactive_test() {
 		if (!window.ytplayer || (window.playerState == 2)) {
 			if (dC.user.time_inactive == screensaver_time()) {
-				var i = (Math.floor(Math.random() * 4));
 				var animation_speed = [35,50,75,100];
 				$("canvas#c_animation").css('visibility','visible');
 				$("div#desktop, div#taskbar").css('visibility','hidden');
-				animation_timer = setInterval(animation, animation_speed[i]);
+				animation_timer = setInterval(animation, animation_speed[mt_rand(0,3)]);
 			}
 		}
 	}
@@ -2470,11 +2468,9 @@ $("div#login button[type='submit']#signin").click(function() {
 	if (($("div#login input[type='text']#username").val() != "") && ($("div#login input[type='password']#password").val() != "")) {
 		$("div#login").hide();
 		var str = $("div#login form#login").serialize();
-		
 		$.post("login.php", str, function(data) {
-			if (data == "Success") {
-				location.reload();
-			} else {
+			if (data == "Success") location.reload();
+			else {
 				$("div#login input[type='password']#password").val('');
 				$("div#login input").blur();
 				dialog_tryagain.display();
@@ -2492,11 +2488,9 @@ $(document.documentElement).keydown(function(event) {
 				if ($("div#login").is(":visible") && $("div#notice").is(":hidden")) {
 					$("div#login").hide();
 					var str = $("div#login form#login").serialize();
-
 					$.post("login.php", str, function(data) {
-						if (data == "Success") {
-							location.reload();
-						} else {
+						if (data == "Success") location.reload();
+						else {
 							$("div#login input[type='password']#password").val('');
 							$("div#login input").blur();
 							dialog_tryagain.display();
@@ -2505,25 +2499,20 @@ $(document.documentElement).keydown(function(event) {
 						}
 					});
 				} else {
-					if (($("div#login").queue().length != 0) && ($("div#notice").queue().length != 0)) {
-						$("div#login, div#notice").dequeue();
-					}
+					if (($("div#login").queue().length != 0) && ($("div#notice").queue().length != 0)) $("div#login, div#notice").dequeue();
 				}
 			} else {
 				if ($("div#login").not(":visible") && $("div#notice").not(":hidden")) {
-					if (($("div#login").queue().length != 0) && ($("div#notice").queue().length != 0)) {
-						$("div#login, div#notice").dequeue();
-					}
+					if (($("div#login").queue().length != 0) && ($("div#notice").queue().length != 0)) $("div#login, div#notice").dequeue();
 				}
 			}
-		} else {
-			alert("register is visible");
-		}
+		} else validateregister();
 	}
 });
 
 $("div#login button[type='button']#signup").click(function() {
 	display(register);
+	$("div#register div.body").addClass("scroll");
 	$("div#register").addClass("fullscreen");
 	$("div#register").height(dC.config.height);
 	$("div#register div.panel").height(dC.config.height);
@@ -2533,11 +2522,11 @@ $("div#login button[type='button']#signup").click(function() {
 	$("div#register div.tool.maximize").addClass("restore");
 	$("div#register div.tool.toggle").hide();
 	$("div#register div.tool.toggle").removeClass("toggledown");
+	$("div#register input[type='text']#username_reg").focus();
+	preloadImages("i/ux/cancel.png");
 });
 
-$("div#register img.captcharefresh").click(function() {
-	refreshCaptcha();
-});
+$("div#register img.captcharefresh").click(refreshCaptcha);
 
 <?php /*
 
@@ -2582,96 +2571,95 @@ if ($_POST['txtsecuritycode'] != $_SESSION['SECURITY_CODE']) $registererrors[] =
 
 // CHECK VALIDITY OF INPUTS ON CHANGE
 
-$("div#register-button").click(function() {
+function validateregister() {
 	$("img.error").hide();
 	$("span.error").hide();
 	$("tr.securitycodeerror").hide();
 	$("tr.error").removeClass("error");
+	$("div.error").removeClass("error");
+	$("div.different").hide();
 
 	var hasError = false;
 	var reg = /^./;
-	var usernameReg = /[.\/:*?'"<>|]/;
-	var nameReg =["-", "'", "Mc"];
-	var nameReg2 = /[.\/:*?"<>|]/;
+	var usernameReg = /[.\/:*?'"<>|]/; // no commas, spaces, dashes, or periods
+	var nameReg = /[A-Za-z'-]/;
 	var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 	var emailReg2 = /^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}?$/i;
-	var errorImage = '<img src="i/icons/cancel.png" alt="" class="error" />';
+	var errorImage = '<img src="i/ux/cancel.png" alt="" class="error" />';
 	
-	alert(ucname("mr k'leigh FDFDF"));
-	
-	// trim(ucname(post));
+	function serror(data) { return '<span class="error">' + data + '</span>'; }
 
 	var usernamereg_val = $("input[type='text']#username_reg").val();
 	if (usernamereg_val == '') {
-		$("input[type='text']#username_reg").parent().append(errorImage + '<span class="error">You forgot to enter a username.</span>');
+		$("input[type='text']#username_reg").parent().append(errorImage + serror("You forgot to enter a username."));
 		$("tr.username_reg").addClass("error");
 		hasError = true;
 	} else if (usernameReg.test(usernamereg_val)) {
-		$("input[type='text']#username_reg").after('<span class="error">Enter a valid username.</span>');
+		$("input[type='text']#username_reg").after(serror("Enter a valid username."));
 		$("tr.username_reg").addClass("error");
 		hasError = true;
 	}
 
 	var passwordreg_val = $("input[type='password']#password_reg").val();
 	if (passwordreg_val == '') {
-		$("input[type='password']#password_reg").after(errorImage + '<span class="error">You forgot to enter a password.</span>');
+		$("input[type='password']#password_reg").after(errorImage + serror("You forgot to enter a password."));
 		$("tr.password_reg").addClass("error");
 		hasError = true;
 	} else if (!reg.test(passwordreg_val)) {
-		$("input[type='password']#password_reg").after('<span class="error">Enter a valid password.</span>');
+		$("input[type='password']#password_reg").after(serror("Enter a valid password."));
 		$("tr.password_reg").addClass("error");
 		hasError = true;
 	}
 
 	var passwordverreg_val = $("input[type='password']#password_ver_reg").val();
 	if (passwordverreg_val == '') {
-		$("input[type='password']#password_ver_reg").after(errorImage + '<span class="error">You forgot to confirm your password.</span>');
+		$("input[type='password']#password_ver_reg").after(errorImage + serror("You forgot to confirm your password."));
 		$("tr.password_ver_reg").addClass("error");
 		hasError = true;
 	} else if (!reg.test(passwordverreg_val)) {
-		$("input[type='password']#password_ver_reg").after('<span class="error">Enter a valid password.</span>');
+		$("input[type='password']#password_ver_reg").after(serror("Enter a valid password."));
 		$("tr.password_ver_reg").addClass("error");
 		hasError = true;
 	}
 
 	if (passwordreg_val != passwordverreg_val) {
-		$("input[type='password']#password_ver_reg").parent().append('<span class="error">Passwords need to match.</span>');
+		$("input[type='password']#password_ver_reg").parent().append(serror("Passwords need to match."));
 		$("tr.password_ver_reg").addClass("error");
 		hasError = true;
 	}
 
 	var fullname_val = $("input[type='text']#fullname").val();
 	if (fullname_val == '') {
-		$("input[type='text']#fullname").after(errorImage + '<span class="error">You forgot to enter your full name.</span>');
+		$("input[type='text']#fullname").after(errorImage + serror("You forgot to enter your full name."));
 		$("tr.fullname").addClass("error");
 		hasError = true;
-	} else if (!nameReg2.test(fullname_val)) {
-		$("input[type='text']#fullname").after(errorImage + '<span class="error">Enter a valid full name.</span>');
+	} else if (!nameReg.test(fullname_val)) {
+		$("input[type='text']#fullname").after(errorImage + serror("Enter a valid full name."));
 		$("tr.fullname").addClass("error");
 		hasError = true;
 	} else {
-	var name_array = fullname_val.split(' ');
-	if (!name_array[1] || !name_array[2]) {
-		$("input[type='text']#fullname").after(errorImage + '<span class="error">Enter a valid full name.</span>');
-		$("tr.fullname").addClass("error");
-		hasError = true;
-	}
+		var name_array = fullname_val.split(' ');
+		if (!name_array[0] || !name_array[1]) {
+			$("input[type='text']#fullname").after(errorImage + serror("Enter a valid full name."));
+			$("tr.fullname").addClass("error");
+			hasError = true;
+		} else { fullname_val = ucname(fullname_val); $("input[type='text']#fullname").val(fullname_val); }
 	}
 
 	var email_val = $("input[type='email']#email").val();
 	if (email_val == '') {
-		$("input[type='email']#email").parent().append(errorImage + '<span class="error">You forgot to enter your email address.</span>');
+		$("input[type='email']#email").parent().append(errorImage + serror("You forgot to enter your email address."));
 		$("tr.email").addClass("error");
 		hasError = true;
 	} else if (!emailReg.test(email_val)) {
-		$("input[type='email']#email").after('<span class="error">Enter a valid email address.</span>');
+		$("input[type='email']#email").after(serror("Enter a valid email address."));
 		$("tr.email").addClass("error");
 		hasError = true;
 	}
 
 	var gender_val = $("input[type='radio']#gender:checked").length;
 	if (gender_val == 0) {
-		$("tr.gender td.input").append(errorImage + '<span class="error">You forgot to enter your gender.</span>');
+		$("tr.gender td.input").append(errorImage + serror("You forgot to enter your gender."));
 		$("tr.gender").addClass("error");
 		hasError = true;
 	}
@@ -2679,11 +2667,11 @@ $("div#register-button").click(function() {
 	<?php /*
 	var birthdate_val = $("select#birthdate").val();
 	if (birthdate_val == '') {
-		$("input[type='text']#birthdate").after(errorImage + '<span class="error">You forgot to enter your birthdate.</span>');
+		$("input[type='text']#birthdate").after(errorImage + serror("You forgot to enter your birthdate."));
 		$("tr.birthdate").addClass("error");
 		hasError = true;
 	} else if (!reg.test(birthdate_val)) {	
-		$("input[type='text']#birthdate").after('<span class="error">Enter a valid birthdate.</span>');
+		$("input[type='text']#birthdate").after(serror("Enter a valid birthdate."));
 		$("tr.birthdate").addClass("error");
 		hasError = true;
 	}
@@ -2696,72 +2684,72 @@ $("div#register-button").click(function() {
 	*/ ?>
 	var hometown_val = $("input[type='text']#hometown").val();
 	if (hometown_val == '') {
-		$("input[type='text']#hometown").after(errorImage + '<span class="error">You forgot to enter your hometown.</span>');
+		$("input[type='text']#hometown").after(errorImage + serror("You forgot to enter your hometown."));
 		$("tr.hometown").addClass("error");
 		hasError = true;
 	} else if (!reg.test(hometown_val)) {
-		$("input[type='text']#hometown").after('<span class="error">Enter a valid hometown.</span>');
+		$("input[type='text']#hometown").after(serror("Enter a valid hometown."));
 		$("tr.hometown").addClass("error");
 		hasError = true;
 	}
 
 	var hobbies_val = $("select#hobbies option:selected").length;
 	if (hobbies_val == 0) {
-		$("select#hobbies").after(errorImage + '<span class="error">You forgot to select your hobbies.</span>');
+		$("select#hobbies").after(errorImage + serror("You forgot to select your hobbies."));
 		$("tr.hobbies").addClass("error");
 		hasError = true;
 	}
 
 	var securityquestion1_val = $("select#security_question1 option:selected").val();
 	if (securityquestion1_val == 0) {
-		$("select#security_question1").after(errorImage + '<span class="error">You forgot to select a security question.</span>');
+		$("select#security_question1").after(errorImage + serror("You forgot to select a security question."));
 		$("tr.security_question1").addClass("error");
 		hasError = true;
 	}
 
 	var securityanswer1_val = $("input[type='text']#security_answer1").val();
 	if (securityanswer1_val == '') {
-		$("input[type='text']#security_answer1").after(errorImage + '<span class="error">You forgot to enter your security answer.</span>');
+		$("input[type='text']#security_answer1").after(errorImage + serror("You forgot to enter your security answer."));
 		$("tr.security_answer1").addClass("error");
 		hasError = true;
 	} else if (!reg.test(securityanswer1_val)) {
-		$("input[type='text']#security_answer1").after('<span class="error">Enter a valid security answer.</span>');
+		$("input[type='text']#security_answer1").after(serror("Enter a valid security answer."));
 		$("tr.security_answer1").addClass("error");
 		hasError = true;
 	}
 
 	var securityquestion2_val = $("select#security_question2 option:selected").val();
 	if (securityquestion2_val == 0) {
-		$("select#security_question2").after(errorImage + '<span class="error">You forgot to select a security question.</span>');
+		$("select#security_question2").after(errorImage + serror("You forgot to select a security question."));
 		$("tr.security_question2").addClass("error");
 		hasError = true;
 	}
 
 	var securityanswer2_val = $("input[type='text']#security_answer2").val();
 	if (securityanswer2_val == '') {
-		$("input[type='text']#security_answer2").after(errorImage + '<span class="error">You forgot to enter your security answer.</span>');
+		$("input[type='text']#security_answer2").after(errorImage + serror("You forgot to enter your security answer."));
 		$("tr.security_answer2").addClass("error");
 		hasError = true;
 	} else if (!reg.test(securityanswer2_val)) {
-		$("input[type='text']#security_answer2").after('<span class="error">Enter a valid security answer.</span>');
+		$("input[type='text']#security_answer2").after(serror("Enter a valid security answer."));
 		$("tr.security_answer2").addClass("error");
 		hasError = true;
 	}
 
-	if (securityquestion1_val == securityquestion2_val) {
-		$("input[type='text']#security_answer2").after(errorImage + '<span class="error">Security Questions Need To Be Different.</span>');
-		$("tr.security_answer2").addClass("error");
+	if ((securityquestion1_val == securityquestion2_val) && (securityquestion1_val != 0) && (securityquestion2_val != 0)) {
+		$("div.different").html(errorImage + serror("Security Questions Need To Be Different."));
+		$("div.different").addClass("error").show();
 		hasError = true;
 	}
 
 	var securitycode_val = $("input[type='text']#securitycode").val();
 	if (securitycode_val == '') {
-		$("tr.securitycodeerror td").html(errorImage + '<span class="error">You forgot to enter the security code.</span>');
+		$("tr.securitycodeerror td").html(errorImage + serror("You forgot to enter the security code."));
 		$("tr.securitycodeerror").show();
 		$("tr.securitycode").addClass("error");
 		hasError = true;
 	} else if ((!reg.test(securitycode_val)) || (securitycode_val.length != 5)) {
-		$("tr.securitycodeerror td").html('<span class="error">Enter a valid security code.</span>');
+		$("tr.securitycodeerror td").html(serror("Enter a valid security code."));
 		$("tr.securitycodeerror").show();
 		$("tr.securitycode").addClass("error");
 		hasError = true;
@@ -2769,7 +2757,7 @@ $("div#register-button").click(function() {
 
 	if (!hasError) {
 		// $(this).hide();
-		$("div#register-button").prepend('<img src="i/icons/loading.gif" alt="Loading" id="loading" />');
+		$("div#register-button").prepend('<img src="i/ux/loading.gif" alt="Loading" id="loading" />');
 		var str = $("div#register form#register").serialize();
 
 		$.post("register.php", str, function(data) {
@@ -2790,7 +2778,17 @@ $("div#register-button").click(function() {
 	} else {
 		$("div#register div.panel-mc").animate({scrollTop:0}, 500);
 	}
-});
+}
+
+$("div#register-button").click(validateregister);
+
+var bImages = '"i/apps/thumbs/blank.gif","i/ux/s.gif","/i/mem/default.jpg","i/apps/icons/application.png","i/ux/loading.gif","i/apps/thumbs/grid.gif","i/apps/icons/friends.png","i/ux/startmenu/user_image.png","i/ux/taskbar/taskbar-split-h.gif","i/ux/taskbar/startbutton.gif","i/ux/taskbar/startbutton-icon.gif","i/ux/taskbar/quickstart-button.gif","i/ux/taskbar/taskbutton.gif"';
+bImages += ',"i/apps/icons/padlock.png","i/apps/icons/friends.png","i/apps/icons/disconnect.png","i/apps/icons/disk.png","i/apps/icons/preferences.png","i/apps/icons/notepad.png","i/apps/icons/flash_name.png","i/apps/icons/ytinstant.png","i/apps/icons/piano.png","i/apps/icons/info.png","i/apps/icons/feedback.png","i/apps/icons/tic_tac_toe.png","i/apps/icons/friends.png","i/apps/icons/goom_radio.png","i/apps/icons/zoom.png","i/apps/icons/chat.png","i/apps/icons/music.png","i/apps/icons/web_browser.png","i/apps/icons/torus.png","i/apps/icons/calendar.png","i/apps/icons/app_explorer.png","i/apps/icons/calculator.png"';
+bImages += ',"i/apps/thumbs/documents.png","i/apps/thumbs/preferences.png","i/apps/thumbs/notepad.png","i/apps/thumbs/flash_name.png","i/apps/thumbs/ytinstant.png","i/apps/thumbs/piano.png","i/apps/thumbs/info.png","i/apps/thumbs/feedback.png","i/apps/thumbs/tic_tac_toe.png","i/apps/thumbs/friends.png","i/apps/thumbs/goom_radio.png","i/apps/thumbs/search.png","i/apps/thumbs/chat.png","i/apps/thumbs/music.png","i/apps/thumbs/web_browser.png","i/apps/thumbs/torus.png","i/apps/thumbs/calendar.png","i/apps/thumbs/app_explorer.png","i/apps/thumbs/calculator.png"';
+bImages += ',"i/ux/preferences/thumbs.png","i/ux/preferences/autorun.png","i/ux/preferences/quickstart.png","i/ux/preferences/appearance.png","i/ux/preferences/wallpaper.png"';
+bImages += ',"i/apps/ytinstant/logo2.png","i/apps/ytinstant/loading.gif","i/apps/ytinstant/playing.gif","i/apps/ytinstant/player_play-1.png","i/apps/ytinstant/player_pause-1.png"';
+bImages += ',"i/apps/torus/but_main.png","i/apps/torus/but_resume.png","i/apps/torus/but_restart.png","i/apps/torus/but_quit.png","i/apps/torus/but_play.png","i/apps/torus/but_pause.png","i/apps/torus/but_go.png","i/apps/torus/but_settings.png","i/apps/torus/but_help.png","i/apps/torus/but_high.png","i/apps/torus/title_traditional.png","i/apps/torus/title_time.png","i/apps/torus/title_garbage.png","i/apps/torus/title_help.png","i/apps/torus/title_high.png","i/apps/torus/title_settings.png","i/apps/torus/base0.png","i/apps/torus/panel.png","i/apps/torus/blocks.png","i/apps/torus/menu.png","i/apps/torus/modes.png","i/apps/torus/close.png","i/apps/torus/coins.png","i/apps/torus/paused.png","i/apps/torus/game_over.png","i/apps/torus/skull.png"';
+setTimeout('preloadImages("' + (pImage++) + '",' + bImages + ');', 2000);
 <?php } else { ?>
 
 /* begin initiate desktop */
@@ -2815,8 +2813,15 @@ if ((dC.user.styles.transparency == 1) || (dC.styles.transparency == 1)) {
 	$("div#taskbar").animate({opacity:0}, 1800).show().animate({opacity:1}, 1400);
 }
 
-setTimeout('$("div#blackout").remove()', 5000);
-setTimeout('$("div#loading").remove()', 5000);
+setTimeout('$("div#blackout").remove(); $("div#loading").remove()', 5000);
+
+var bImages = '"i/apps/thumbs/blank.gif","i/ux/s.gif","/i/mem/default.jpg","i/apps/icons/application.png","i/ux/loading.gif","i/apps/thumbs/grid.gif","i/apps/icons/friends.png","i/ux/startmenu/user_image.png","i/ux/taskbar/taskbar-split-h.gif","i/ux/taskbar/startbutton.gif","i/ux/taskbar/startbutton-icon.gif","i/ux/taskbar/quickstart-button.gif","i/ux/taskbar/taskbutton.gif"';
+bImages += ',"i/apps/icons/padlock.png","i/apps/icons/friends.png","i/apps/icons/disconnect.png","i/apps/icons/disk.png","i/apps/icons/preferences.png","i/apps/icons/notepad.png","i/apps/icons/flash_name.png","i/apps/icons/ytinstant.png","i/apps/icons/piano.png","i/apps/icons/info.png","i/apps/icons/feedback.png","i/apps/icons/tic_tac_toe.png","i/apps/icons/friends.png","i/apps/icons/goom_radio.png","i/apps/icons/zoom.png","i/apps/icons/chat.png","i/apps/icons/music.png","i/apps/icons/web_browser.png","i/apps/icons/torus.png","i/apps/icons/calendar.png","i/apps/icons/app_explorer.png","i/apps/icons/calculator.png"';
+bImages += ',"i/apps/thumbs/documents.png","i/apps/thumbs/preferences.png","i/apps/thumbs/notepad.png","i/apps/thumbs/flash_name.png","i/apps/thumbs/ytinstant.png","i/apps/thumbs/piano.png","i/apps/thumbs/info.png","i/apps/thumbs/feedback.png","i/apps/thumbs/tic_tac_toe.png","i/apps/thumbs/friends.png","i/apps/thumbs/goom_radio.png","i/apps/thumbs/search.png","i/apps/thumbs/chat.png","i/apps/thumbs/music.png","i/apps/thumbs/web_browser.png","i/apps/thumbs/torus.png","i/apps/thumbs/calendar.png","i/apps/thumbs/app_explorer.png","i/apps/thumbs/calculator.png"';
+bImages += ',"i/ux/preferences/thumbs.png","i/ux/preferences/autorun.png","i/ux/preferences/quickstart.png","i/ux/preferences/appearance.png","i/ux/preferences/wallpaper.png"';
+bImages += ',"i/apps/ytinstant/logo2.png","i/apps/ytinstant/loading.gif","i/apps/ytinstant/playing.gif","i/apps/ytinstant/player_play-1.png","i/apps/ytinstant/player_pause-1.png"';
+bImages += ',"i/apps/torus/but_main.png","i/apps/torus/but_resume.png","i/apps/torus/but_restart.png","i/apps/torus/but_quit.png","i/apps/torus/but_play.png","i/apps/torus/but_pause.png","i/apps/torus/but_go.png","i/apps/torus/but_settings.png","i/apps/torus/but_help.png","i/apps/torus/but_high.png","i/apps/torus/title_traditional.png","i/apps/torus/title_time.png","i/apps/torus/title_garbage.png","i/apps/torus/title_help.png","i/apps/torus/title_high.png","i/apps/torus/title_settings.png","i/apps/torus/base0.png","i/apps/torus/panel.png","i/apps/torus/blocks.png","i/apps/torus/menu.png","i/apps/torus/modes.png","i/apps/torus/close.png","i/apps/torus/coins.png","i/apps/torus/paused.png","i/apps/torus/game_over.png","i/apps/torus/skull.png"';
+preloadImages((pImage++) + ',' + bImages);
 
 // document.getElementById("desktop").appendChild(contextMenu_content);
 
@@ -2828,52 +2833,34 @@ $("div#desktop-view").css('height', (dC.config.height - (dC.taskbar.height2)));
 $("div.desktop-body").css('height', (dC.config.height - (dC.taskbar.height2)));
 $("div.desktop-thumb").css({'height':'auto','min-height':dC.desktop.thumb_height,'width':dC.desktop.thumb_width});
 
-if (dC.user.launchers.thumbs != "") {
-	for (var i = 0; i < dC.user.launchers.thumbs.length; i++) {
-		$("div#desktop div.desktop-body div#thumb-" + dC.user.launchers.thumbs[i]).css('display','block');
-	}
-} else {
-	$("div#desktop div.desktop-body div.desktop-thumb").css('display','block');
-}
+if (dC.user.launchers.thumbs != "") for (var i = 0; i < dC.user.launchers.thumbs.length; i++) $("div#desktop div.desktop-body div#thumb-" + dC.user.launchers.thumbs[i]).css('display','block');
+else $("div#desktop div.desktop-body div.desktop-thumb").css('display','block');
+if (dC.user.launchers.quickstart != "") for (var i = 0; i < dC.user.launchers.quickstart.length; i++) $("div#taskbar div#quickstart-panel li#quickbutton-" + dC.user.launchers.quickstart[i]).css('display','block');
+else $("div#taskbar div#quickstart-panel li.quickbutton").css('display','block');
 
 /* end desktop config **/
 /** begin taskbar config */
 
-$("div#taskbar div#panel-wrap").width(dC.config.width - dC.taskbar.start_width);
-$("div#taskbar div#taskbuttons-panel").width(dC.config.width - (dC.taskbar.start_width + dC.taskbar.quickstart_width + 20)); //.width(dC.config.width - (dC.taskbar.start_width + dC.taskbar.quickstart_width));
+$("div#taskbar div#panel-wrap").width(dC.config.width - dC.taskbar.start_width + 20);
+$("div#taskbar div#taskbuttons-panel").width(dC.config.width - (dC.taskbar.start_width + dC.taskbar.quickstart_width));
 $("div#taskbar div.taskbuttons-strip-wrap").width(dC.config.width - (dC.taskbar.start_width + dC.taskbar.quickstart_width + dC.taskbar.tray_width));
 $("div#taskbar ul#tray-strip").width(dC.config.width - (dC.taskbar.start_width + dC.taskbar.quickstart_width + dC.taskbar.tray_width));
 $("div#taskbar div#tray-panel").width(dC.taskbar.tray_width);
+$("div#taskbar div#quickstart-panel").width(dC.taskbar.quickstart_width);
+$("div#taskbar div#taskbuttons-panel").css('left', dC.taskbar.quickstart_width);
 
-if (dC.user.launchers.startmenuapps != "") {
-	$.each(dC.user.launchers.startmenuapps, function(index, value) {
-		$("div#startmenu ul.apps-menu-list li#" + value).css('display','block');
-	});
-} else {
-	$("div#startmenu ul.apps-menu-list li.list-item").css('display','block');
-}
-	
-if (dC.user.launchers.startmenutools != "") {
-	$.each(dC.user.launchers.startmenutools, function(index, value) {
-		$("div#startmenu ul.tools-menu-list li#" + value).css('display','block');
-	});
-} else {
-	$("div#startmenu ul.tools-menu-list li.list-item").css('display','block');
-}
+if (dC.user.launchers.startmenuapps != "") $.each(dC.user.launchers.startmenuapps, function(index, value) { $("div#startmenu ul.apps-menu-list li#" + value).css('display','block'); });
+else $("div#startmenu ul.apps-menu-list li.list-item").css('display','block');
+if (dC.user.launchers.startmenutools != "") $.each(dC.user.launchers.startmenutools, function(index, value) { $("div#startmenu ul.tools-menu-list li#" + value).css('display','block'); });
+else $("div#startmenu ul.tools-menu-list li.list-item").css('display','block');
 
 /* end taskbar config **/
 /** begin user styles */
 
 if (dC.user.image != '') $("div#startmenu div.startmenu-header div.image img.userimage").attr('src','/uploads/' + dC.user.username + '/images/thumb/' + dC.user.image);
 else $("div#startmenu div.startmenu-header div.image img.userimage").attr('src','/i/mem/default.jpg');
-
-if (dC.user.styles.transparency == 1) { // check checkbox
-	setTimeout('$("div#taskbar").addClass("transparent8")', 5000);
-	setTimeout('$("div#taskbar").css("opacity","1")', 5000);
-} else if (dC.user.styles.transparency == 0) {
-	setTimeout('$("div#taskbar").removeClass("transparent8")', 5000);
-	setTimeout('$("div#taskbar").css("opacity","1")', 5000);
-}
+if (dC.user.styles.transparency == 1) setTimeout('$("div#taskbar").addClass("transparent8"); $("div#taskbar").css("opacity","1")', 5000); // check checkbox
+else if (dC.user.styles.transparency == 0) setTimeout('$("div#taskbar").removeClass("transparent8"); $("div#taskbar").css("opacity","1")', 5000);
 
 /* end user styles **/
 /* end set desktop config */
@@ -2888,6 +2875,8 @@ try {
 /* end autorun functions */
 
 <?php } ?>
+
+if (window.location.hash) setTimeout("launchApps();", 4000);
 
 //<script src="http://connect.facebook.net/en_US/all.js"></script>
 /*
@@ -2940,6 +2929,78 @@ if (response.perms) {
 FB.logout(function(response) {
 // user is now logged out
 });
+*/
+/*
+$.networkDetection = function(url,interval) {
+	var url = url;
+	var interval = interval;
+	online = false;
+
+	this.StartPolling = function() {
+		this.StopPolling();
+		this.timer = setInterval(poll, interval);
+	};
+
+	this.StopPolling = function() {
+		clearInterval(this.timer);
+	};
+
+	this.setPollInterval = function(i) {
+		interval = i;
+	};
+
+	this.getOnlineStatus = function() {
+		return online;
+	};
+
+	function poll() {
+		$.ajax({
+			type: "POST",
+			url: url,
+			dataType: "text",
+			error: function() {
+				online = false;
+				$(document).trigger('status.networkDetection',[false]);
+			},
+			success: function() {
+				online = true;
+				$(document).trigger('status.networkDetection',[true]);
+			}
+		});
+	};
+};
+*/
+/*
+
+$(document).bind("status.networkDetection", function(e, status) {
+	// subscribers can be namespaced with multiple classes
+	subscribers = $('.subscriber.networkDetection');
+
+	// publish notify.networkDetection even to subscribers
+	subscribers.trigger("notify.networkDetection", [status])
+
+	// other logic based on network connectivity could go here
+	// use google gears offline storage etc
+	// maybe trigger some other events
+});
+
+//
+
+$('#notifier').bind("notify.networkDetection",function(e, online) {
+	// the following simply demonstrates
+	notifier = $(this);
+
+	if (online) {
+		if (!notifier.hasClass("online")) {
+			$(this).addClass("online").removeClass("offline").text("ONLINE");
+		}
+	} else {
+		if (!notifier.hasClass("offline")) {
+			$(this).addClass("offline").removeClass("online").text("OFFLINE");
+		}
+	};
+});
+
 */
 });
 
@@ -3064,23 +3125,23 @@ $("div.tool.close").click(function(e) {
 			if ($("div#ytinstant div#playlistWrapper").is(":hidden")) $("div#ytinstant div.tool.config").click();
 			$("div#ytinstant input[type='text']#searchBox").val('');
 			clearHash(); resetTitle();
-		} else if (app == "goom_radio") {
-			$("div#goom_radio div#goom").empty();
-		} else if (app == "chat") {
-			$("div#chat div#chatarea").empty();
-		} else if (app == "music") {
+		} else if (app == "goom_radio") $("div#goom_radio div#goom").empty();
+		else if (app == "chat") $("div#chat div#chatarea").empty();
+		else if (app == "music") {
 			try { $("div#music audio#musicplayer").pause(); } catch(e) {}
+		} else if (app == "web_browser") {
+			$("div#web_browser iframe#browser").attr('src','http://www.google.com');
 		}
 		
 		var tbutton = "ul#taskbuttons-strip li#taskbutton-" + app;
 		$(tbutton).hide();
-	}
+	} else { if (app == "register") $("div#login input[type='text']#username").focus(); }
 	
 	$(close.div_main()).hide();
 });
 
 $("div.tool.maximize").toggle(function(e) {
-	var maximize1 = new div_selection(e, 7);
+	var maximize1 = new div_selection(e, 7); var app = maximize1.main();
 	var maximize2 = maximize1.div_panel() + '-header div.tool.maximize';
 	var maximize3 = maximize1.div_panel() + '-header div.tool.toggle';
 	$(maximize1.div_main()).addClass("fullscreen");
@@ -3100,10 +3161,11 @@ $("div.tool.maximize").toggle(function(e) {
 		$(maximize1.div_panel()).height(dC.config.height - (dC.taskbar.height2));
 		$(maximize1.div_main() + " div.content").css('height', $(maximize1.div_main() + " div.panel-bwrap").height() - 2);
 		$(maximize1.div_main() + " div.content").css('width', $(maximize1.div_main() + " div.panel-bwrap").width() - 16);
+		if (app == "ytinstant") $("div#ytinstant iframe#fblike").height(70);
 	}
 },
 function(e) {
-	var restore1 = new div_selection(e, 7);
+	var restore1 = new div_selection(e, 7); var app = restore1.main();
 	var restore2 = restore1.div_panel() + '-header div.tool.maximize';
 	var restore3 = restore1.div_panel() + '-header div.tool.toggle';
 	$(restore1.div_main()).removeClass("fullscreen");
@@ -3117,6 +3179,7 @@ function(e) {
 	if (dC.user.logged) {
 		$(restore1.div_main() + " div.content").css('height', $(restore1.div_main() + " div.panel-bwrap").height() - 2);
 		$(restore1.div_main() + " div.content").css('width', $(restore1.div_main() + " div.panel-bwrap").width() - 16);
+		if (app == "ytinstant") $("div#ytinstant iframe#fblike").height(24);
 	}
 });
 
@@ -3211,12 +3274,7 @@ $("div.desktop-thumb").dblclick(function(e) {
 		'-webkit-border-bottom-right-radius':'0'
 	});
 	$("div#" + tthumb + " div.panel-bwrap").show();
-
-	$("div.application").each(function() {
-		cur = parseInt($(this).css('z-index'));
-		zmax = (cur > zmax) ? cur : zmax;
-	});
-	
+	$("div.application").each(function() { cur = parseInt($(this).css('z-index')); zmax = (cur > zmax) ? cur : zmax; });
 	$("div#" + tthumb).css('z-index', (zmax + dC.settings.zindexint));
 
 	try { for (a in dC.apps.list) eval('if (tthumb == "' + dC.apps.list[a] + '") display(' + dC.apps.list[a] + ');');
@@ -3288,12 +3346,7 @@ $("div#startmenu li.list-item").click(function(e) {
 		'-webkit-border-bottom-right-radius':'0'
 	});
 	$(titem + " div.panel-bwrap").css('visibility','visible');
-
-	$("div.application").each(function() {
-		cur = parseInt($(this).css('z-index'));
-		zmax = (cur > zmax) ? cur : zmax;
-	});
-
+	$("div.application").each(function() { cur = parseInt($(this).css('z-index')); zmax = (cur > zmax) ? cur : zmax; });
 	if ($(titem).is(":hidden")) $(titem).css('z-index', (zmax + dC.settings.zindexint)).show();
 	else {
 		if ($(titem).css('z-index') < zmax) $(titem).css('z-index', (zmax + dC.settings.zindexint));
@@ -3316,6 +3369,34 @@ $("div#taskbar table#startbutton").click(function() {
 	else $("div#startmenu").hide();
 });
 
+$("div#taskbar li.quickbutton").click(function(e) {
+	var qbutton = new div_selection(e, 5);
+	qbutton = "div#" + qbutton.main().slice(12);
+	var zmax = 0, cur = 0;
+	if ($("div#startmenu").is(":visible")) $("div#startmenu").hide();
+	$(qbutton + " div.tool").removeClass("transparent5");
+	$(qbutton + " div.panel-tl").css({'background-color':'','border-bottom':'0'});
+	$(qbutton + " div.panel-tl").css({
+		'border-bottom-left-radius':'0',
+		'border-bottom-right-radius':'0',
+		'-khtml-border-radius-bottomleft':'0',
+		'-khtml-border-radius-bottomright':'0',
+		'-moz-border-radius-bottomleft':'0',
+		'-moz-border-radius-bottomright':'0',
+		'-webkit-border-bottom-left-radius':'0',
+		'-webkit-border-bottom-right-radius':'0'
+	});
+	$("div.application").each(function() { cur = parseInt($(this).css('z-index')); zmax = (cur > zmax) ? cur : zmax; });
+	if ($(qbutton).is(":hidden")) $(qbutton).css('z-index', (zmax + dC.settings.zindexint)).show();
+	else {
+		if ($(qbutton).css('z-index') < zmax) $(qbutton).css('z-index', (zmax + dC.settings.zindexint));
+		if ($(qbutton).css('visibility') == "hidden") $(qbutton).css('visibility','visible');
+	}
+
+	try { for (a in dC.apps.list) eval('if (qbutton == "div#' + dC.apps.list[a] + '") display(' + dC.apps.list[a] + ');');
+	} catch(e) {}
+});
+
 $("div#taskbar li.taskbutton").click(function(e) {
 	var tbutton = new div_selection(e, 5);
 	tbutton = "div#" + tbutton.main().slice(11);
@@ -3333,12 +3414,7 @@ $("div#taskbar li.taskbutton").click(function(e) {
 		'-webkit-border-bottom-left-radius':'0',
 		'-webkit-border-bottom-right-radius':'0'
 	});
-
-	$("div.application").each(function() {
-		cur = parseInt($(this).css('z-index'));
-		zmax = (cur > zmax) ? cur : zmax;
-	});
-
+	$("div.application").each(function() { cur = parseInt($(this).css('z-index')); zmax = (cur > zmax) ? cur : zmax; });
 	if ($(tbutton).css('visibility') == 'hidden') {
 		$(tbutton + " div.tool.toggle").click();
 		$(tbutton).css('z-index', (zmax + dC.settings.zindexint)).css('visibility','visible');
@@ -3354,8 +3430,8 @@ document.getElementById("taskbar").onmousedown = function(e) {
 	if (IsRightButtonClicked(e)) alert("Right Button Down");
 }
 
-$("div#taskbar li.taskbutton").contextMenu({ menu: 'myMenu' }, function(action, el, pos) { contextMenuWork(action, el, pos); });
-
+// $("div#taskbar li.taskbutton").contextMenu({ menu: 'myMenu' }, function(action, el, pos) { contextMenuWork(action, el, pos); });
+/*
 function contextMenuWork(action, el, pos) {
 	switch (action) {
 		case "delete":
@@ -3375,6 +3451,7 @@ function contextMenuWork(action, el, pos) {
 		}
 	}
 }
+*/
 
 $("div#taskbar div#quickstart-splitbar").mousedown(function() {
 	var mouseX = 0, lastMouseX = 0, mOffX = 0, diffX = 0;
@@ -3384,8 +3461,7 @@ $("div#taskbar div#quickstart-splitbar").mousedown(function() {
 		mouseX = e.pageX || (e.clientX + document.documentElement.scrollLeft);
 		if (lastMouseX == 0) lastMouseX = mouseX;
 		diffX = (mouseX - lastMouseX + mOffX);
-		if (diffX > 10) diffX = 10;
-		else if (diffX < -10) diffX = -10;
+		if (diffX > 10) diffX = 10; else if (diffX < -10) diffX = -10;
 		if (((mouseX - diffX) > (dC.taskbar.start_width + dC.taskbar.quickstart_minwidth)) && ((mouseX + diffX) < (dC.taskbar.start_width + dC.taskbar.quickstart_maxwidth))) {
 			$("div#taskbar div#quickstart-panel").css('width', $("div#taskbar div#quickstart-panel").width() + diffX);
 			$("div#taskbar div#taskbuttons-panel").css('left', $("div#taskbar div#taskbuttons-panel").position().left + diffX);
@@ -3404,8 +3480,7 @@ $("div#taskbar div#tray-splitbar").mousedown(function() {
 		mouseX = e.pageX || (e.clientX + document.documentElement.scrollLeft);
 		if (lastMouseX == 0) lastMouseX = mouseX;
 		diffX = (mouseX - lastMouseX + mOffX);
-		if (diffX > 10) diffX = 10;
-		else if (diffX < -10) diffX = -10;
+		if (diffX > 10) diffX = 10; else if (diffX < -10) diffX = -10;
 		if (((mouseX - diffX) > (dC.config.width - dC.taskbar.tray_maxwidth)) && ((mouseX + diffX) < (dC.config.width - dC.taskbar.tray_minwidth))) {
 			$("div#taskbar div#tray-panel").css('width',$("div#taskbar div#tray-panel").width() - diffX);
 			$("div#taskbar div.taskbuttons-strip-wrap").css('width',$("div#taskbar div.taskbuttons-strip-wrap").width() + diffX);
@@ -3467,7 +3542,7 @@ function () {
 
 loadPlayer();
 
-$("div#ytinstant div.tool.refresh").click(function() {	
+$("div#ytinstant div.tool.refresh").click(function() {
 	if (dC.user.apps.ytinstant.playlist == "") {
 		var playlist = ['YouTube','AutoTune','Rihanna','Far East Movement','Glee Cast','Nelly','Usher','Katy Perry','Taio Cruz','Eminem','Shakira','Kesha','B.o.B','Taylor Swift','Akon','Bon Jovi','Michael Jackson','Lady Gaga','Paramore','Jay Z','My Chemical Romance','The Beatles','Led Zepplin','Guns N Roses','AC DC','System of a Down','Aerosmith','Tetris','8-bit','Borat','Basshunter','Fall Out Boy','Blink 182','Pink Floyd','Still Alive','Men at Work','MGMT','Justin Bieber','The Killers','Bed intruder song','Baba O Riley','Billy Joel','Drake','Jay Sean','The Ready Set'];
 		var randomNumber = Math.floor(Math.random() * playlist.length);
@@ -3477,43 +3552,43 @@ $("div#ytinstant div.tool.refresh").click(function() {
 		var randomNumber = Math.floor(Math.random() * playlist.length);
 		$("div#ytinstant input[type='text']#searchBox").val(playlist[randomNumber]).select().focus();
 	}
-	
+
 	doInstantSearch();
 });
 
 if (dC.user.apps.ytinstant.playlist != "") {
 	var playlist = dC.user.apps.ytinstant.playlist.split(',');
-	$.each(playlist, function(index, value) {
-		$("div#ytinstant div#userPlaylist div#playlist").append('<div class="searchItem">' + value + '</div>');
-	});
-} else {
-	$("div#ytinstant div#userPlaylist div#playlist").html('<div class="empty">No Videos Are In Your Playlist</div>');
-}
+	$.each(playlist, function(index, value) { $("div#ytinstant div#userPlaylist div#playlist").append('<div class="searchItem">' + value + '</div>'); });
+} else $("div#ytinstant div#userPlaylist div#playlist").html('<div class="empty">No Videos Are In Your Playlist</div>');
 
-$("div#ytinstant div.tool.config").click(function() {	
-	if ($("div#ytinstant div#playlistWrapper").is(":visible")) {
-		$("div#ytinstant div#playlistWrapper").hide();
-		$("div#ytinstant div#userPlaylist").show();
-	} else {
-		$("div#ytinstant div#playlistWrapper").show();
-		$("div#ytinstant div#userPlaylist").hide();
-	}
+$("div#ytinstant div.tool.config").click(function() {
+	if ($("div#ytinstant div.tool.help").hasClass("on")) $("div#ytinstant div.tool.help").removeClass("on");
+	if ($("div#ytinstant div.tool.search").hasClass("on")) $("div#ytinstant div.tool.search").removeClass("on");
+	$("div#ytinstant div.tool.config").toggleClass("on");
+	if ($("div#ytinstant div#playlistWrapper").is(":visible")) { $("div#ytinstant div#playlistWrapper").hide(); $("div#ytinstant div#userPlaylist").show(); }
+	else if ($("div#ytinstant div#userPlaylist").is(":visible")) { $("div#ytinstant div#playlistWrapper").show(); $("div#ytinstant div#userPlaylist").hide(); }
+	else if ($("div#ytinstant div#songPlaylists").is(":visible")) { $("div#ytinstant div#userPlaylist").show(); $("div#ytinstant div#songPlaylists").hide(); }
+	else if ($("div#ytinstant div#help").is(":visible")) { $("div#ytinstant div#userPlaylist").show(); $("div#ytinstant div#hide").hide(); }
 });
 
 $("div#ytinstant div.tool.plus").click(function() {
 	addItemYTPlaylist($.trim($("div#ytinstant div#header input[type='text']#searchBox").val()).capitalize(), 2);
 });
 
+$("div#ytinstant div.tool.pinleft").click(function() {
+	$("div#ytinstant div.tool.pinleft").toggleClass("on");
+	currentSearch = '';
+	doInstantSearch();
+});
+
 $("div#ytinstant div.tool.pindown").click(function() {
 	if ($("div#ytinstant div.tool.dblarrowright").hasClass("on")) $("div#ytinstant div.tool.dblarrowright").removeClass("on");
-	if ($("div#ytinstant div.tool.pindown").hasClass("on")) $("div#ytinstant div.tool.pindown").removeClass("on");
-	else $("div#ytinstant div.tool.pindown").addClass("on");
+	$("div#ytinstant div.tool.pindown").toggleClass("on");
 });
 
 $("div#ytinstant div.tool.dblarrowright").click(function() {
 	if ($("div#ytinstant div.tool.pindown").hasClass("on")) $("div#ytinstant div.tool.pindown").removeClass("on");	
-	if ($("div#ytinstant div.tool.dblarrowright").hasClass("on")) $("div#ytinstant div.tool.dblarrowright").removeClass("on");
-	else $("div#ytinstant div.tool.dblarrowright").addClass("on");
+	$("div#ytinstant div.tool.dblarrowright").toggleClass("on");
 });
 
 $("div#ytinstant div.tool.arrowleft").click(function() {
@@ -3524,11 +3599,47 @@ $("div#ytinstant div.tool.arrowright").click(function() {
 	dC.user.apps.ytinstant.vidThumbs++;
 });
 
-$("div#ytinstant div.tool.help").click(function() {
+function getSongPlaylists() {
+	if (dC.user.apps.ytinstant.songPlaylistsLoaded == true) return;
+	$.get("load.php", { id: "ytinstant", action: "songplaylists" }, function(responseData) {
+		if (responseData.data) {
+			var playlists = responseData.data;
+			var html = []; var allplaylists = [];
+			$.each(playlists, function(playlist) {
+				var numSongs = (playlists[playlist].length);
+				html.push('<div class="searchItem">' + playlist + '</div>');
+				allplaylists.push('<div class="playlist ' + removeSpaces(playlist) + '">');
+				for (s = 0; s < numSongs; s++) allplaylists.push('<div class="searchItem">' + playlists[playlist][s] + '</div>');
+				allplaylists.push('</div>');
+			});
+			$("div#ytinstant div#songPlaylists div#playlists").html(html.join(""));
+			$("div#ytinstant div#songPlaylists").append(allplaylists.join(""));
+			dC.user.apps.ytinstant.songPlaylistsLoaded = true;
+		}
+	}, "json");
+}
+
+$("div#ytinstant div.tool.search").click(function() {
+	if ($("div#ytinstant div.tool.config").hasClass("on")) $("div#ytinstant div.tool.config").removeClass("on");
+	if ($("div#ytinstant div.tool.help").hasClass("on")) $("div#ytinstant div.tool.help").removeClass("on");
+	$("div#ytinstant div.tool.search").toggleClass("on");
+	getSongPlaylists();
 	if ($("div#ytinstant div#playlistWrapper").is(":visible")) $("div#ytinstant div#playlistWrapper").hide();
-	else $("div#ytinstant div#userPlaylist").hide();
+	else if ($("div#ytinstant div#userPlaylist").is(":visible")) $("div#ytinstant div#userPlaylist").hide();
+	else if ($("div#ytinstant div#help").is(":visible")) $("div#ytinstant div#help").hide();
+	if ($("div#ytinstant div#songPlaylists").is(":hidden")) $("div#ytinstant div#songPlaylists").show();
+	else { $("div#ytinstant div#songPlaylists").hide(); $("div#ytinstant div#playlistWrapper").show(); }
+});
+
+$("div#ytinstant div.tool.help").click(function() {
+	if ($("div#ytinstant div.tool.config").hasClass("on")) $("div#ytinstant div.tool.config").removeClass("on");
+	if ($("div#ytinstant div.tool.search").hasClass("on")) $("div#ytinstant div.tool.search").removeClass("on");
+	$("div#ytinstant div.tool.help").toggleClass("on");
+	if ($("div#ytinstant div#playlistWrapper").is(":visible")) $("div#ytinstant div#playlistWrapper").hide();
+	else if ($("div#ytinstant div#userPlaylist").is(":visible")) $("div#ytinstant div#userPlaylist").hide();
+	else if ($("div#ytinstant div#songPlaylists").is(":visible")) $("div#ytinstant div#songPlaylists").hide();
 	if ($("div#ytinstant div#help").is(":hidden")) $("div#ytinstant div#help").show();
-	else $("div#ytinstant div#playlistWrapper").show();
+	else { $("div#ytinstant div#help").hide(); $("div#ytinstant div#playlistWrapper").show(); }
 });
 
 $("div#ytinstant div#userPlaylist input[type='text']#playlistBox").focus(function() {
@@ -3548,7 +3659,7 @@ $("div#ytinstant div#userPlaylist div#playlist div.searchItem").live('mousedown'
 	searchItem = searchItem.target_html();
 	
 	if (IsRightButtonClicked(e)) {
-		//event.preventDefault();
+		e.preventDefault();
 		var index = playlist.vIndex(searchItem);
 		playlist.remove(index);
 		$.ajax({
@@ -3568,78 +3679,46 @@ $("div#ytinstant div#userPlaylist div#playlist div.searchItem").live('mousedown'
 	}
 });
 
-/*
-$.networkDetection = function(url,interval) {
-	var url = url;
-	var interval = interval;
-	online = false;
-
-	this.StartPolling = function() {
-		this.StopPolling();
-		this.timer = setInterval(poll, interval);
-	};
-
-	this.StopPolling = function() {
-		clearInterval(this.timer);
-	};
-
-	this.setPollInterval = function(i) {
-		interval = i;
-	};
-
-	this.getOnlineStatus = function() {
-		return online;
-	};
-
-	function poll() {
-		$.ajax({
-			type: "POST",
-			url: url,
-			dataType: "text",
-			error: function() {
-				online = false;
-				$(document).trigger('status.networkDetection',[false]);
-			},
-			success: function() {
-				online = true;
-				$(document).trigger('status.networkDetection',[true]);
-			}
-		});
-	};
-};
-*/
-/*
-
-$(document).bind("status.networkDetection", function(e, status) {
-	// subscribers can be namespaced with multiple classes
-	subscribers = $('.subscriber.networkDetection');
-
-	// publish notify.networkDetection even to subscribers
-	subscribers.trigger("notify.networkDetection", [status])
-
-	// other logic based on network connectivity could go here
-	// use google gears offline storage etc
-	// maybe trigger some other events
+$("div#ytinstant div#songPlaylists div#playlists div.searchItem").live('click', function(e) {
+	var searchItem = new div_selection(e, 0);
+	searchItem = searchItem.target_html();
+	$("div#ytinstant div#songPlaylists div#playlists").hide();
+	$("div#ytinstant div#songPlaylists div#playlistHeader div#playlistName").html(searchItem);
+	$("div#ytinstant div#songPlaylists div#playlistHeader").show();
+	$("div#ytinstant div#songPlaylists div.playlist." + removeSpaces(searchItem)).show();
 });
 
-//
-
-$('#notifier').bind("notify.networkDetection",function(e, online) {
-	// the following simply demonstrates
-	notifier = $(this);
-
-	if (online) {
-		if (!notifier.hasClass("online")) {
-			$(this).addClass("online").removeClass("offline").text("ONLINE");
-		}
-	} else {
-		if (!notifier.hasClass("offline")) {
-			$(this).addClass("offline").removeClass("online").text("OFFLINE");
-		}
-	};
+$("div#ytinstant div#songPlaylists div.playlist div.searchItem").live('click', function(e) {
+	var searchItem = new div_selection(e, 0);
+	searchItem = searchItem.target_html();
+	$("div#ytinstant input[type='text']#searchBox").val(searchItem);
+	doInstantSearch();
+	$("div#ytinstant div.tool.search").click();
 });
 
-*/
+$("div#ytinstant div#songPlaylists div#playlistHeader img#backtoplaylists").click(function(e) {
+	$("div#ytinstant div#songPlaylists div#playlistHeader").hide();
+	$("div#ytinstant div#songPlaylists div#playlistHeader div#playlistName").html('');
+	$("div#ytinstant div#songPlaylists div#playlists").show();
+	$("div#ytinstant div#songPlaylists div.playlist").hide();
+});
+
+$("div#ytinstant div#playlistWrapper div#playlist img.addvideo").live('click', function(e) {
+	var videoTitle = new div_selection(e, 0);
+	addItemYTPlaylist($.trim(videoTitle.target_content()).capitalize(), 2);
+});
+
+$("div#ytinstant div#playlistWrapper div#playlist img.viewvideo").live('click', function(e) {
+	var videoTitle = new div_selection(e, 0);
+	$("div#ytinstant input[type='text']#searchBox").val(videoTitle.target_content());
+	doInstantSearch();
+});
+
+$("div#ytinstant div#playlistWrapper div#playlist img.videolink").live('click', function(e) {
+	var videoTitle = new div_selection(e, 0);
+	var videoId = videoTitle.target_content();
+	window.open('http://www.youtube.com/watch?v=' + videoId);
+});
 
 /* end ytinstant **/
 /** begin preferences */
@@ -3670,14 +3749,7 @@ $("div#preferences div.tool.dblarrowleft").click(function() {
 });
 
 $("div#preferences div#splash ul li.wallpaper").click(function(e) {
-	$.ajax({
-		url: 'load.php',
-		data: 'id=wallpaper_slideshow',
-		type: 'get',
-		success: function (data) {
-			$("div#preferences div#wallpaper div.rc").html(data);
-		}
-	});
+	$.get("load.php", { id: "wallpaper_slideshow" }, function(data) { $("div#preferences div#wallpaper div.rc").html(data); });
 });
 
 /* end splash ***/
@@ -3699,9 +3771,13 @@ $("div#preferences div#splash ul li.wallpaper").click(function(e) {
 /*** begin themes */
 
 $("div#preferences div#themes input[type='checkbox']#taskbar_transparency").click(function () {
-	if ($("div#taskbar").hasClass("transparent8")) { $("div#taskbar").removeClass("transparent8");
-	} else { $("div#taskbar").addClass("transparent8");
-	}
+	var taskbar = $("div#taskbar");
+	if (taskbar.hasClass("transparent8")) taskbar.removeClass("transparent8");
+	else taskbar.addClass("transparent8");
+});
+
+$("div#preferences div#themes div#new").click(function () {
+	display(new dialog('Dialog Name','newdialog',false,false,false,false,50,50,100,200,'absolute',0,0,'l','t',true,'Dialog Message!').display());
 });
 
 /* end themes ***/
@@ -3714,15 +3790,9 @@ $("div#preferences div#wallpaper div.lc div.albums").css('height',(dC.config.hei
 
 $("div#preferences div#wallpaper").click(function(e) {
 	var thumbclick = new div_selection(e, 4);
-
 	if (thumbclick.target_class() == "thumbnail") {
-		$.ajax({
-			url: 'load.php',
-			data: 'id=update_hns_desktop&action=wallpaper_file&data=' + thumbclick.target_id(),
-			type: 'get',
-			success: function () {
-				$("html").css('background-image','url("i/wallpapers/' + thumbclick.target_id() + '")');
-                        }
+		$.get("load.php", { id: "update_hns_desktop", action: "wallpaper_file", data: thumbclick.target_id() }, function() {
+			$("html").css('background-image','url("i/wallpapers/' + thumbclick.target_id() + '")'); 
 		});
 	}
 });
@@ -3740,28 +3810,21 @@ $("#movie-template").render(response.d.results).appendTo("#movie-list");
 $.tmpl("#movie-template", response.d.results);
 
 */
-
+/*
 $.getJSON("http://odata.netflix.com/v1/Catalog/Languages('Japanese')/Titles?filter=Instant/Available&$format=json&$callback=?", function(response) {
 	$.tmpl("#movie-template", response.d.results);
 });
+*/
 
 /* end flash_name **/
 /** begin notepad */
 
 $("div#notepad div.tool.save").click(function() {
-	$.ajax({
-		url: 'load.php',
-		data: 'id=update_hns_desktop&action=notepad&data=' + $("div#notepad textarea").val(),
-		type: 'get'
-	});
+	$.get("load.php", { id: "update_hns_desktop", action: "notepad", data: $("div#notepad textarea").val() });
 });
 
 $("div#notepad textarea").keyup(function(event) {
-	$.ajax({
-		url: 'load.php',
-		data: 'id=update_hns_desktop&action=notepad&data=' + $("div#notepad textarea").val(),
-		type: 'get'
-	});
+	$.get("load.php", { id: "update_hns_desktop", action: "notepad", data: $("div#notepad textarea").val() });
 });
 
 /* end notepad **/
@@ -3769,7 +3832,8 @@ $("div#notepad textarea").keyup(function(event) {
 
 var piano_dir = "flash/piano/";
 var instruments = ['piano','organ','saxophone','flute','panpipes','guitar','steeldrums','doublebass'];
-var piano_swf = function(instrument) {
+var pianoswf = $("div#piano div#pianoswf");
+var piano = function(instrument) {
 	return [
 	'<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" class="pianoswf">',
 	'<param name="movie" value="flash/piano/', instrument, '.swf">',
@@ -3850,30 +3914,26 @@ var piano_allswf = function() {
 	].join('');
 }
 
-$("div#piano div.buttons a#piano").click(function() { $("div#piano div#pianoswf").html(piano_swf("piano")); });
-$("div#piano div.buttons a#organ").click(function() { $("div#piano div#pianoswf").html(piano_swf("organ")); });
-$("div#piano div.buttons a#saxophone").click(function() { $("div#piano div#pianoswf").html(piano_swf("saxophone")); });
-$("div#piano div.buttons a#flute").click(function() { $("div#piano div#pianoswf").html(piano_swf("flute")); });
-$("div#piano div.buttons a#panpipes").click(function() { $("div#piano div#pianoswf").html(piano_swf("panpipes")); });
-$("div#piano div.buttons a#strings").click(function() { $("div#piano div#pianoswf").html(piano_swf("strings")); });
-$("div#piano div.buttons a#guitar").click(function() { $("div#piano div#pianoswf").html(piano_swf("guitar")); });
-$("div#piano div.buttons a#steeldrums").click(function() { $("div#piano div#pianoswf").html(piano_swf("steeldrums")); });
-$("div#piano div.buttons a#doublebass").click(function() { $("div#piano div#pianoswf").html(piano_swf("doublebass")); });
+$("div#piano div.buttons a#piano").click(function() { pianoswf.html(piano("piano")); });
+$("div#piano div.buttons a#organ").click(function() { pianoswf.html(piano("organ")); });
+$("div#piano div.buttons a#saxophone").click(function() { pianoswf.html(piano("saxophone")); });
+$("div#piano div.buttons a#flute").click(function() { pianoswf.html(piano("flute")); });
+$("div#piano div.buttons a#panpipes").click(function() { pianoswf.html(piano("panpipes")); });
+$("div#piano div.buttons a#strings").click(function() { pianoswf.html(piano("strings")); });
+$("div#piano div.buttons a#guitar").click(function() { pianoswf.html(piano("guitar")); });
+$("div#piano div.buttons a#steeldrums").click(function() { pianoswf.html(piano("steeldrums")); });
+$("div#piano div.buttons a#doublebass").click(function() { pianoswf.html(piano("doublebass")); });
 $("div#piano div.buttons a#all").click(function() {
-	$("div#piano div#pianoswf").html(piano_allswf());
+	pianoswf.html(piano_allswf());
 	$("div#piano div.tool.maximize").click();
-	$("div#piano div#pianoswf").css('height', ($("div#piano div.content").height() - 40));
+	pianoswf.css('height', ($("div#piano div.content").height() - 40));
 });
 
 /* end piano **/
 /** begin tic_tac_toe */
 
-$.ajax({
-url: 'load.php',
-data: 'id=tic_tac_toe',
-type: 'get',
-success: function (data) {
-$("div.tic_tac_toe").html(data);
+$.get('load.php', { id: "tic_tac_toe" }, function (data) {
+$("div#tic_tac_toe div.wrapper").html(data);
 
 var ctx = document.getElementsByTagName('canvas')[0].getContext("2d");
 var grid = [];
@@ -3901,12 +3961,7 @@ function ai_fill(n) {
 		counter += (1 * (grid[0][x].innerHTML == "X"));
 		counter += (1 * (grid[1][x].innerHTML == "X"));
 		counter += (1 * (grid[2][x].innerHTML == "X"));
-
-		if (counter == n) {
-			if (click(x,0)) return true;
-			if (click(x,1)) return true;
-			if (click(x,2)) return true;
-		}
+		if (counter == n) { if (click(x,0)) return true; if (click(x,1)) return true; if (click(x,2)) return true; }
 	}
 
 	for (y = 0; y < 3; y++) {
@@ -3914,12 +3969,7 @@ function ai_fill(n) {
 		counter += (1 * (grid[y][0].innerHTML == "X"));
 		counter += (1 * (grid[y][1].innerHTML == "X"));
 		counter += (1 * (grid[y][2].innerHTML == "X"));
-
-		if (counter == n) {
-			if (click(0,y)) return true;
-			if (click(1,y)) return true;
-			if (click(2,y)) return true;
-		}
+		if (counter == n) { if (click(0,y)) return true; if (click(1,y)) return true; if (click(2,y)) return true; }
 	}
 
 	counter = 0;
@@ -3927,35 +3977,21 @@ function ai_fill(n) {
 	counter += (1 * (grid[1][1].innerHTML == "X"));
 	counter += (1 * (grid[2][2].innerHTML == "X"));
 
-	if (counter == n) {
-		if (click(0,0)) return true;
-		if (click(1,1)) return true;
-		if (click(2,2)) return true;
-	}
+	if (counter == n) { if (click(0,0)) return true; if (click(1,1)) return true; if (click(2,2)) return true; }
 
 	counter = 0;
 	counter += (1 * (grid[0][2].innerHTML == "X"));
 	counter += (1 * (grid[1][1].innerHTML == "X"));
 	counter += (1 * (grid[2][0].innerHTML == "X"));
 
-	if (counter == n) {
-		if (click(2,0)) return true;
-		if (click(1,1)) return true;
-		if (click(0,2)) return true;
-	}
+	if (counter == n) { if (click(2,0)) return true; if (click(1,1)) return true; if (click(0,2)) return true; }
 
-	// check for potential losing positions
-	for (x = 0; x < 3; x++) {
+	for (x = 0; x < 3; x++) { // check for potential losing positions
 		counter = 0;
 		counter += (1 * (grid[0][x].innerHTML == "O"));
 		counter += (1 * (grid[1][x].innerHTML == "O"));
 		counter += (1 * (grid[2][x].innerHTML == "O"));
-
-		if (counter == n) {
-			if (click(x,0)) return true;
-			if (click(x,1)) return true;
-			if (click(x,2)) return true;
-		}
+		if (counter == n) { if (click(x,0)) return true; if (click(x,1)) return true; if (click(x,2)) return true; }
 	}
 	
 	for (y = 0; y < 3; y++) {
@@ -3963,36 +3999,21 @@ function ai_fill(n) {
 		counter += (1 * (grid[y][0].innerHTML == "O"));
 		counter += (1 * (grid[y][1].innerHTML == "O"));
 		counter += (1 * (grid[y][2].innerHTML == "O"));
-
-		if (counter == n) {
-			if (click(0,y)) return true;
-			if (click(1,y)) return true;
-			if (click(2,y)) return true;
-		}
+		if (counter == n) { if (click(0,y)) return true; if (click(1,y)) return true; if (click(2,y)) return true; }
 	}
 	
 	counter = 0;
 	counter += (1 * (grid[0][0].innerHTML == "O"));
 	counter += (1 * (grid[1][1].innerHTML == "O"));
 	counter += (1 * (grid[2][2].innerHTML == "O"));
-
-	if (counter == n) {
-		if (click(0,0)) return true;
-		if (click(1,1)) return true;
-		if (click(2,2)) return true;
-	}
+	if (counter == n) { if (click(0,0)) return true; if (click(1,1)) return true; if (click(2,2)) return true; }
 
 	counter = 0;
 	counter += (1 * (grid[0][2].innerHTML == "O"));
 	counter += (1 * (grid[1][1].innerHTML == "O"));
 	counter += (1 * (grid[2][0].innerHTML == "O"));
+	if (counter == n) { if (click(2,0)) return true; if (click(1,1)) return true; if (click(0,2)) return true; }
 
-	if (counter == n) {
-		if (click(2,0)) return true;
-		if (click(1,1)) return true;
-		if (click(0,2)) return true;
-	}
-	
 	return false;
 }
 
@@ -4004,12 +4025,7 @@ function ai_fillm(n) {
 		counter *= (1 * (grid[0][x].innerHTML != "O"));
 		counter *= (1 * (grid[1][x].innerHTML != "O"));
 		counter *= (1 * (grid[2][x].innerHTML != "O"));
-		
-		if (counter) {
-			if (click(x,0)) return true;
-			if (click(x,1)) return true;
-			if (click(x,2)) return true;
-		}
+		if (counter) { if (click(x,0)) return true; if (click(x,1)) return true; if (click(x,2)) return true; }
 	}
 
 	for (y = 0; y < 3; y++) {
@@ -4017,35 +4033,20 @@ function ai_fillm(n) {
 		counter *= (1 * (grid[y][0].innerHTML != "O"));
 		counter *= (1 * (grid[y][1].innerHTML != "O"));
 		counter *= (1 * (grid[y][2].innerHTML != "O"));
-
-		if (counter) {
-			if (click(0,y)) return true;
-			if (click(1,y)) return true;
-			if (click(2,y)) return true;
-		}
+		if (counter) { if (click(0,y)) return true; if (click(1,y)) return true; if (click(2,y)) return true; }
 	}
 
 	counter = 1;
 	counter *= (1 * (grid[0][0].innerHTML != "O"));
 	counter *= (1 * (grid[1][1].innerHTML != "O"));
 	counter *= (1 * (grid[2][2].innerHTML != "O"));
-
-	if (counter) {
-		if (click(0,0)) return true;
-		if (click(1,1)) return true;
-		if (click(2,2)) return true;
-	}
+	if (counter) { if (click(0,0)) return true; if (click(1,1)) return true; if (click(2,2)) return true; }
 
 	counter = 1;
 	counter *= (1 * (grid[0][2].innerHTML != "O"));
 	counter *= (1 * (grid[1][1].innerHTML != "O"));
 	counter *= (1 * (grid[2][0].innerHTML != "O"));
-
-	if (counter) {
-		if (click(2,0)) return true;
-		if (click(1,1)) return true;
-		if (click(0,2)) return true;
-	}
+	if (counter) { if (click(2,0)) return true; if (click(1,1)) return true; if (click(0,2)) return true; }
 
 	return false;
 }
@@ -4096,28 +4097,16 @@ function win(cha,type,index) {
 			ctx.moveTo(20,(80 + (167 * index)));
 			ctx.lineTo(481,(80 + (167 * index)));
 		} else if (type == 2) {
-			if (index == 0) {
-				ctx.moveTo(20,20);
-				ctx.lineTo(481,481);
-			} else {
-				ctx.moveTo(20,481);
-				ctx.lineTo(481,20);
-			}
+			if (index == 0) { ctx.moveTo(20,20); ctx.lineTo(481,481); }
+			else { ctx.moveTo(20,481); ctx.lineTo(481,20); }
 		}
 
 		if (cha == "O") {
-			if (currentgame == lastgame) {
-				alert("It's not my fault I can't learn - This game doesn't count.");
-			} else {
-				winc(1);
-				lastgame = currentgame;
-			}
-		} else if (cha == "X") {
-			losec(1);
-		}
+			if (currentgame == lastgame) alert("It's not my fault I can't learn - This game doesn't count.");
+			else { winc(1); lastgame = currentgame; }
+		} else if (cha == "X") losec(1);
 		
 		ctx.stroke();
-               
 		gameover = true;
 		return true;
 	}
@@ -4160,31 +4149,19 @@ function ob(t) {
 
 function click(x,y) {
 	if (!canclick) return false;
-
-	if (gameover) {
-		newgame();
-		return true;
-	}
+	if (gameover) { newgame(); return true; }
 
 	if (grid[y][x].innerHTML == "") {
 		grid[y][x].innerHTML = turn ? "X" : "O";
 		currentgame += "\n\n" + ob(grid[0][0].innerHTML) + ob(grid[0][1].innerHTML) + ob(grid[0][2].innerHTML);
 		currentgame += "\n" + ob(grid[1][0].innerHTML) + ob(grid[1][1].innerHTML) + ob(grid[1][2].innerHTML);
 		currentgame += "\n" + ob(grid[2][0].innerHTML) + ob(grid[2][1].innerHTML) + ob(grid[2][2].innerHTML);
-	
 		grid[y][x].style.opacity = 1;
 		filled++;
 		checkwin();
-
 		if (gameover) return true;
-
 		turn = !turn;
-		
-		if (filled == 9) {
-			gameover = true;
-			return true;
-		}
-		
+		if (filled == 9) { gameover = true; return true; }
 		if (turn && ai) ai_go();
 		return true;
 	}
@@ -4200,16 +4177,8 @@ function lsinc(keyn) {
 }
 
 function think(x) { document.getElementById("think").innerHTML = parseInt(document.getElementById("think").innerHTML) + x; }
-
-function winc(x) {
-	document.getElementById("win").innerHTML = parseInt(document.getElementById("win").innerHTML) + x;
-	lsinc("win");
-}
-
-function losec(x) {
-	document.getElementById("lose").innerHTML = parseInt(document.getElementById("lose").innerHTML) + x;
-	lsinc("lost");
-}
+function winc(x) { document.getElementById("win").innerHTML = parseInt(document.getElementById("win").innerHTML) + x; lsinc("win"); }
+function losec(x) { document.getElementById("lose").innerHTML = parseInt(document.getElementById("lose").innerHTML) + x; lsinc("lost"); }
 
 var turn = 0;
 
@@ -4257,11 +4226,9 @@ if (window.localStorage) {
 }
 
 $("div#tic_tac_toe canvas").mousedown(function() {
-	if (event.layerX) absclick(event.layerX,event.layerY);
-	else absclick(event.x,event.y);
+	if (event.layerX) absclick(event.layerX,event.layerY); else absclick(event.x,event.y);
 });
 
-}
 });
 
 /* end tic_tac_toe **/
@@ -4289,7 +4256,6 @@ goomKnobType = "partner";
 
 (function() {
 if (!window.goomPartnerId) return;
-
 var env = window.goomEnv == "" || !window.goomEnv ? "" : window.goomEnv + ".";
 var baseURL = 'http://slam.' + env + 'goomradio.com/?partnerId=' + encodeURI(window.goomPartnerId);
 var queryStr = [];
@@ -4322,15 +4288,8 @@ if (window.goomActiveZoneURL) queryStr.push('&activeZoneURL=' + encodeURI(window
 // height / width
 var sizeArr = [300, 300];
 
-if (window.goomHeight) {
-	queryStr.push('&height=' + encodeURI(window.goomHeight));
-	sizeArr[0] = parseInt(window.goomHeight, 10);
-}
-
-if (window.goomWidth) {
-	queryStr.push('&width=' + encodeURI(window.goomWidth));
-	sizeArr[1] = parseInt(window.goomWidth, 10);
-}
+if (window.goomHeight) { queryStr.push('&height=' + encodeURI(window.goomHeight)); sizeArr[0] = parseInt(window.goomHeight, 10); }
+if (window.goomWidth) { queryStr.push('&width=' + encodeURI(window.goomWidth)); sizeArr[1] = parseInt(window.goomWidth, 10); }
 
 function readCookie(name) {
 	var nameEQ = name + "=";
@@ -4349,17 +4308,14 @@ function A2ItoGoom(radioId, domainId, originId) { return (radioId * Math.pow(2, 
 
 if (!window.goomPopUp) {
 	var radiohtml = '<iframe frameborder="0" scrolling="no" style="height: '+ sizeArr[0] +'px; width: '+sizeArr[1]+'px;" src="'+ baseURL + queryStr.join('') +'"></iframe>';
-
-	if (in_array('goom_radio', dC.launchers.autorun)) {
-		$("div#goom_radio div#goom").html(radiohtml);
-	} else {
+	if (in_array('goom_radio', dC.launchers.autorun)) $("div#goom_radio div#goom").html(radiohtml);
+	else {
 		$("div#startmenu li#goom_radio").click(function() { $("div#goom_radio div#goom").html(radiohtml); });
 		$("div#desktop div.desktop-body div#thumb-goom_radio").click(function() { $("div#goom_radio div#goom").html(radiohtml); });
 	}
 } else {
 	if (!readCookie('__goompopplayer')) {
 		var winPop = document.open(queryStr.join(''),'goomPopup', 'width=' +  (sizeArr[1] + 10) + ', height=' +  (sizeArr[0] + 10));
-
 		if (winPop) {
 			var date = new Date();
 			date.setTime(date.getTime() + (15 * 60 * 1000));
@@ -4483,6 +4439,14 @@ Pandora
 Bank of America
 Best Buy
 Myspace
+*/ ?><?php // var oDoc = (browser.contentWindow || browser.contentDocument);
+// if (oDoc.document) oDoc = oDoc.document;
+/*
+if (browser.contentDocument) {
+src_doc = browser.contentDocument;
+working_title = src_doc.title;
+alert(working_title);
+}
 */ ?>
 
 (function() {
@@ -4490,17 +4454,6 @@ Myspace
 	browser.id = "browser";
 	browser.name = "browser";
 	browser.src = "http://www.google.com";
-
-	<?php // var oDoc = (browser.contentWindow || browser.contentDocument);
-	// if (oDoc.document) oDoc = oDoc.document;
-	/*
-	if (browser.contentDocument) {
-	src_doc = browser.contentDocument;
-	working_title = src_doc.title;
-	alert(working_title);
-	}
-	*/ ?>
-
 	$("div#web_browser div#window").append(browser);
 })()
 
@@ -4535,7 +4488,7 @@ var events = new Array(
 	["F",	"11",	"4",	"5",		"1:00 AM",	"12:59 PM",	"Thanksgiving",			"A day to give thanks for your many blessings - traditionally for the Autumn harvest, and it marks the beginning of the 'holiday season'."],
 	["Y",	"12",	"25",	"2005",	"1:00 AM",	"12:59 PM",	"Christmas",			"Celebration of the traditional day of Jesus' birth - God was made flesh and dwelt among us."]
 );
-
+/*
 var myimages = new Array();
 
 function preloadimages() {
@@ -4546,7 +4499,7 @@ function preloadimages() {
 }
 
 preloadimages("i/apps/calendar/pyoff.jpg","i/apps/calendar/pyon.jpg","i/apps/calendar/pmoff.jpg","i/apps/calendar/pmon.jpg","i/apps/calendar/nyoff.jpg","i/apps/calendar/nyon.jpg","i/apps/calendar/nmoff.jpg","i/apps/calendar/nmon.jpg");
-
+*/
 var thisDate = 1;
 var wordMonth = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
 var today = new Date();
@@ -4643,9 +4596,9 @@ function createCalendar() {
 			} else {
 				if (checkevents(daycounter,monthNum,yearNum,i,x) || ((todaysDay == x) && (todaysDate == daycounter) && (todaysMonth == monthNum))){
 					if ((todaysDay == x) && (todaysDate == daycounter) && (todaysMonth == monthNum)) {
-						calendarString += '<td align="center" bgcolor="#afa" height="30" width="40"><a href="javascript:showevents(' + daycounter + ',' + monthNum + ',' + yearNum + ',' + i + ',' + x + ')">' + daycounter + '</a></td>';
+						calendarString += '<td align="center" bgcolor="#afa" height="30" width="40"><a href="javascript:showevents(' + daycounter + ',' + monthNum + ',' + yearNum + ',' + i + ',' + x + ');">' + daycounter + '</a></td>';
 					}
- 					else	calendarString += '<td align="center" bgcolor="#ffffc8" height="30" width="40"><a href="javascript:showevents(' + daycounter + ',' + monthNum + ',' + yearNum + ',' + i + ',' + x + ')">' + daycounter + '</a></td>';
+ 					else	calendarString += '<td align="center" bgcolor="#ffffc8" height="30" width="40"><a href="javascript:showevents(' + daycounter + ',' + monthNum + ',' + yearNum + ',' + i + ',' + x + ');">' + daycounter + '</a></td>';
 				} else {
 					calendarString += '<td align="center" bgcolor="#dff" height="30" width="40">' + daycounter + '</td>';
 				}
@@ -4655,7 +4608,7 @@ function createCalendar() {
 		calendarString += '</tr>';
 	}
 
-	calendarString += '<tr><td colspan="7" nowrap align="center" valign="center" bgcolor="#c8c896" width="280" height="22"><a href="javascript:changedate(\'return\')"><b>Show Current Date</b></a></td></tr></table>';
+	calendarString += '<tr><td colspan="7" nowrap align="center" valign="center" bgcolor="#c8c896" width="280" height="22"><a href="javascript:changedate(\'return\');"><b>Show Current Date</b></a></td></tr></table>';
 	$("div#calendar div#calendararea").html(calendarString);
 	thisDate = 1;
 }
@@ -4796,7 +4749,7 @@ changedate('return');
 /* end calendar **/
 /** begin app_explorer */
 
-
+$("div#app_explorer div.body").addClass("scroll");
 
 /* end app_explorer **/
 /** begin calculator */
@@ -4859,14 +4812,10 @@ function beautifyCalc(s) {
 
 function gotCalc(line) {
 	line = line.trim();
-
 	if ((line === 'quit') || (line == 'q')) {
 		echoCalc('quit');
 		mCalc('Good night<span class="f">, milady</span><span class="m">, sir</span>. It has been a pleasure.');
-		setTimeout(function() {
-			clearCalc();
-			$("div#calculator div.tool.close").click();
-		}, 1300);
+		setTimeout(function() { clearCalc(); $("div#calculator div.tool.close").click(); }, 1300);
 	} else if ((line == 'help') || (line == 'h') || (line == '?')) {
 		echoCalc('help');
 		mCalc('');
@@ -4882,25 +4831,19 @@ function gotCalc(line) {
 		mCalc("The following constants are available: <b>pi</b> and <b>e</b>.");
 		mCalc("You can input hexadecimal values (<b>0x1234abcd</b>) and octal values (<b>0755</b>).");
 		mCalc("To convert numbers to hex or oct, try: <b>100 in hex</b> or <b>0x1ff in oct</b>");
-		mCalc("Additional commands: <b>units conversions prefixes</b>");
+		mCalc("Additional commands: <b>units conversions prefixes setkey encrypt decrypt</b>");
 		mCalc("Also try the following commands: <b>clear quit d</b>");
 		mCalc('');
 		mCalc("That is all I know. Now, what else could one ask for?");
-	} else if (line == 'clear') {
-		clearCalc();
-	} else if (line.match(/^ *$/)) {
-		mCalc("Shall I calculate something for you<span class='f'>, milady</span><span class='m'>, sir</span>?");
-	} else if (line == 'units') {
-		unitsCalc();
-	} else if (line == 'prefixes') {
-		prefixesCalc();
-	} else {
-		computeCalc(line);
-	}
-
+	} else if (line == 'clear') { clearCalc(); }
+	else if (line.match(/^ *$/)) { mCalc("Shall I calculate something for you<span class='f'>, milady</span><span class='m'>, sir</span>?"); }
+	else if (line == 'units') { unitsCalc(); }
+	else if (line == 'prefixes') { prefixesCalc(); }
+	else { computeCalc(line); }
 	saveCalc();
 }
 
+var cset = '$%^NOZ1&PQR(./~`"CDEFG!@STUVWZghij}:<pHB*#8uvwx>?[]\',ef34590qrklmnoIJ)_+{st67 abcdAyzKLM2Y';
 var funRegex = /^ *([a-zA-Z$_][a-zA-Z0-9$_]*) *\( *([a-zA-Z$_][a-zA-Z0-9$_]*) *\) *= *(.+)/;
 
 function isFunctionCalc(what) {
@@ -4944,6 +4887,20 @@ function computeCalc(expr) {
 	}
 
 	++currentCalc;
+}
+
+function setkey() {
+
+}
+
+function encrypt() {
+	if (arguments > 0) {
+		
+	}
+}
+
+function decrypt() {
+
 }
 
 /* ! Factorial Equation
@@ -5061,14 +5018,9 @@ $('div#calculator div#in input').keydown(function(e) {
 		if (histposCalc < (histCalc.length - 1)) {
 			++histposCalc;
 			it.val(histCalc[histposCalc]);
-		} else if (histposCalc == (histCalc.length - 1)) {
-			it.val('');
-		}
+		} else if (histposCalc == (histCalc.length - 1)) it.val('');
 	} else if (code == 9) {
-	} else {
-		return true;
-	}
-
+	} else return true;
 	return false;
 });
 
@@ -5091,21 +5043,10 @@ $("div#desktop div.desktop-body div#thumb-calculator").dblclick(function() {
 	if ($("div#calculator").is(":visible")) startCalc();
 });
 
-$("div#calculator").click(function() {
-	focusCalc();
-});
-
-$("div#calculator div.tool.config").click(function() {
-	startCalc();
-});
-
-$("div#calculator div.tool.help").click(function() {
-	gotCalc('help');
-});
-
-$("div#calculator div.tool.close").click(function() {
-	clearCalc();
-});
+$("div#calculator").click(focusCalc);
+$("div#calculator div.tool.config").click(startCalc);
+$("div#calculator div.tool.help").click(function() { gotCalc('help'); });
+$("div#calculator div.tool.close").click(clearCalc);
 
 /* end calculator **/
 /* end app functions */
@@ -5124,12 +5065,17 @@ function loadPlayer() {
 function onYouTubePlayerReady(playerId) {
 	ytplayer = document.getElementById("ytplayer");
 	ytplayer.addEventListener("onStateChange","onPlayerStateChange");
+	ytplayer.addEventListener("onError","onPlayerError");
 	var searchBox = $("div#ytinstant input[type='text']#searchBox");
 	searchBox.keyup(doInstantSearch);
 	$(document.documentElement).keydown(onKeyDown);
 	$("div#ytinstant #buttonControl").click(playPause);
-	if (window.location.hash) $("div#ytinstant input[type='text']#searchBox").val(getHash()).focus();
-	else loadRandomVideo();
+	if (window.location.hash) {
+		var hash = getHash();
+		if (hash.slice(0, 2) != "yt") return;
+		hash = hash.substring(3);
+		$("div#ytinstant input[type='text']#searchBox").val(hash).focus();
+	} else loadRandomVideo();
 	onBodyLoad();
 	doInstantSearch();
 }
@@ -5152,28 +5098,26 @@ function onBodyLoad() {
 function onPlayerStateChange(newState) {
 	playerState = newState;
 
-	if (pendingDoneWorking && playerState == 1) { doneWorking(); pendingDoneWorking = false;
-	} else if (playerState == 0) {
+	if (pendingDoneWorking && playerState == 1) { doneWorking(); pendingDoneWorking = false; }
+	else if (playerState == 0) {
 		if (!$("div#ytinstant div.tool.pindown").hasClass("on")) goNextVideo();
+		if (!playlistShowing) alert(playerState);
 	}
 }
 
-function addItemYTPlaylist(value, type) {
-	if (dC.user.apps.ytinstant.playlist != "") var playlist = dC.user.apps.ytinstant.playlist + "," + value;
-	else var playlist = value;
+function onError(error) { <?php /* 100: not found 101: blocked */ ?>
+	alert(error);
+}
 
+function addItemYTPlaylist(value, type) {
+	if (dC.user.apps.ytinstant.playlist != "") var playlist = dC.user.apps.ytinstant.playlist + "," + value; else var playlist = value;
 	var inArray = $.inArray(value, dC.user.apps.ytinstant.playlist.split(','));
 	if ((inArray == -1) || isNaN(inArray)) {
-		$.ajax({
-			url: 'load.php',
-			data: 'id=ytinstant&action=add&data=' + playlist,
-			type: 'get',
-			success: function (data) {
-				if (dC.user.apps.ytinstant.playlist == "") $("div#ytinstant div#userPlaylist div#playlist div.empty").remove();
-				$("div#ytinstant div#userPlaylist div#playlist").append('<div class="searchItem">' + value + '</div>');
-				dC.user.apps.ytinstant.playlist = playlist;
-				if (type === 1) $("div#ytinstant div#userPlaylist input[type='text']#playlistBox").val('');
-			}
+		$.get("load.php", { id: "ytinstant", action: "add", data: playlist }, function() {
+			if (dC.user.apps.ytinstant.playlist == "") $("div#ytinstant div#userPlaylist div#playlist div.empty").remove();
+			$("div#ytinstant div#userPlaylist div#playlist").append('<div class="searchItem">' + value + '</div>');
+			dC.user.apps.ytinstant.playlist = playlist;
+			if (type === 1) $("div#ytinstant div#userPlaylist input[type='text']#playlistBox").val('');
 		});
 	}
 }
@@ -5204,7 +5148,8 @@ function onKeyDown(e) {
 
 function goNextVideo() {
 	if (currentPlaylistPos == (dC.user.apps.ytinstant.vidThumbs - 1)) {
-		if ($("div#ytinstant div.tool.dblarrowright").addClass("on")) { loadRandomVideo(); doInstantSearch(); }
+		if ($("div#ytinstant div.tool.dblarrowright").hasClass("on")) goVid(0,currentPlaylistPage);
+		else { loadRandomVideo(); doInstantSearch(); }
 		return;
 	}
 
@@ -5217,6 +5162,7 @@ function goPrevVideo() {
 }
 
 function goVid(playlistPos,playlistPage) {
+	if (!playlistShowing) return;
 	if (playlistPage != currentPlaylistPage) { currentPlaylistPage = playlistPage; return; }
 	loadAndPlayVideo(playlistArr[playlistPage][playlistPos].id,playlistPos);
 }
@@ -5233,8 +5179,12 @@ function doInstantSearch() {
 		pauseVideo();
 		clearVideo();
 		clearHash();
+		playlistArr = [];
 		currentSuggestion = '';
 		updateSuggestedKeyword('<strong>Search YouTube Instantly</strong>');
+		loadVideo("_2c5Fh3kfrI");
+		var fblikesrc = "http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.youtube.com&amp;layout=standard&amp;show_faces=false&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=24&amp;width=720";
+		$("div#ytinstant div#footer iframe#fblike").attr('src',fblikesrc);
 		return;
 	}
 
@@ -5245,29 +5195,78 @@ function doInstantSearch() {
 	xhrWorking = true;
 }
 
-yt = {};
-yt.www = {};
-yt.www.suggest = {};
+yt = {}, yt.www = {}, yt.www.suggest = {};
 yt.www.suggest.handleResponse = function(suggestions) {
-	if (suggestions[1][0]) var searchTerm = suggestions[1][0][0];
+	if (!$("div#ytinstant div.tool.pinleft").hasClass("on")) { if (suggestions[1][0]) var searchTerm = suggestions[1][0][0];	else var searchTerm = null; }
 	else var searchTerm = null;
 	instantHash(currentSearch);
-
-	if (!searchTerm) {
-		searchTerm = keyword;
-		updateSuggestedKeyword(searchTerm + ' (Exact search)');
-	} else {
-		updateSuggestedKeyword(searchTerm);
-		if (searchTerm == currentSuggestion) { doneWorking(); return; }
-	}
-
+	if (!searchTerm) { searchTerm = keyword; updateSuggestedKeyword(searchTerm + ' (Exact search)'); }
+	else { updateSuggestedKeyword(searchTerm); if (searchTerm == currentSuggestion) { doneWorking(); return; }}
 	getTopSearchResult(searchTerm);
 	currentSuggestion = searchTerm;
+};
+
+/* G Data Array (Results for Kesha) {
+"apiVersion":"2.0",
+"data":{
+"updated":"2011-01-10T21:06:31.864Z",
+"totalItems":193812,
+"startIndex":1,
+"itemsPerPage":1,
+"items":[{
+"id":"iP6XpLQM2Cs",
+"uploaded":"2009-11-14T12:55:16.000Z",
+"updated":"2011-01-10T17:46:03.000Z",
+"uploader":"keshaVEVO",
+"category":"Music",
+"title":"Ke$ha - TiK ToK",
+"description":"Music video by Ke$ha performing TiK ToK. YouTube view counts pre-VEVO: 1345092 (C) 2009 RCA/JIVE Label Group, a unit of Sony Music Entertainment",
+"tags":[
+"Ke$ha",
+"RCA",
+"Records",
+"Label",
+"Pop"
+],
+"thumbnail":{
+"sqDefault":"http://i.ytimg.com/vi/iP6XpLQM2Cs/default.jpg",
+"hqDefault":"http://i.ytimg.com/vi/iP6XpLQM2Cs/hqdefault.jpg"
+},
+"player":{"default":"http://www.youtube.com/watch?v\u003diP6XpLQM2Cs&feature\u003dyoutube_gdata_player"},
+"content":{"5":"http://www.youtube.com/v/iP6XpLQM2Cs?f\u003dvideos&app\u003dyoutube_gdata"},
+"duration":215,
+"aspectRatio":"widescreen",
+"rating":4.09,
+"likeCount":"45855",
+"ratingCount":59430,
+"viewCount":37503312,
+"favoriteCount":92158,
+"commentCount":68658,
+"status":{
+"value":"restricted",
+"reason":"limitedSyndication"
+},
+"restrictions":[{
+"type":"country",
+"relationship":"deny",
+"countries":"AS AU AW AX BR BV CC CX CZ DE ES FR GB GG GS GU HM IE IL IM IN IT JE JP KR ME MP MX NF NL NZ RS SJ TW UM VG VI ZA"
+}],
+"accessControl":{
+"syndicate":"denied",
+"commentVote":"allowed",
+"rate":"allowed",
+"list":"allowed",
+"comment":"allowed",
+"embed":"allowed",
+"videoRespond":"allowed"
 }
+}]
+}
+}
+*/
 
 function getTopSearchResult(keyword) {
 	var the_url = 'http://gdata.youtube.com/feeds/api/videos?q=' + encodeURIComponent(keyword) + '&format=5&max-results=' + dC.user.apps.ytinstant.vidThumbs + '&v=2&alt=jsonc';
-
 	$.ajax({type:"GET",url:the_url,dataType:"jsonp",success:function(responseData,textStatus,XMLHttpRequest) {
 		if (responseData.data.items) {
 			var videos = responseData.data.items;
@@ -5287,17 +5286,22 @@ function updateVideoDisplay(videos) {
 	var playlist = $("<div />").attr('id','playlist');
 
 	for (var i = 0; i < numThumbs; i++) {
-		var videoId = videos[i].id;
-		var img = $("<img />").attr('src',videos[i].thumbnail.sqDefault);
-		var a = $("<a />").attr('href',"javascript:loadAndPlayVideo('" + videoId + "', " + i + ")");
-		var title = $("<div />").html(videos[i].title);
-		playlist.append(a.append(img).append(title));
+		var videoId = videos[i].id, videoTitle = videos[i].title;
+		var videoWrap = $("<div />").attr('class','videoWrap');
+		var img = $("<img />").attr('class','thumb').attr('src',videos[i].thumbnail.sqDefault);
+		var a = $("<a />").attr('href',"javascript:loadAndPlayVideo('" + videoId + "', " + i + ");");
+		var title = $("<div />").attr('class','title').html(videoTitle);
+		var addimg = $("<img />").attr('class','addvideo').attr('src','i/apps/ytinstant/add.png').attr('title','Add To Playlist').attr('content',videoTitle);
+		var viewimg = $("<img />").attr('class','viewvideo').attr('src','i/apps/ytinstant/view.png').attr('title','Watch Related Videos').attr('content',videoTitle);
+		var videolinkimg = $("<img />").attr('class','videolink').attr('src','i/apps/ytinstant/film_link.png').attr('title','Watch on YouTube').attr('content',videoId);
+		var viewCount = $("<span />").attr('class','viewCount').html(videos[i].viewCount).digits();
+		playlist.append(videoWrap.html(a.append(img).append(title)).append(viewCount.append(addimg).append(viewimg).append(videolinkimg)));
 	}
 
 	var playlistWrapper = $("div#ytinstant div#playlistWrapper");
 	$("div#ytinstant div#playlistWrapper div#playlist").remove();
 	playlistWrapper.append(playlist);
-
+	
 	if (!playlistShowing) {
 		if ($("div#ytinstant div#userPlaylist").is(":hidden")) {
 			playlistWrapper.slideDown('slow');
@@ -5317,23 +5321,21 @@ function doneWorking() {
 }
 
 function updateHTML(elmId,value) { document.getElementById(elmId).innerHTML = value; }
-function updateSuggestedKeyword(keyword) { updateHTML('searchTermKeyword',keyword); }
+function updateSuggestedKeyword(keyword) { updateHTML('searchTermKeyword',keyword); $("div#ytinstant div#searchTermKeyword").attr('title',keyword); }
 
 function instantHash(hash) {
-	var timeDelay = 1000;
 	if (hashTimeout) clearTimeout(hashTimeout);
-
 	hashTimeout = setTimeout(function() {
-		window.location.replace("#" + encodeURI(hash))
-		if (currentSuggestion != '') document.title = '"' + currentSuggestion.toTitleCase() + '" on YouTube Instant!';
-		else document.title = 'YouTube Instant - Real-time YouTube video surfing.';
-	},timeDelay);
+		setAHash(hash, "yt");
+		if (currentSuggestion != '') setTitle('"' + currentSuggestion.toTitleCase() + '" on YouTube Instant!');
+		else setTitle('YouTube Instant - Real-time YouTube video surfing.');
+	},1000);
 }
 
 function setVideoVolume() {
 	var volume = parseInt(document.getElementById("volumeSetting").value);
 	if (isNaN(volume) || volume < 0 || volume > 100) alert("Please enter a valid volume between 0 and 100.");
-	else if (ytplayer) ytplayer.setVolume(volume);
+	else setVolume(volume);
 }
 
 function loadVideo(videoId) {
@@ -5343,48 +5345,54 @@ function loadVideo(videoId) {
 function loadAndPlayVideo(videoId,playlistPos,bypassXhrWorkingCheck) {
 	if (currentPlaylistPos == playlistPos) { playPause(); return; }
 	if (!bypassXhrWorkingCheck && xhrWorking) return;
-
-	if (ytplayer) {
-		xhrWorking = true;
-		ytplayer.loadVideoById(videoId);
-		currentVideoId = videoId;
-		pendingDoneWorking = true;
-	}
-
+	if (ytplayer) { xhrWorking = true; ytplayer.loadVideoById(videoId); currentVideoId = videoId; pendingDoneWorking = true; }
+	var playlistWrapper = $("div#ytinstant div#playlistWrapper");
+	var fblikehref = "http%3A%2F%2Fwww.youtube.com";
+	fblikehref += "/watch%3Fv%3D" + videoId + "&amp;src=sp";
+	var fblikesrc = "http://www.facebook.com/plugins/like.php?href=" + fblikehref + "&amp;layout=standard&amp;show_faces=false&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=24&amp;width=720";
+	$("div#ytinstant div#footer iframe#fblike").attr('src',fblikesrc);
 	currentPlaylistPos = playlistPos;
-	$("div#ytinstant div#playlistWrapper").attr('class','pauseButton play' + currentPlaylistPos);
+	playlistWrapper.attr('class','pauseButton play' + currentPlaylistPos);
 	var playlist = $('div#ytinstant div#playlistWrapper div#playlist');
 	playlist.children().removeClass('selectedThumb');
 	playlist.children(':nth-child(' + (playlistPos + 1) + ')').addClass('selectedThumb');
-	
 	if (playlistPos > 2) {
-		if ((playlistPos > 2) && (playlistPos < 6)) $("div#ytinstant div#playlistWrapper").scrollTo(306, 800);
-		else if (playlistPos > 5) $("div#ytinstant div#playlistWrapper").scrollTo(605, 800);
-	} else $("div#ytinstant div#playlistWrapper").scrollTo(0, 800);
+		if ((playlistPos > 2) && (playlistPos < 6)) playlistWrapper.scrollTo(306, 800); // +4 | -1
+		else if ((playlistPos > 5) && (playlistPos < 9)) playlistWrapper.scrollTo(605, 800); // +300-1
+		else if (playlistPos > 8) playlistWrapper.scrollTo(904, 800);
+	} else playlistWrapper.scrollTo(0, 800);
 }
 
 function playPause() {
 	if (ytplayer) {
-		if (playerState == 1) {
-			pauseVideo();
-			$("div#ytinstant div#playlistWrapper").removeClass('pauseButton').addClass('playButton');
-		} else if (playerState == 2) {
-			playVideo();
-			$("div#ytinstant div#playlistWrapper").removeClass('playButton').addClass('pauseButton');
-		}
+		var playlistWrapper = $("div#ytinstant div#playlistWrapper");
+		if (playerState == 1) { pauseVideo(); playlistWrapper.removeClass('pauseButton').addClass('playButton'); }
+		else if (playerState == 2) { playVideo(); playlistWrapper.removeClass('playButton').addClass('pauseButton'); }
 	}
 }
 
 function playVideo() { if (ytplayer) ytplayer.playVideo(); }
 function pauseVideo() { if (ytplayer) ytplayer.pauseVideo(); }
+function stopVideo() { if (ytplayer) return ytplayer.stopVideo(); }
 function clearVideo() { if (ytplayer) ytplayer.clearVideo(); }
 function muteVideo() { if (ytplayer) ytplayer.mute(); }
 function unMuteVideo() { if (ytplayer) ytplayer.unMute(); }
+function isMutedVideo() { if (ytplayer) return ytplayer.isMuted(); }
 function setVolume(v) { if (ytplayer) ytplayer.setVolume(v); }
 function getVolume() { if (ytplayer) return ytplayer.getVolume(); }
+function getDuration() { if (ytplayer) return ytplayer.getDuration(); }
+function getBytesLoaded() { if (ytplayer) return ytplayer.getVideoBytesLoaded(); }
+function getBytesTotal() { if (ytplayer) return ytplayer.getVideoBytesTotal(); }
+function getStartBytes() { if (ytplayer) return ytplayer.getStartBytes(); }
+function getPlayerState() { if (ytplayer) return ytplayer.getPlayerState(); }
+function getCurrentTime() { if (ytplayer) return ytplayer.getCurrentTime(); }
 function getEmbedCode() { alert(ytplayer.getVideoEmbedCode()); }
 function getVideoUrl() { alert(ytplayer.getVideoUrl()); }
+function getQualityLevels() { if (ytplayer) return ytplayer.getAvailableQualityLevels(); }
+function getPlaybackQuality() { if (ytplayer) return ytplayer.getPlaybackQuality(); }
 function setPlaybackQuality(quality) { if (ytplayer) ytplayer.setPlaybackQuality(quality); }
+function setSize(w, h) { if (ytplayer) return ytplayer.setSize(w, h); }
+function seekTo(s) { if (ytplayer) return ytplayer.seekTo(s, false); }
 
 /* end ytinstant **/
 /** begin torus */
@@ -6104,14 +6112,14 @@ g('playing').style.backgroundImage=str;
 
 g('set_base').options.selectedIndex=Control.config.skin;
 applyBase(Control.config.skin);
-g('set_base').onchange=function() { var skin=Control.config.skin=this.options.selectedIndex;applyBase(skin);setCookie('base',skin);};
+g('set_base').onchange=function() { var skin=Control.config.skin=this.options.selectedIndex;applyBase(skin);localStorage.setItem('base',skin);};
 g('but_main4').onclick=function() { Control.gameOver(false);menuMode();}
 g('go1').onclick=function() { Control.startGame(1);}
 g('go2').onclick=function() { Control.startGame(2);}
 g('go3').onclick=function() { Control.startGame(3);}
 g('close').onclick=Control.close;
 g('bestType').onchange=function() {var n=this.options.selectedIndex;for(var i=0;i<3;i++) {g('best'+(i+1)).style.display=(i==n)?'block':'none';}}
-g('set_ghost').onclick=function() {Control.config.ghost=this.checked;setCookie('ghost',(this.checked?1:0));}
+g('set_ghost').onclick=function() {Control.config.ghost=this.checked;localStorage.setItem('ghost',(this.checked?1:0));}
 if(Control.config.ghost) {g('set_ghost').checked=true;}
 window.onblur=function() { if(!active_menu) {Control.pauseGame();}};
 g('quote').innerHTML=MENU_QUOTES[(Math.random()*MENU_QUOTES.length)>>0];
@@ -6209,14 +6217,14 @@ UI.init();
 
 
 function Control() {
-this.config={ghost:(getCookie('ghost')!=='0'),skin:parseInt(getCookie('base'))||0};
+this.config={ghost:(localStorage.getItem('ghost')!=='0'),skin:parseInt(localStorage.getItem('base'))||0};
 
 function storeBest(){
 var pos;
 for(var gameType=0;gameType<3;gameType++){
 for(pos=0;pos<3;pos++){
-setCookie('best'+gameType+''+pos+'score',best[gameType][pos][0]);
-setCookie('best'+gameType+''+pos+'name',best[gameType][pos][1]);
+localStorage.setItem('best'+gameType+''+pos+'score',best[gameType][pos][0]);
+localStorage.setItem('best'+gameType+''+pos+'name',best[gameType][pos][1]);
 }
 }
 }
@@ -6237,13 +6245,13 @@ g('best'+(i+1)).innerHTML=getBestStr(i);
 }
 
 var best=[[['0','Empty'],['0','Empty'],['0','Empty']],[['0','Empty'],['0','Empty'],['0','Empty']],[['3599000','Empty'],['3599000','Empty'],['3599000','Empty']]];
-if(getCookie('best11score')==null) {
+if(localStorage.getItem('best11score')==null) {
 storeBest();
 }else {
 for(var gameType=0;gameType<3;gameType++) {
 for(pos=0;pos<3;pos++){
-best[gameType][pos][0]=Number(getCookie('best'+gameType+''+pos+'score'))||0;
-best[gameType][pos][1]=getCookie('best'+gameType+''+pos+'name');
+best[gameType][pos][0]=Number(localStorage.getItem('best'+gameType+''+pos+'score'))||0;
+best[gameType][pos][1]=localStorage.getItem('best'+gameType+''+pos+'name');
 }
 }
 }
@@ -6353,12 +6361,8 @@ if (typeof addEvent != 'function') {
 
 function cancelEvent(e,c) {
 	e.returnValue = false;
-
 	if (e.preventDefault) e.preventDefault();
-	if (c) {
-		e.cancelBubble = true;
-		if (e.stopPropagation) e.stopPropagation();
-	}
+	if (c) { e.cancelBubble = true; if (e.stopPropagation) e.stopPropagation(); }
 };
 
 function DragResize(myName,config) {
@@ -6452,12 +6456,8 @@ DragResize.prototype.mouseDown = function(e) {
 		while (elm) {
 			if (elm.className) {
 				if (!newHandle && (hRE.test(elm.className) || isHandle(elm))) newHandle = elm;
-				if (isElement(elm)) {
-					newElement = elm;
-					break;
-				}
+				if (isElement(elm)) { newElement = elm;	break; }
 			}
-
 			elm = elm.parentNode;
 		}
 
@@ -6484,9 +6484,8 @@ DragResize.prototype.mouseMove = function(e) {
 		if (!handle) return true;
 		var isResize = false;
 
-		if (this.resizeHandleDrag && this.resizeHandleDrag(diffX,diffY)) {
-			isResize = true;
-		} else {
+		if (this.resizeHandleDrag && this.resizeHandleDrag(diffX,diffY)) isResize = true;
+		else {
 			var dX = diffX, dY = diffY;
 			if ((elmX + dX) < minLeft) mOffX = (dX - (diffX = minLeft - elmX));
 			else if ((elmX + elmW + dX) > maxLeft) mOffX = (dX - (diffX = (maxLeft - elmX - elmW)));
@@ -6520,22 +6519,11 @@ DragResize.prototype.mouseMove = function(e) {
 		try { for (a in dC.apps.list) if (a > 0) eval(' else if ($(element).attr("id") == "' + dC.apps.list[a] + '") { dC.user.apps.' + dC.apps.list[a] + '[0] = elmX; dC.user.apps.' + dC.apps.list[a] + '[1] = elmY; for (var i = 0; i < 10; i++) { if (i == 0) carray = dC.user.apps.' + dC.apps.list[a] + '[i] + ", "; else if ((i > 0) && (i < 9)) carray += dC.user.apps.' + dC.apps.list[a] + '[i] + ", "; else if (i == 9) carray += dC.user.apps.' + dC.apps.list[a] + '[i]; }}');
 		} catch(e) {}
 
-		$.ajax({
-			url: 'load.php',
-			data: 'id=update_apps&action=' + $(element).attr('id') + '&data=' + carray,
-			type: 'get'
-		});
+		$.get("load.php", { id: "update_apps", action: $(element).attr('id'), data: carray });
 
 		if (window.opera && document.documentElement) {
 			var oDF = document.getElementById('op-drag-fix');
-
-			if (!oDF) {
-				var oDF = document.createElement('input');
-				oDF.id = 'op-drag-fix';
-				oDF.style.display = 'none';
-				document.body.appendChild(oDF);
-			}
-
+			if (!oDF) { var oDF = document.createElement('input'); oDF.id = 'op-drag-fix'; oDF.style.display = 'none'; document.body.appendChild(oDF); }
 			oDF.focus();
 		}
 
@@ -6624,18 +6612,14 @@ DragResize.prototype.resizeHandleDrag = function(diffX,diffY) {
 		
 		try { for (a in dC.apps.list) if (a > 0) eval(' else if ($(element).attr("id") == "' + dC.apps.list[a] + '") { dC.user.apps.' + dC.apps.list[a] + '[2] = elmH; dC.user.apps.' + dC.apps.list[a] + '[3] = elmW; for (var i = 0; i < 10; i++) { if (i == 0) carray = dC.user.apps.' + dC.apps.list[a] + '[i] + ", "; else if ((i > 0) && (i < 9)) carray += dC.user.apps.' + dC.apps.list[a] + '[i] + ", "; else if (i == 9) carray += dC.user.apps.' + dC.apps.list[a] + '[i]; }}');
 		} catch(e) {}
-
-		$.ajax({
-			url: 'load.php',
-			data: 'id=update_apps&action=' + $(element).attr('id') + '&data=' + carray,
-			type: 'get'
-		});
+		
+		$.get("load.php", { id: "update_apps", action: $(element).attr('id'), data: carray });
 
 		return processed;
 	}
 };
 
-var dragresize = new DragResize('dragresize', { minWidth: 10, minHeight: 10, minLeft: 0, maxLeft: dC.config.width, minTop: 0, maxTop: <?php if ($_SESSION['logged'] == 1) { ?> (dC.config.height - (dC.taskbar.height2)) <?php } else { echo "dC.config.height"; } ?>});
+var dragresize = new DragResize('dragresize', { minWidth: 10, minHeight: 10, minLeft: 0, maxLeft: dC.config.width, minTop: 0, maxTop: <?php if ($_SESSION['logged'] == 1) { ?> (dC.config.height - (dC.taskbar.height2)) <?php } else { echo 'dC.config.height'; } ?>});
 
 dragresize.isElement = function(elm) { if (elm.className && elm.className.indexOf('drsElement') > -1) return true; };
 dragresize.isHandle = function(elm) { if (elm.className && elm.className.indexOf('drsMoveHandle') > -1) return true; };
@@ -6647,4 +6631,4 @@ dragresize.ondragblur = function() { };
 dragresize.apply(document);
 
 /* end dragresize functions */
-<?php } ?>
+<?php } ob_end_flush(); ?>

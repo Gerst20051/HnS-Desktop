@@ -1,32 +1,7 @@
 <?php
 session_start();
-
-include ("db.inc.php");
-include ("login.inc.php");
-
-define('FACEBOOK_APP_ID', 'your application id');
-define('FACEBOOK_SECRET', 'your application secret');
-
-function get_facebook_cookie($app_id, $application_secret) {
-	$args = array();
-	parse_str(trim($_COOKIE['fbs_' . $app_id], '\\"'), $args);
-	ksort($args);
-	$payload = '';
-
-	foreach ($args as $key => $value) {
-		if ($key != 'sig') {
-			$payload .= $key . '=' . $value;
-		}
-	}
-
-	if (md5($payload . $application_secret) != $args['sig']) {
-		return null;
-	}
-
-	return $args;
-}
-
-$cookie = get_facebook_cookie(FACEBOOK_APP_ID, FACEBOOK_SECRET);
+include ('db.inc.php');
+include ('login.inc.php');
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr" xmlns:fb="http://www.facebook.com/2008/fbml">
@@ -38,24 +13,29 @@ $cookie = get_facebook_cookie(FACEBOOK_APP_ID, FACEBOOK_SECRET);
 <meta name="author" content="Homenet Spaces Andrew Gerst" />
 <meta name="copyright" content="HnS Desktop" />
 <meta name="keywords" content="Homenet, Spaces, HnS, Desktop, OS, Web, WebOS, Webtop, Online, Operating, System, Applications, Application, Apps, App, Services, Internet, The, Place, To, Be, Creative, Andrew, Gerst, Free, Profile, Profiles" />
-<meta name="description" content="Welcome to Homenet Spaces OS | This is the place to be creative! Feel free to add yourself to our wonderful community by registering! HnS Desktop" />
-<meta property="og:title" content="HnS Desktop" />
+<meta name="description" content="Welcome to Homenet Spaces OS | This is the place to be creative! Feel free to add yourself to our wonderful community by registering!" />
+<link rel="image_src" href="i/apps/thumbs/friends.png" />
+<meta property="og:title" content="Homenet Spaces OS | Welcome to HnS Desktop!" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://hnsdesktop.tk" />
 <meta property="og:site_name" content="HnS Desktop" />
 <meta property="fb:admins" content="637458869" />
-<meta property="og:description" content="Welcome to Homenet Spaces OS | This is the place to be creative! Feel free to add yourself to our wonderful community by registering! HnS Desktop" />
+<meta property="og:description" content="Welcome to Homenet Spaces OS | This is the place to be creative! Feel free to add yourself to our wonderful community by registering!" />
 <noscript><meta http-equiv="X-Frame-Options" content="deny" /></noscript>
-<script type="text/javascript" src="jquery.js"></script>
-<!--[if lt IE 9]>
-<script type="text/javascript" src="js/min/html5.min.js"></script>
-<script>
-var e = ("abbr,article,aside,audio,canvas,datalist,details,figure,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,time,video").split(',');
-for (var i = 0; i < e.length; i++) document.createElement(e[i]);
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Reenie+Beanie|Josefin+Sans+Std+Light" />
+<script type="text/javascript">
+(function() {
+var s=["https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js","https://ajax.googleapis.com/ajax/libs/swfobject/2/swfobject.js","js/min/jquery.ellipsis.min.js","js/min/jquery.scrollto.min.js"];
+var sc="script",tp="text/javascript",sa="setAttribute",doc=document,ua=window.navigator.userAgent;
+for(var i=0,l=s.length;i<l;++i){if(ua.indexOf("Firefox")!==-1||ua.indexOf("Opera")!==-1){var t=d.createElement(sc);t[sa]("src",s[i]);t[sa]("type",tp);doc.getElementsByTagName("head")[0].appendChild(t);}else{doc.write("<"+sc+" type=\""+tp+"\" src=\""+s[i]+"\"></"+sc+">");}}
+})();
+
+/*
+if(!window.jQuery){document.write('<script type="text/javascript" src="js/min/jquery-1.4.4.min.js"></script>');}if(!swfobject){document.write('<script type="text/javascript" src="js/min/swfobject-2.1.min.js"></script>');}
+function ss(id){document.write('<link rel="stylesheet" type="text/css" href="css.php?id='+id+'" />');}
+*/
+if(window.localStorage){if(localStorage.getItem('themeid')){ss(localStorage.getItem('themeid'));}else{localStorage.setItem('themeid',1);/*ss(1);*/}}//else ss(1);
 </script>
-<![endif]-->
-<script type="text/javascript" src="javascript.php"></script>
-<base href="" target="_blank" />
 </head>
 
 <body id="main">
@@ -63,8 +43,8 @@ for (var i = 0; i < e.length; i++) document.createElement(e[i]);
 We Are Sorry! HnS Desktop Requires A Browser That Supports HTML5, jQuery, and Javascript.
 </div>
 <canvas id="c_animation"></canvas>
-<?php include ("tracking_scripts.inc.php"); ?>
+<script type="text/javascript" src="javascript.php"></script>
 </body>
 
 </html>
-<?php mysql_close($db); ?>
+<?php if ($db) mysql_close($db); ?>

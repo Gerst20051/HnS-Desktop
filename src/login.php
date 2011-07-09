@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 include ("db.inc.php");
 include ("users_online.inc.php");
 
@@ -9,10 +8,15 @@ include ("auth.inc.php");
 include ("check_session.inc.php");
 }
 
+if (!isset($_POST['hash'])) {
 $username = (isset($_POST['username'])) ? trim($_POST['username']) : '';
 $password = (isset($_POST['password'])) ? trim($_POST['password']) : '';
-$time = time();
+} else {
+$username = (isset($_POST['username'])) ? substr(base64_decode(substr(trim($_POST['username']), 4)), 4) : '';
+$password = (isset($_POST['password'])) ? substr(base64_decode(substr(trim($_POST['password']), 4)), 4) : '';
+}
 
+$time = time();
 $query = 'SELECT * FROM login u JOIN info i ON u.user_id = i.user_id WHERE username = "' . mysql_real_escape_string($username, $db) . '" AND password = PASSWORD("' . mysql_real_escape_string($password, $db) . '")';
 $result = mysql_query($query, $db) or die(mysql_error($db));
 

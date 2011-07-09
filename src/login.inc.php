@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 include ("db.inc.php");
 include ("users_online.inc.php");
 

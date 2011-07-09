@@ -1,9 +1,11 @@
 <?php
+$expires = 60;
+header("Pragma: public");
+header("Cache-Control: maxage=" . $expires);
+header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $expires) . ' GMT');
 session_start();
-header("Content-Type: text/css");
-
-if (isset($_GET['id']) && ($_GET['id'] >= 1)) $theme_id = $_GET['id'];
-else $theme_id = 1;
+header('Content-Type: text/css; charset: utf-8');
+if (isset($_GET['id']) && ($_GET['id'] >= 1)) $theme_id = $_GET['id']; else $theme_id = 1;
 ?>
 /* ---------------------------------------------------- */
 /* ----------- >>>  Global Style Sheet  <<< ----------- */
@@ -13,11 +15,12 @@ else $theme_id = 1;
 /* Site Name:    HnS Desktop
 /* Site Creator: Andrew Gerst
 /* Site Created: Wed, 24 Mar 2010 21:22:05 -0400
-/* Last Updated: <?php echo date(r, filemtime('css.php')) . "\n";?>
-<?php if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) {?>/* Current User: <?php echo $_SESSION['fullname'] . "\n";} ?>
-/* Select Theme: <?php echo $theme_id . "\n";?>
+/* Last Updated: <?php echo date(r, filemtime('css.php')) . "\n"; ?>
+<?php if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) { ?>/* Current User: <?php echo $_SESSION['fullname'] . "\n";} ?>
+/* Select Theme: <?php echo $theme_id . "\n"; ?>
 /* ---------------------------------------------------- */
 
+<?php include('compress.php'); ob_start('compressCSS'); ?>
 /* ---------------------------------------------------- */
 /* ------------ >>>  Table of Contents  <<< ----------- */
 /* ---------------------------------------------------- */
@@ -126,6 +129,20 @@ legend {
 color: #000;
 }
 
+/*
+input {
+box-sizing: content-box;
+-moz-box-sizing: content-box;
+-webkit-box-sizing: content-box;
+}
+
+textarea { /* declared width */
+box-sizing: border-box;
+-moz-box-sizing: border-box;
+-webkit-box-sizing: border-box;
+}
+*/
+
 /* End CSS Reset */
 /* Begin CSS Base */
 
@@ -142,7 +159,7 @@ width: 100%;
 
 html {
 background-color: #fff;
-background-image: url(i/wallpapers/vista.jpg);
+background-image: url(i/wallpapers/vista.jpg); /* http://i55.tinypic.com/2zggdq0.jpg */
 background-position: center center;
 background-repeat: no-repeat;
 color: #000;
@@ -173,72 +190,64 @@ background-position: center;
 }
 */
 
-h1 {
-font-size: 138.5%;/* 18px */
-}
-
-h2 {
-font-size: 123.1%;/* 16px */
-}
-
-h3 {
-font-size: 108%;/* 14px */
-}
+h1 { font-size: 138.5%; /* 18px */ }
+h2 { font-size: 123.1%; /* 16px */ }
+h3 { font-size: 108%; /* 14px */ }
 
 h1, h2, h3 {
-margin: 1em 0;/* top & bottom margin based on font size */
+margin: 1em 0;
 }
 
 h1, h2, h3, h4, h5, h6, strong {
-font-weight: bold;/* bringing boldness back to headers and the strong element */
+font-weight: bold;
 }
 
-abbr, acronym {/* indicating to users that more info is available */
+abbr, acronym {
 border-bottom: 1px dotted #000;
 cursor: help;
 }
 
 em {
-font-style: italic;/* bringing italics back to the em element */
+font-style: italic;
 }
 
 blockquote, ul, ol, dl {
-margin: 1em;/* giving blockquotes and lists room to breath */
+margin: 1em;
 }
 
 ol, ul, dl {
-margin-left: 2em;/* bringing lists on to the page with breathing room */
+margin-left: 2em;
 }
 
 ol li {
-list-style: decimal outside;/* giving OL's LIs generated numbers */
+list-style: decimal outside;
 }
 
 ul li {
-list-style: disc outside;/* giving UL's LIs generated disc markers */
+list-style: disc outside;
 }
 
 dl dd {
 margin-left: 1em;
 }
 
-th, td {/* borders and padding to make the table readable */
+th, td {
 border: 1px solid #000;
 padding: .5em;
 }
 
-th {/* distinguishing table headers from data cells */
+th {
 font-weight: bold;
 text-align: center;
 }
 
 caption {
-margin-bottom: .5em;/* coordinated marking to match cell's padding */
-text-align: center;/* centered so it doesn't blend in to other content */
+margin-bottom: .5em;
+text-align: center;
 }
 
 p, fieldset, table {
-margin-bottom: 1em;/* so things don't run into each other */
+margin-bottom: 1em;
 }
 
 /*
@@ -249,9 +258,10 @@ border: 2px solid #c94a29;
 overflow: hidden;
 margin: 0 0 15px 0;
 width: 563px;
-font-family: Courier, Monospace;
+font-family: "courier new", courier, monospace;
 }
 */
+
 /* End CSS Base */
 /* Begin HTML 5 */
 
@@ -279,6 +289,13 @@ ul:after { clear: both; content: "."; display: block; height: 0; visibility: hid
 */
 
 /* End HTML5 */
+/* Begin Custom Styles */
+
+.signaturefont { font-family: "comic sans ms", "brush script mt", cursive; }
+.gothicfont { font-family: "avant garde", "century gothic", sans-serif; }
+.fantasyfont { font-family: impact, haettenschweiler, fantasy; }
+  
+/* End Custom Styles */
 /* Begin Buttons */
 
 .buttons a,
@@ -510,100 +527,23 @@ word-wrap: break-word;
 /* End Main */
 /* Begin Transparency */
 
-.transparent1 {
-filter: alpha(opacity=10) !important;
--ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=10)" !important;
-opacity: 0.1 !important;
--khtml-opacity: 0.1 !important;
--moz-opacity: 0.1 !important;
-}
-
-.transparent2 {
-filter: alpha(opacity=20) !important;
--ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=20)" !important;
-opacity: 0.2 !important;
--khtml-opacity: 0.2 !important;
--moz-opacity: 0.2 !important;
-}
-
-.transparent3 {
-filter: alpha(opacity=30) !important;
--ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=30)" !important;
-opacity: 0.3 !important;
--khtml-opacity: 0.3 !important;
--moz-opacity: 0.3 !important;
-}
-
-.transparent4 {
-filter: alpha(opacity=40) !important;
--ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=40)" !important;
-opacity: 0.4 !important;
--khtml-opacity: 0.4 !important;
--moz-opacity: 0.4 !important;
-}
-
-.transparent5 {
-filter: alpha(opacity=50) !important;
--ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=50)" !important;
-opacity: 0.5 !important;
--khtml-opacity: 0.5 !important;
--moz-opacity: 0.5 !important;
-}
-
-.transparent6 {
-filter: alpha(opacity=60) !important;
--ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=60)" !important;
-opacity: 0.6 !important;
--khtml-opacity: 0.6 !important;
--moz-opacity: 0.6 !important;
-}
-
-.transparent7 {
-filter: alpha(opacity=70) !important;
--ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=70)" !important;
-opacity: 0.7 !important;
--khtml-opacity: 0.7 !important;
--moz-opacity: 0.7 !important;
-}
-
-.transparent8 {
-filter: alpha(opacity=80) !important;
--ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=80)" !important;
-opacity: 0.8 !important;
--khtml-opacity: 0.8 !important;
--moz-opacity: 0.8 !important;
-}
-
-.transparent9 {
-filter: alpha(opacity=90) !important;
--ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=90)" !important;
-opacity: 0.9 !important;
--khtml-opacity: 0.9 !important;
--moz-opacity: 0.9 !important;
-}
-
-.transparent10 {
-filter: alpha(opacity=100) !important;
--ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=100)" !important;
-opacity: 1 !important;
--khtml-opacity: 1 !important;
--moz-opacity: 1 !important;
-}
+.transparent1 { filter: alpha(opacity=10) !important; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=10)" !important; opacity: 0.1 !important; -khtml-opacity: 0.1 !important; -moz-opacity: 0.1 !important; }
+.transparent2 { filter: alpha(opacity=20) !important; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=20)" !important; opacity: 0.2 !important; -khtml-opacity: 0.2 !important; -moz-opacity: 0.2 !important; }
+.transparent3 { filter: alpha(opacity=30) !important; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=30)" !important; opacity: 0.3 !important; -khtml-opacity: 0.3 !important; -moz-opacity: 0.3 !important; }
+.transparent4 { filter: alpha(opacity=40) !important; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=40)" !important; opacity: 0.4 !important; -khtml-opacity: 0.4 !important; -moz-opacity: 0.4 !important; }
+.transparent5 { filter: alpha(opacity=50) !important; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=50)" !important; opacity: 0.5 !important; -khtml-opacity: 0.5 !important; -moz-opacity: 0.5 !important; }
+.transparent6 { filter: alpha(opacity=60) !important; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=60)" !important; opacity: 0.6 !important; -khtml-opacity: 0.6 !important; -moz-opacity: 0.6 !important; }
+.transparent7 { filter: alpha(opacity=70) !important; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=70)" !important; opacity: 0.7 !important; -khtml-opacity: 0.7 !important; -moz-opacity: 0.7 !important; }
+.transparent8 { filter: alpha(opacity=80) !important; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=80)" !important; opacity: 0.8 !important; -khtml-opacity: 0.8 !important; -moz-opacity: 0.8 !important; }
+.transparent9 { filter: alpha(opacity=90) !important; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=90)" !important; opacity: 0.9 !important; -khtml-opacity: 0.9 !important; -moz-opacity: 0.9 !important; }
+.transparent10 { filter: alpha(opacity=100) !important; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=100)" !important; opacity: 1 !important; -khtml-opacity: 1 !important; -moz-opacity: 1 !important; }
 
 /* End Transparency */
 /* Begin Floating & Clearing */
 
-.clear {
-clear: both !important;
-}
-
-.left {
-float: left !important;
-}
-
-.right {
-float: right !important;
-}
+.clear { clear: both !important; }
+.left { float: left !important; }
+.right { float: right !important; }
 
 /** Begin Clear Fix */
 
@@ -654,84 +594,21 @@ height: 28px;
 width: 100%;
 }
 
-.dragresize {
+.dResize {
 background-color: transparent;
 border: 0;
 font-size: 1px;
 position: absolute;
 }
 
-.dragresize-tl {
-cursor: nw-resize;
-height: 6px;
-left: 0;
-top: 0;
-width: 6px;
-z-index: 101;
-}
-
-.dragresize-tm {
-cursor: n-resize;
-height: 6px;
-left: 0;
-top: 0;
-width: 100%;
-z-index: 100;
-}
-
-.dragresize-tr {
-cursor: ne-resize;
-height: 6px;
-right: 0;
-top: 0;
-width: 6px;
-z-index: 101;
-}
-
-.dragresize-ml {
-cursor: w-resize;
-top: 0;
-left: 0;
-height: 100%;
-width: 6px;
-z-index: 100;
-}
-
-.dragresize-mr {
-cursor: e-resize;
-height: 100%;
-top: 0;
-right: 0;
-width: 6px;
-z-index: 100;
-}
-
-.dragresize-bl {
-bottom: 0;
-cursor: sw-resize;
-height: 6px;
-left: 0;
-width: 6px;
-z-index: 101;
-}
-
-.dragresize-bm {
-bottom: 0;
-cursor: s-resize;
-height: 6px;
-left: 0;
-width: 100%;
-z-index: 100;
-}
-
-.dragresize-br {
-bottom: 0;
-cursor: se-resize;
-height: 6px;
-right: 0;
-width: 6px;
-z-index: 101;
-}
+.dResize-tl { cursor: nw-resize; height: 6px; left: 0; top: 0; width: 6px; z-index: 101; }
+.dResize-tm { cursor: n-resize; height: 6px; left: 0; top: 0; width: 100%; z-index: 100; }
+.dResize-tr { cursor: ne-resize; height: 6px; right: 0; top: 0; width: 6px; z-index: 101; }
+.dResize-ml { cursor: w-resize; top: 0; left: 0; height: 100%; width: 6px; z-index: 100; }
+.dResize-mr { cursor: e-resize; height: 100%; top: 0; right: 0; width: 6px; z-index: 100; }
+.dResize-bl { bottom: 0; cursor: sw-resize; height: 6px; left: 0; width: 6px; z-index: 101; }
+.dResize-bm { bottom: 0; cursor: s-resize; height: 6px; left: 0; width: 100%; z-index: 100; }
+.dResize-br { bottom: 0; cursor: se-resize; height: 6px; right: 0; width: 6px; z-index: 101; }
 
 /* End Drag/Resize */
 /* Begin ContextMenu */
@@ -767,7 +644,7 @@ text-decoration: none;
 }
 
 .contextMenu li.hover a {
-background-color: #3399ff;
+background-color: #39f;
 color: #fff;
 }
 
@@ -797,7 +674,7 @@ border-top: solid 1px #ccc;
 /* End ContextMenu */
 /* Begin Panel */
 
-div.panel {
+div.pnl {
 background-color: #333;
 border: 1px solid #99bbe8;
 border-radius: 4px;
@@ -813,7 +690,7 @@ height: 100%;
 overflow: hidden;
 }
 
-div.panel-tl {
+div.pnl-tl {
 border-top-left-radius: 4px;
 border-top-right-radius: 4px;
 -khtml-border-top-left-radius: 4px;
@@ -831,23 +708,19 @@ user-select: none;
 -webkit-user-select: none;
 }
 
-div.panel-tl div.panel-tr {
+div.pnl-tl div.pnl-tr {
 padding-right: 6px;
 }
 
-div.panel-tl div.panel-tr div.panel-tc {
-
-}
-
-div.panel-tc div.panel-header {
-background-image: url(i/apps/icons/application.png);
+div.pnl-tc div.phdr {
+background-image: url(i/ux/application.png);
 background-position: 0 4px;
 background-repeat: no-repeat;
 cursor: move;
 width: 100%;
 }
 
-div.panel-tc div.panel-header span.panel-header-text {
+div.pnl-tc div.phdr span.phdr-text {
 color: #fff;
 font: normal normal bold 11px/normal tahoma, arial, verdana, sans-serif;
 line-height: 26px;
@@ -894,7 +767,7 @@ Help
 Print
 */
 
-div.panel-header div.tools {
+div.phdr div.tls {
 height: 18px;
 overflow: hidden;
 position: absolute;
@@ -903,34 +776,19 @@ top: 1px;
 width: auto;
 }
 
-div.panel-header div.tools span.maintools {
-}
-
-div.panel-header div.tools span.maintools div.tool {
-}
-
-div.panel-header div.tools span.maintoolsapart {
-}
-
-div.panel-header div.tools span.maintoolsapart div.tool {
+div.phdr div.tls span.maintlsapart div.tl {
 margin-right: 3px;
 }
 
-div.panel-header div.tools span.subtools {
-}
-
-div.panel-header div.tools span.subtools div.tool {
+div.phdr div.tls span.subtls div.tl {
 margin-right: 3px;
 }
 
-div.panel-header div.tools span.subtoolsattached {
-}
-
-div.panel-header div.tools span.subtoolsattached div.tool {
+div.phdr div.tls span.subtlsattached div.tl {
 margin-right: 0;
 }
 
-div.panel-header div.tools div.tool {
+div.phdr div.tls div.tl {
 background-image: url(i/ux/tools.gif);
 background-repeat: no-repeat;
 cursor: pointer;
@@ -940,869 +798,877 @@ overflow: hidden;
 width: 25px;
 }
 
-div.panel-header div.tools div.close {
+div.phdr div.tls div.close {
 background-position: -10px -36px;
 width: 44px;
 }
 
-div.panel-header div.tools div.close:hover,
-div.panel-header div.tools div.close.on {
+div.phdr div.tls div.close:hover,
+div.phdr div.tls div.close.on {
 background-position: -10px -54px;
 }
 
-div.panel-header div.tools div.close_corners {
+div.phdr div.tls div.close_corners {
 background-position: -9px 0 !important;
 width: 45px !important;
 }
 
-div.panel-header div.tools div.close_corners:hover,
-div.panel-header div.tools div.close_corners.on {
+div.phdr div.tls div.close_corners:hover,
+div.phdr div.tls div.close_corners.on {
 background-position: -9px -18px !important;
 }
 
-div.panel-header div.tools div.maximize {
+div.phdr div.tls div.maximize {
 background-position: -4px -144px;
 }
 
-div.panel-header div.tools div.maximize:hover,
-div.panel-header div.tools div.maximize.on {
+div.phdr div.tls div.maximize:hover,
+div.phdr div.tls div.maximize.on {
 background-position: -29px -144px;
 }
 
-div.panel-header div.tools div.maximize_end {
+div.phdr div.tls div.maximize_end {
 background-position: -2px -127px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.maximize_end:hover,
-div.panel-header div.tools div.maximize_end.on {
+div.phdr div.tls div.maximize_end:hover,
+div.phdr div.tls div.maximize_end.on {
 background-position: -28px -127px !important;
 }
 
-div.panel-header div.tools div.maximize_corners {
+div.phdr div.tls div.maximize_corners {
 background-position: -4px -162px !important;
 }
 
-div.panel-header div.tools div.maximize_corners:hover,
-div.panel-header div.tools div.maximize_corners.on {
+div.phdr div.tls div.maximize_corners:hover,
+div.phdr div.tls div.maximize_corners.on {
 background-position: -29px -162px !important;
 }
 
-div.panel-header div.tools div.restore {
+div.phdr div.tls div.restore {
 background-position: -4px -198px;
 }
 
-div.panel-header div.tools div.restore:hover,
-div.panel-header div.tools div.restore.on {
+div.phdr div.tls div.restore:hover,
+div.phdr div.tls div.restore.on {
 background-position: -29px -198px;
 }
 
-div.panel-header div.tools div.restore_end{
+div.phdr div.tls div.restore_end{
 background-position: -2px -180px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.restore_end:hover,
-div.panel-header div.tools div.restore_end.on {
+div.phdr div.tls div.restore_end:hover,
+div.phdr div.tls div.restore_end.on {
 background-position: -28px -180px !important;
 }
 
-div.panel-header div.tools div.restore_corners {
+div.phdr div.tls div.restore_corners {
 background-position: -4px -216px !important;
 }
 
-div.panel-header div.tools div.restore_corners:hover,
-div.panel-header div.tools div.restore_corners.on {
+div.phdr div.tls div.restore_corners:hover,
+div.phdr div.tls div.restore_corners.on {
 background-position: -29px -216px !important;
 }
 
-div.panel-header div.tools div.minimize {
+div.phdr div.tls div.minimize {
 background-position: -2px -72px;
 width: 26px;
 }
 
-div.panel-header div.tools div.minimize:hover {
+div.phdr div.tls div.minimize:hover {
 background-position: -28px -72px;
 }
 
-div.panel-header div.tools div.minimize_middle {
+div.phdr div.tls div.minimize_middle {
 background-position: -4px -90px !important;
 width: 25px !important;
 }
 
-div.panel-header div.tools div.minimize_middle:hover,
-div.panel-header div.tools div.minimize_middle.on {
+div.phdr div.tls div.minimize_middle:hover,
+div.phdr div.tls div.minimize_middle.on {
 background-position: -29px -90px !important;
 }
 
-div.panel-header div.tools div.minimize_corners {
+div.phdr div.tls div.minimize_corners {
 background-position: -4px -108px !important;
 width: 25px !important;
 }
 
-div.panel-header div.tools div.minimize_corners:hover,
-div.panel-header div.tools div.minimize_corners.on {
+div.phdr div.tls div.minimize_corners:hover,
+div.phdr div.tls div.minimize_corners.on {
 background-position: -29px -108px !important;
 }
 
-div.panel-header div.tools div.blank {
+div.phdr div.tls div.blank {
 background-position: -4px -288px;
 }
 
-div.panel-header div.tools div.blank:hover,
-div.panel-header div.tools div.blank.on {
+div.phdr div.tls div.blank:hover,
+div.phdr div.tls div.blank.on {
 background-position: -29px -288px;
 }
 
-div.panel-header div.tools div.blank_middle {
+div.phdr div.tls div.blank_middle {
 background-position: -4px -270px !important;
 }
 
-div.panel-header div.tools div.blank_middle:hover,
-div.panel-header div.tools div.blank_middle.on {
+div.phdr div.tls div.blank_middle:hover,
+div.phdr div.tls div.blank_middle.on {
 background-position: -29px -270px !important;
 }
 
-div.panel-header div.tools div.blank_end {
+div.phdr div.tls div.blank_end {
 background-position: -2px -252px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.blank_end:hover,
-div.panel-header div.tools div.blank_end.on {
+div.phdr div.tls div.blank_end:hover,
+div.phdr div.tls div.blank_end.on {
 background-position: -28px -252px !important;
 }
 
-div.panel-header div.tools div.blank_begin {
+div.phdr div.tls div.blank_begin {
 background-position: -2px -234px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.blank_begin:hover,
-div.panel-header div.tools div.blank_begin.on {
+div.phdr div.tls div.blank_begin:hover,
+div.phdr div.tls div.blank_begin.on {
 background-position: -28px -234px !important;
 }
 
-div.panel-header div.tools div.toggle {
+div.phdr div.tls div.toggle {
 background-position: -4px -360px;
 }
 
-div.panel-header div.tools div.toggle:hover,
-div.panel-header div.tools div.toggle.on {
+div.phdr div.tls div.toggle:hover,
+div.phdr div.tls div.toggle.on {
 background-position: -29px -360px;
 }
 
-div.panel-header div.tools div.toggle_middle {
+div.phdr div.tls div.toggle_middle {
 background-position: -4px -342px !important;
 }
 
-div.panel-header div.tools div.toggle_middle:hover,
-div.panel-header div.tools div.toggle_middle.on {
+div.phdr div.tls div.toggle_middle:hover,
+div.phdr div.tls div.toggle_middle.on {
 background-position: -29px -342px !important;
 }
 
-div.panel-header div.tools div.toggle_end {
+div.phdr div.tls div.toggle_end {
 background-position: -2px -324px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.toggle_end:hover,
-div.panel-header div.tools div.toggle_end.on {
+div.phdr div.tls div.toggle_end:hover,
+div.phdr div.tls div.toggle_end.on {
 background-position: -28px -324px !important;
 }
 
-div.panel-header div.tools div.toggle_begin {
+div.phdr div.tls div.toggle_begin {
 background-position: -2px -306px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.toggle_begin:hover,
-div.panel-header div.tools div.toggle_begin.on {
+div.phdr div.tls div.toggle_begin:hover,
+div.phdr div.tls div.toggle_begin.on {
 background-position: -28px -306px !important;
 }
 
-div.panel-header div.tools div.toggledown {
+div.phdr div.tls div.toggledown {
 background-position: -4px -432px;
 }
 
-div.panel-header div.tools div.toggledown:hover,
-div.panel-header div.tools div.toggledown.on {
+div.phdr div.tls div.toggledown:hover,
+div.phdr div.tls div.toggledown.on {
 background-position: -29px -432px;
 }
 
-div.panel-header div.tools div.toggledown_middle {
+div.phdr div.tls div.toggledown_middle {
 background-position: -4px -414px !important;
 }
 
-div.panel-header div.tools div.toggledown_middle:hover,
-div.panel-header div.tools div.toggledown_middle.on {
+div.phdr div.tls div.toggledown_middle:hover,
+div.phdr div.tls div.toggledown_middle.on {
 background-position: -29px -414px !important;
 }
 
-div.panel-header div.tools div.toggledown_end {
+div.phdr div.tls div.toggledown_end {
 background-position: -2px -396px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.toggledown_end:hover,
-div.panel-header div.tools div.toggledown_end.on {
+div.phdr div.tls div.toggledown_end:hover,
+div.phdr div.tls div.toggledown_end.on {
 background-position: -28px -396px !important;
 }
 
-div.panel-header div.tools div.toggledown_begin {
+div.phdr div.tls div.toggledown_begin {
 background-position: -2px -378px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.toggledown_begin:hover,
-div.panel-header div.tools div.toggledown_begin.on {
+div.phdr div.tls div.toggledown_begin:hover,
+div.phdr div.tls div.toggledown_begin.on {
 background-position: -28px -378px !important;
 }
 
-div.panel-header div.tools div.config {
+div.phdr div.tls div.config {
 background-position: -4px -504px;
 }
 
-div.panel-header div.tools div.config:hover,
-div.panel-header div.tools div.config.on {
+div.phdr div.tls div.config:hover,
+div.phdr div.tls div.config.on {
 background-position: -29px -504px;
 }
 
-div.panel-header div.tools div.config_middle {
+div.phdr div.tls div.config_middle {
 background-position: -4px -486px !important;
 }
 
-div.panel-header div.tools div.config_middle:hover,
-div.panel-header div.tools div.config_middle.on {
+div.phdr div.tls div.config_middle:hover,
+div.phdr div.tls div.config_middle.on {
 background-position: -29px -486px !important;
 }
 
-div.panel-header div.tools div.config_end {
+div.phdr div.tls div.config_end {
 background-position: 0 -468px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.config_end:hover,
-div.panel-header div.tools div.config_end.on {
+div.phdr div.tls div.config_end:hover,
+div.phdr div.tls div.config_end.on {
 background-position: -27px -468px !important;
 }
 
-div.panel-header div.tools div.config_begin {
+div.phdr div.tls div.config_begin {
 background-position: -2px -450px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.config_begin:hover,
-div.panel-header div.tools div.config_begin.on {
+div.phdr div.tls div.config_begin:hover,
+div.phdr div.tls div.config_begin.on {
 background-position: -28px -450px !important;
 }
 
-div.panel-header div.tools div.arrowleft {
+div.phdr div.tls div.arrowleft {
 background-position: -4px -576px;
 }
 
-div.panel-header div.tools div.arrowleft:hover,
-div.panel-header div.tools div.arrowleft.on {
+div.phdr div.tls div.arrowleft:hover,
+div.phdr div.tls div.arrowleft.on {
 background-position: -29px -576px;
 }
 
-div.panel-header div.tools div.arrowleft_middle {
+div.phdr div.tls div.arrowleft_middle {
 background-position: -4px -558px !important;
 }
 
-div.panel-header div.tools div.arrowleft_middle:hover,
-div.panel-header div.tools div.arrowleft_middle.on {
+div.phdr div.tls div.arrowleft_middle:hover,
+div.phdr div.tls div.arrowleft_middle.on {
 background-position: -29px -558px !important;
 }
 
-div.panel-header div.tools div.arrowleft_end {
+div.phdr div.tls div.arrowleft_end {
 background-position: 0 -540px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.arrowleft_end:hover,
-div.panel-header div.tools div.arrowleft_end.on {
+div.phdr div.tls div.arrowleft_end:hover,
+div.phdr div.tls div.arrowleft_end.on {
 background-position: -27px -540px !important;
 }
 
-div.panel-header div.tools div.arrowleft_begin {
+div.phdr div.tls div.arrowleft_begin {
 background-position: -2px -522px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.arrowleft_begin:hover,
-div.panel-header div.tools div.arrowleft_begin.on {
+div.phdr div.tls div.arrowleft_begin:hover,
+div.phdr div.tls div.arrowleft_begin.on {
 background-position: -28px -522px !important;
 }
 
-div.panel-header div.tools div.arrowright {
+div.phdr div.tls div.arrowright {
 background-position: -4px -648px;
 }
 
-div.panel-header div.tools div.arrowright:hover,
-div.panel-header div.tools div.arrowright.on {
+div.phdr div.tls div.arrowright:hover,
+div.phdr div.tls div.arrowright.on {
 background-position: -29px -648px;
 }
 
-div.panel-header div.tools div.arrowright_middle {
+div.phdr div.tls div.arrowright_middle {
 background-position: -4px -630px !important;
 }
 
-div.panel-header div.tools div.arrowright_middle:hover,
-div.panel-header div.tools div.arrowright_middle.on {
+div.phdr div.tls div.arrowright_middle:hover,
+div.phdr div.tls div.arrowright_middle.on {
 background-position: -29px -630px !important;
 }
 
-div.panel-header div.tools div.arrowright_end {
+div.phdr div.tls div.arrowright_end {
 background-position: -2px -612px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.arrowright_end:hover,
-div.panel-header div.tools div.arrowright_end.on {
+div.phdr div.tls div.arrowright_end:hover,
+div.phdr div.tls div.arrowright_end.on {
 background-position: -28px -612px !important;
 }
 
-div.panel-header div.tools div.arrowright_begin {
+div.phdr div.tls div.arrowright_begin {
 background-position: 0 -594px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.arrowright_begin:hover,
-div.panel-header div.tools div.arrowright_begin.on {
+div.phdr div.tls div.arrowright_begin:hover,
+div.phdr div.tls div.arrowright_begin.on {
 background-position: -27px -594px !important;
 }
 
-div.panel-header div.tools div.pindown {
+div.phdr div.tls div.pindown {
 background-position: -4px -720px;
 }
 
-div.panel-header div.tools div.pindown:hover,
-div.panel-header div.tools div.pindown.on {
+div.phdr div.tls div.pindown:hover,
+div.phdr div.tls div.pindown.on {
 background-position: -29px -720px;
 }
 
-div.panel-header div.tools div.pindown_middle {
+div.phdr div.tls div.pindown_middle {
 background-position: -4px -702px !important;
 }
 
-div.panel-header div.tools div.pindown_middle:hover,
-div.panel-header div.tools div.pindown_middle.on {
+div.phdr div.tls div.pindown_middle:hover,
+div.phdr div.tls div.pindown_middle.on {
 background-position: -29px -702px !important;
 }
 
-div.panel-header div.tools div.pindown_end {
+div.phdr div.tls div.pindown_end {
 background-position: 0 -684px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.pindown_end:hover,
-div.panel-header div.tools div.pindown_end.on {
+div.phdr div.tls div.pindown_end:hover,
+div.phdr div.tls div.pindown_end.on {
 background-position: -27px -684px !important;
 }
 
-div.panel-header div.tools div.pindown_begin {
+div.phdr div.tls div.pindown_begin {
 background-position: -2px -666px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.pindown_begin:hover,
-div.panel-header div.tools div.pindown_begin.on {
+div.phdr div.tls div.pindown_begin:hover,
+div.phdr div.tls div.pindown_begin.on {
 background-position: -28px -666px !important;
 }
 
-div.panel-header div.tools div.pinleft {
+div.phdr div.tls div.pinleft {
 background-position: -4px -792px;
 }
 
-div.panel-header div.tools div.pinleft:hover,
-div.panel-header div.tools div.pinleft.on {
+div.phdr div.tls div.pinleft:hover,
+div.phdr div.tls div.pinleft.on {
 background-position: -29px -792px;
 }
 
-div.panel-header div.tools div.pinleft_middle {
+div.phdr div.tls div.pinleft_middle {
 background-position: -4px -774px !important;
 }
 
-div.panel-header div.tools div.pinleft_middle:hover,
-div.panel-header div.tools div.pinleft_middle.on {
+div.phdr div.tls div.pinleft_middle:hover,
+div.phdr div.tls div.pinleft_middle.on {
 background-position: -29px -774px !important;
 }
 
-div.panel-header div.tools div.pinleft_end {
+div.phdr div.tls div.pinleft_end {
 background-position: 0 -756px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.pinleft_end:hover,
-div.panel-header div.tools div.pinleft_end.on {
+div.phdr div.tls div.pinleft_end:hover,
+div.phdr div.tls div.pinleft_end.on {
 background-position: -27px -756px !important;
 }
 
-div.panel-header div.tools div.pinleft_begin {
+div.phdr div.tls div.pinleft_begin {
 background-position: -2px -738px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.pinleft_begin:hover,
-div.panel-header div.tools div.pinleft_begin.on {
+div.phdr div.tls div.pinleft_begin:hover,
+div.phdr div.tls div.pinleft_begin.on {
 background-position: -28px -738px !important;
 }
 
-div.panel-header div.tools div.dblarrowright {
+div.phdr div.tls div.dblarrowright {
 background-position: -4px -864px;
 }
 
-div.panel-header div.tools div.dblarrowright:hover,
-div.panel-header div.tools div.dblarrowright.on {
+div.phdr div.tls div.dblarrowright:hover,
+div.phdr div.tls div.dblarrowright.on {
 background-position: -29px -864px;
 }
 
-div.panel-header div.tools div.dblarrowright_middle {
+div.phdr div.tls div.dblarrowright_middle {
 background-position: -4px -846px !important;
 }
 
-div.panel-header div.tools div.dblarrowright_middle:hover,
-div.panel-header div.tools div.dblarrowright_middle.on {
+div.phdr div.tls div.dblarrowright_middle:hover,
+div.phdr div.tls div.dblarrowright_middle.on {
 background-position: -29px -846px !important;
 }
 
-div.panel-header div.tools div.dblarrowright_end {
+div.phdr div.tls div.dblarrowright_end {
 background-position: 0 -828px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.dblarrowright_end:hover,
-div.panel-header div.tools div.dblarrowright_end.on {
+div.phdr div.tls div.dblarrowright_end:hover,
+div.phdr div.tls div.dblarrowright_end.on {
 background-position: -27px -828px !important;
 }
 
-div.panel-header div.tools div.dblarrowright_begin {
+div.phdr div.tls div.dblarrowright_begin {
 background-position: -2px -810px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.dblarrowright_begin:hover,
-div.panel-header div.tools div.dblarrowright_begin.on {
+div.phdr div.tls div.dblarrowright_begin:hover,
+div.phdr div.tls div.dblarrowright_begin.on {
 background-position: -28px -810px !important;
 }
 
-div.panel-header div.tools div.dblarrowleft {
+div.phdr div.tls div.dblarrowleft {
 background-position: -4px -936px;
 }
 
-div.panel-header div.tools div.dblarrowleft:hover,
-div.panel-header div.tools div.dblarrowleft.on {
+div.phdr div.tls div.dblarrowleft:hover,
+div.phdr div.tls div.dblarrowleft.on {
 background-position: -29px -936px;
 }
 
-div.panel-header div.tools div.dblarrowleft_middle {
+div.phdr div.tls div.dblarrowleft_middle {
 background-position: -4px -918px !important;
 }
 
-div.panel-header div.tools div.dblarrowleft_middle:hover,
-div.panel-header div.tools div.dblarrowleft_middle.on {
+div.phdr div.tls div.dblarrowleft_middle:hover,
+div.phdr div.tls div.dblarrowleft_middle.on {
 background-position: -29px -918px !important;
 }
 
-div.panel-header div.tools div.dblarrowleft_end {
+div.phdr div.tls div.dblarrowleft_end {
 background-position: 0 -900px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.dblarrowleft_end:hover,
-div.panel-header div.tools div.dblarrowleft_end.on {
+div.phdr div.tls div.dblarrowleft_end:hover,
+div.phdr div.tls div.dblarrowleft_end.on {
 background-position: -27px -900px !important;
 }
 
-div.panel-header div.tools div.dblarrowleft_begin {
+div.phdr div.tls div.dblarrowleft_begin {
 background-position: -2px -882px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.dblarrowleft_begin:hover,
-div.panel-header div.tools div.dblarrowleft_begin.on {
+div.phdr div.tls div.dblarrowleft_begin:hover,
+div.phdr div.tls div.dblarrowleft_begin.on {
 background-position: -28px -882px !important;
 }
 
-div.panel-header div.tools div.dblarrowdown {
+div.phdr div.tls div.dblarrowdown {
 background-position: -4px -1008px;
 }
 
-div.panel-header div.tools div.dblarrowdown:hover,
-div.panel-header div.tools div.dblarrowdown.on {
+div.phdr div.tls div.dblarrowdown:hover,
+div.phdr div.tls div.dblarrowdown.on {
 background-position: -29px -1008px;
 }
 
-div.panel-header div.tools div.dblarrowdown_middle {
+div.phdr div.tls div.dblarrowdown_middle {
 background-position: -4px -990px !important;
 }
 
-div.panel-header div.tools div.dblarrowdown_middle:hover,
-div.panel-header div.tools div.dblarrowdown_middle.on {
+div.phdr div.tls div.dblarrowdown_middle:hover,
+div.phdr div.tls div.dblarrowdown_middle.on {
 background-position: -29px -990px !important;
 }
 
-div.panel-header div.tools div.dblarrowdown_end {
+div.phdr div.tls div.dblarrowdown_end {
 background-position: 0 -972px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.dblarrowdown_end:hover,
-div.panel-header div.tools div.dblarrowdown_end.on {
+div.phdr div.tls div.dblarrowdown_end:hover,
+div.phdr div.tls div.dblarrowdown_end.on {
 background-position: -27px -972px !important;
 }
 
-div.panel-header div.tools div.dblarrowdown_begin {
+div.phdr div.tls div.dblarrowdown_begin {
 background-position: -2px -954px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.dblarrowdown_begin:hover,
-div.panel-header div.tools div.dblarrowdown_begin.on {
+div.phdr div.tls div.dblarrowdown_begin:hover,
+div.phdr div.tls div.dblarrowdown_begin.on {
 background-position: -28px -954px !important;
 }
 
-div.panel-header div.tools div.dblarrowup {
+div.phdr div.tls div.dblarrowup {
 background-position: -4px -1080px;
 }
 
-div.panel-header div.tools div.dblarrowup:hover,
-div.panel-header div.tools div.dblarrowup.on {
+div.phdr div.tls div.dblarrowup:hover,
+div.phdr div.tls div.dblarrowup.on {
 background-position: -29px -1080px;
 }
 
-div.panel-header div.tools div.dblarrowup_middle {
+div.phdr div.tls div.dblarrowup_middle {
 background-position: -4px -1062px !important;
 }
 
-div.panel-header div.tools div.dblarrowup_middle:hover,
-div.panel-header div.tools div.dblarrowup_middle.on {
+div.phdr div.tls div.dblarrowup_middle:hover,
+div.phdr div.tls div.dblarrowup_middle.on {
 background-position: -29px -1062px !important;
 }
 
-div.panel-header div.tools div.dblarrowup_end {
+div.phdr div.tls div.dblarrowup_end {
 background-position: 0 -1044px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.dblarrowup_end:hover,
-div.panel-header div.tools div.dblarrowup_end.on {
+div.phdr div.tls div.dblarrowup_end:hover,
+div.phdr div.tls div.dblarrowup_end.on {
 background-position: -27px -1044px !important;
 }
 
-div.panel-header div.tools div.dblarrowup_begin {
+div.phdr div.tls div.dblarrowup_begin {
 background-position: -2px -1026px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.dblarrowup_begin:hover,
-div.panel-header div.tools div.dblarrowup_begin.on {
+div.phdr div.tls div.dblarrowup_begin:hover,
+div.phdr div.tls div.dblarrowup_begin.on {
 background-position: -28px -1026px !important;
 }
 
-div.panel-header div.tools div.refresh {
+div.phdr div.tls div.refresh {
 background-position: -4px -1152px;
 }
 
-div.panel-header div.tools div.refresh:hover,
-div.panel-header div.tools div.refresh.on {
+div.phdr div.tls div.refresh:hover,
+div.phdr div.tls div.refresh.on {
 background-position: -29px -1152px;
 }
 
-div.panel-header div.tools div.refresh_middle {
+div.phdr div.tls div.refresh_middle {
 background-position: -4px -1134px !important;
 }
 
-div.panel-header div.tools div.refresh_middle:hover,
-div.panel-header div.tools div.refresh_middle.on {
+div.phdr div.tls div.refresh_middle:hover,
+div.phdr div.tls div.refresh_middle.on {
 background-position: -29px -1134px !important;
 }
 
-div.panel-header div.tools div.refresh_end {
+div.phdr div.tls div.refresh_end {
 background-position: 0 -1116px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.refresh_end:hover,
-div.panel-header div.tools div.refresh_end.on {
+div.phdr div.tls div.refresh_end:hover,
+div.phdr div.tls div.refresh_end.on {
 background-position: -27px -1116px !important;
 }
 
-div.panel-header div.tools div.refresh_begin {
+div.phdr div.tls div.refresh_begin {
 background-position: -2px -1098px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.refresh_begin:hover,
-div.panel-header div.tools div.refresh_begin.on {
+div.phdr div.tls div.refresh_begin:hover,
+div.phdr div.tls div.refresh_begin.on {
 background-position: -28px -1098px !important;
 }
 
-div.panel-header div.tools div.plus {
+div.phdr div.tls div.plus {
 background-position: -4px -1224px;
 }
 
-div.panel-header div.tools div.plus:hover,
-div.panel-header div.tools div.plus.on {
+div.phdr div.tls div.plus:hover,
+div.phdr div.tls div.plus.on {
 background-position: -29px -1224px;
 }
 
-div.panel-header div.tools div.plus_middle {
+div.phdr div.tls div.plus_middle {
 background-position: -4px -1206px !important;
 }
 
-div.panel-header div.tools div.plus_middle:hover,
-div.panel-header div.tools div.plus_middle.on {
+div.phdr div.tls div.plus_middle:hover,
+div.phdr div.tls div.plus_middle.on {
 background-position: -29px -1206px !important;
 }
 
-div.panel-header div.tools div.plus_end {
+div.phdr div.tls div.plus_end {
 background-position: 0 -1188px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.plus_end:hover,
-div.panel-header div.tools div.plus_end.on {
+div.phdr div.tls div.plus_end:hover,
+div.phdr div.tls div.plus_end.on {
 background-position: -27px -1188px !important;
 }
 
-div.panel-header div.tools div.plus_begin {
+div.phdr div.tls div.plus_begin {
 background-position: -2px -1170px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.plus_begin:hover,
-div.panel-header div.tools div.plus_begin.on {
+div.phdr div.tls div.plus_begin:hover,
+div.phdr div.tls div.plus_begin.on {
 background-position: -28px -1170px !important;
 }
 
-div.panel-header div.tools div.minus {
+div.phdr div.tls div.minus {
 background-position: -4px -1296px;
 }
 
-div.panel-header div.tools div.minus:hover,
-div.panel-header div.tools div.minus.on {
+div.phdr div.tls div.minus:hover,
+div.phdr div.tls div.minus.on {
 background-position: -29px -1296px;
 }
 
-div.panel-header div.tools div.minus_middle {
+div.phdr div.tls div.minus_middle {
 background-position: -4px -1278px !important;
 }
 
-div.panel-header div.tools div.minus_middle:hover,
-div.panel-header div.tools div.minus_middle.on {
+div.phdr div.tls div.minus_middle:hover,
+div.phdr div.tls div.minus_middle.on {
 background-position: -29px -1278px !important;
 }
 
-div.panel-header div.tools div.minus_end {
+div.phdr div.tls div.minus_end {
 background-position: 0 -1260px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.minus_end:hover,
-div.panel-header div.tools div.minus_end.on {
+div.phdr div.tls div.minus_end:hover,
+div.phdr div.tls div.minus_end.on {
 background-position: -27px -1260px !important;
 }
 
-div.panel-header div.tools div.minus_begin {
+div.phdr div.tls div.minus_begin {
 background-position: -2px -1242px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.minus_begin:hover,
-div.panel-header div.tools div.minus_begin.on {
+div.phdr div.tls div.minus_begin:hover,
+div.phdr div.tls div.minus_begin.on {
 background-position: -28px -1242px !important;
 }
 
-div.panel-header div.tools div.search {
+div.phdr div.tls div.search {
 background-position: -4px -1368px;
 }
 
-div.panel-header div.tools div.search:hover,
-div.panel-header div.tools div.search.on {
+div.phdr div.tls div.search:hover,
+div.phdr div.tls div.search.on {
 background-position: -29px -1368px;
 }
 
-div.panel-header div.tools div.search_middle {
+div.phdr div.tls div.search_middle {
 background-position: -4px -1350px !important;
 }
 
-div.panel-header div.tools div.search_middle:hover,
-div.panel-header div.tools div.search_middle.on {
+div.phdr div.tls div.search_middle:hover,
+div.phdr div.tls div.search_middle.on {
 background-position: -29px -1350px !important;
 }
 
-div.panel-header div.tools div.search_end {
+div.phdr div.tls div.search_end {
 background-position: 0 -1332px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.search_end:hover,
-div.panel-header div.tools div.search_end.on {
+div.phdr div.tls div.search_end:hover,
+div.phdr div.tls div.search_end.on {
 background-position: -27px -1332px !important;
 }
 
-div.panel-header div.tools div.search_begin {
+div.phdr div.tls div.search_begin {
 background-position: -2px -1314px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.search_begin:hover,
-div.panel-header div.tools div.search_begin.on {
+div.phdr div.tls div.search_begin:hover,
+div.phdr div.tls div.search_begin.on {
 background-position: -28px -1314px !important;
 }
 
-div.panel-header div.tools div.save {
+div.phdr div.tls div.save {
 background-position: -4px -1440px;
 }
 
-div.panel-header div.tools div.save:hover,
-div.panel-header div.tools div.save.on {
+div.phdr div.tls div.save:hover,
+div.phdr div.tls div.save.on {
 background-position: -29px -1440px;
 }
 
-div.panel-header div.tools div.save_middle {
+div.phdr div.tls div.save_middle {
 background-position: -4px -1422px !important;
 }
 
-div.panel-header div.tools div.save_middle:hover,
-div.panel-header div.tools div.save_middle.on {
+div.phdr div.tls div.save_middle:hover,
+div.phdr div.tls div.save_middle.on {
 background-position: -29px -1422px !important;
 }
 
-div.panel-header div.tools div.save_end {
+div.phdr div.tls div.save_end {
 background-position: 0 -1404px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.save_end:hover,
-div.panel-header div.tools div.save_end.on {
+div.phdr div.tls div.save_end:hover,
+div.phdr div.tls div.save_end.on {
 background-position: -27px -1404px !important;
 }
 
-div.panel-header div.tools div.save_begin {
+div.phdr div.tls div.save_begin {
 background-position: -2px -1386px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.save_begin:hover,
-div.panel-header div.tools div.save_begin.on {
+div.phdr div.tls div.save_begin:hover,
+div.phdr div.tls div.save_begin.on {
 background-position: -28px -1386px !important;
 }
 
-div.panel-header div.tools div.help {
+div.phdr div.tls div.help {
 background-position: -4px -1512px;
 }
 
-div.panel-header div.tools div.help:hover,
-div.panel-header div.tools div.help.on {
+div.phdr div.tls div.help:hover,
+div.phdr div.tls div.help.on {
 background-position: -29px -1512px;
 }
 
-div.panel-header div.tools div.help_middle {
+div.phdr div.tls div.help_middle {
 background-position: -4px -1494px !important;
 }
 
-div.panel-header div.tools div.help_middle:hover,
-div.panel-header div.tools div.help_middle.on {
+div.phdr div.tls div.help_middle:hover,
+div.phdr div.tls div.help_middle.on {
 background-position: -29px -1494px !important;
 }
 
-div.panel-header div.tools div.help_end {
+div.phdr div.tls div.help_end {
 background-position: 0 -1476px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.help_end:hover,
-div.panel-header div.tools div.help_end.on {
+div.phdr div.tls div.help_end:hover,
+div.phdr div.tls div.help_end.on {
 background-position: -27px -1476px !important;
 }
 
-div.panel-header div.tools div.help_begin {
+div.phdr div.tls div.help_begin {
 background-position: -2px -1458px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.help_begin:hover,
-div.panel-header div.tools div.help_begin.on {
+div.phdr div.tls div.help_begin:hover,
+div.phdr div.tls div.help_begin.on {
 background-position: -28px -1458px !important;
 }
 
-div.panel-header div.tools div.print {
+div.phdr div.tls div.print {
 background-position: -4px -1584px;
 }
 
-div.panel-header div.tools div.print:hover,
-div.panel-header div.tools div.print.on {
+div.phdr div.tls div.print:hover,
+div.phdr div.tls div.print.on {
 background-position: -29px -1584px;
 }
 
-div.panel-header div.tools div.print_middle {
+div.phdr div.tls div.print_middle {
 background-position: -4px -1566px !important;
 }
 
-div.panel-header div.tools div.print_middle:hover,
-div.panel-header div.tools div.print_middle.on {
+div.phdr div.tls div.print_middle:hover,
+div.phdr div.tls div.print_middle.on {
 background-position: -29px -1566px !important;
 }
 
-div.panel-header div.tools div.print_end {
+div.phdr div.tls div.print_end {
 background-position: 0 -1548px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.print_end:hover,
-div.panel-header div.tools div.print_end.on {
+div.phdr div.tls div.print_end:hover,
+div.phdr div.tls div.print_end.on {
 background-position: -27px -1548px !important;
 }
 
-div.panel-header div.tools div.print_begin {
+div.phdr div.tls div.print_begin {
 background-position: -2px -1530px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.print_begin:hover,
-div.panel-header div.tools div.print_begin.on {
+div.phdr div.tls div.print_begin:hover,
+div.phdr div.tls div.print_begin.on {
 background-position: -28px -1530px !important;
 }
 
 /* End Tools **/
 
-div.panel-bwrap {
+div.pnl-bwrap {
 height: 100%;
 overflow: hidden;
 }
 
-div.panel-ml {
+div.pnl-ml {
 height: 100%;
 padding-left: 6px;
 }
 
-div.panel-ml div.panel-mr {
+div.pnl-ml div.pnl-mr {
 padding-right: 6px;
 height: 100%;
 }
 
-div.panel-ml div.panel-mr div.panel-mc {
+div.pnl-ml div.pnl-mr div.pnl-mc {
 background-color: #fff;
 border: 1px solid #99bbe8;
 overflow: hidden;
 }
 
-div.panel-mc div.content {
+div.pnl-mc div.content {
 height: 100%;
 margin: 0;
 width: 100%;
 }
 
-div.panel-mc div.content div.body {
+div.pnl-mc div.content div.body {
 height: 100%;
 text-align: left;
 width: 100%;
 }
 
-div.panel-mc div.content div.body div.heading {
+div.pnl-mc div.content div.body.scroll {
+overflow-y: auto;
+}
+
+div.pnl-mc div.content div.body.scroll div.wrapper {
+margin: 10px;
+}
+
+div.pnl-mc div.content div.body div.wrapper div.heading {
 font-size: 20pt;
 padding: 5px;
 padding-bottom: 2px;
@@ -1810,16 +1676,16 @@ padding-top: 10px;
 text-align: center;
 }
 
-div.panel-bl {
+div.pnl-bl {
 height: 6px;
 padding-left: 6px;
 }
 
-div.panel-bl div.panel-br {
+div.pnl-bl div.pnl-br {
 padding-right: 6px;
 }
 
-div.panel-bl div.panel-br div.panel-bc {
+div.pnl-bl div.pnl-br div.pnl-bc {
 padding-bottom: 6px;
 }
 
@@ -1853,7 +1719,7 @@ div.dialog div.content {
 div.dialog div.content div.heading {
 color: #000;
 font-size: 16pt;
-margin: 11px;
+margin: 14px;
 text-align: center;
 }
 
@@ -1861,9 +1727,6 @@ div#loading div.dialog div.content div.heading {
 background-image: url(i/icons/loading.gif);
 background-repeat: no-repeat;
 background-position: 9px 6px;
-color: #000;
-font-size: 16pt;
-margin: 11px;
 padding-left: 42px;
 text-align: left;
 }
@@ -1882,7 +1745,7 @@ width: 100% !important;
 }
 
 canvas#c_animation {
-background-color: #ffffff;
+background-color: #fff;
 visibility: hidden;
 }
 
@@ -1962,7 +1825,7 @@ text-align: center;
 }
 
 div#desktop div.desktop-body div.desktop-thumb div.thumb-button img {
-background-image: url(i/apps/thumbs/grid.gif);
+background-image: url(i/ux/thumbs.png);
 border-width: 0;
 height: 48px;
 width: 48px;
@@ -1988,14 +1851,9 @@ font-weight: bold;
 /* End Desktop Thumbs ***/
 /*** Begin Login */
 
-<?php
-$panel_bg = array('wave.jpg','splash_bg.jpg','splash_bg2.jpg','splash_bg3.jpg');
-$bg = rand(0,3);
-?>
-
-div#login div.panel-mc {
+div#login div.pnl-mc {
 background-color: #fff;
-background-image: url(i/apps/splash/<?php echo $panel_bg[$bg]; ?>);
+background-image: url(i/apps/splash/wave.jpg);
 background-repeat: no-repeat;
 background-position: top center;
 border: 1px solid #99bbe8;
@@ -2048,13 +1906,12 @@ margin-top: 4px;
 /* End Login ***/
 /*** Begin Register */
 
-div#register div.panel-mc {
+div#register div.pnl-mc {
 background-color: #dee;
 background-image: none;
-overflow: auto;
 }
 
-div#register div.panel-mc div.content div.body {
+div#register div.pnl-mc div.content div.body {
 margin: 0 auto;
 text-align: center;
 }
@@ -2098,7 +1955,8 @@ margin-top: 10px;
 width: 100%;
 }
 
-div#register table tr.error {
+div#register table tr.error,
+div#register div.error {
 background-color: rgba(255,0,0,0.75);
 border: 1px solid rgba(255,0,0,0.75);
 }
@@ -2175,7 +2033,7 @@ letter-spacing: 2px;
 line-height: 25px;
 }
 
-div#register input[type="goom_radio"] {
+div#register input[type="radio"] {
 font-size: 14pt;
 height: 25px;
 letter-spacing: 2px;
@@ -2378,7 +2236,9 @@ white-space: nowrap;
 }
 
 div.startmenu-mc div.startmenu-body li.list-item a.menu-item img.item-icon {
-background-position: 50% 50%;
+background-color: transparent;
+background-image: url(i/ux/icons.png);
+background-position: 50% 50%; /* hmmm */
 background-repeat: no-repeat;
 border: 0;
 height: 16px;
@@ -2418,7 +2278,7 @@ div.startmenu-mc div.startmenu-body div.apps ul.apps-menu-list a.menu-item:hover
 background-color: #e0e0e0;
 }
 
-div.startmenu-mc div.startmenu-body div.tools {
+div.startmenu-mc div.startmenu-body div.tls {
 height: 339px;
 left: 179px;
 overflow: hidden;
@@ -2427,23 +2287,23 @@ top: 0;
 width: 144px;
 }
 
-div.startmenu-mc div.startmenu-body div.tools div.tools-menu {
+div.startmenu-mc div.startmenu-body div.tls div.tls-menu {
 width: 100%;
 }
 
-div.startmenu-mc div.startmenu-body div.tools a.menu-item {
+div.startmenu-mc div.startmenu-body div.tls a.menu-item {
 color: #fff;
 }
 
-div.startmenu-mc div.startmenu-body div.tools a.menu-item:hover {
+div.startmenu-mc div.startmenu-body div.tls a.menu-item:hover {
 background-color: #666;
 }
 
-div.startmenu-mc div.startmenu-body div.tools ul.tools-menu-list li.list-item {
+div.startmenu-mc div.startmenu-body div.tls ul.tls-menu-list li.list-item {
 display: none;
 }
 
-div.startmenu-mc div.startmenu-body div.tools ul.tools-logout-list {
+div.startmenu-mc div.startmenu-body div.tls ul.tls-logout-list {
 bottom: 0;
 position: absolute;
 }
@@ -2480,7 +2340,7 @@ width: 100%;
 
 div#taskbar div#panel-wrap {
 height: 100%;
-left: 110px;
+left: 90px;
 position: absolute;
 top: 0;
 }
@@ -2591,7 +2451,6 @@ height: 100%;
 left: 0;
 position: absolute;
 top: 0;
-width: 60px;
 }
 
 div#taskbar div.quickstart-strip-wrap {
@@ -2605,7 +2464,6 @@ div#taskbar ul#quickstart-strip {
 height: 100%;
 list-style: none;
 margin: 0;
-margin-left: 15px;
 padding: 0;
 }
 
@@ -2613,7 +2471,6 @@ div#taskbar ul#quickstart-strip li {
 display: none;
 float: left;
 list-style: none;
-margin-left: 2px;
 }
 
 div#taskbar ul#quickstart-strip table {
@@ -2626,10 +2483,13 @@ white-space: nowrap;
 }
 
 div#taskbar ul#quickstart-strip table td {
-background-image: url(i/ux/taskbar/quickstart-button.gif);
 border-width: 0;
 margin: 0;
 padding: 0;
+}
+
+div#taskbar ul#quickstart-strip li:hover td {
+background-image: url(i/ux/taskbar/quickstart-button.gif);
 }
 
 div#taskbar ul#quickstart-strip td.button-left, 
@@ -2645,7 +2505,7 @@ background-repeat: no-repeat;
 background-position: 0 0;
 }
 
-div#taskbar ul#quickstart-strip li:hover td.button-left {/* background-position: 0 -84px;- click: background-position: 0 -90px;*/
+div#taskbar ul#quickstart-strip li:hover td.button-left {
 background-position: 0 -252px;
 }
 
@@ -2654,15 +2514,16 @@ background-repeat: repeat-x;
 background-position: 0 -56px;
 }
 
-div#taskbar ul#quickstart-strip li:hover td.button-center {/* background-position: 0 -140px;- click: background-position: 0 -90px;*/
+div#taskbar ul#quickstart-strip li:hover td.button-center {
 background-position: 0 -308px;
 }
 
 div#taskbar ul#quickstart-strip td.button-right {
+background-repeat: no-repeat;
 background-position: 0 -28px;
 }
 
-div#taskbar ul#quickstart-strip li:hover td.button-right {/* background-position: 0 -112px;- click: background-position: 0 -90px;*/
+div#taskbar ul#quickstart-strip li:hover td.button-right {
 background-position: 0 -280px;
 }
 
@@ -2672,8 +2533,8 @@ background-color: transparent;
 
 div#taskbar ul#quickstart-strip button[type="button"].quick {
 background-color: transparent;
-background-image: url(i/apps/icons/application.png);
-background-position: 50% 50%;
+background-image: url(i/ux/icons.png);
+background-position: 50% 50%; /* hmmm */
 background-repeat: no-repeat;
 border: 0;
 color: #fff;
@@ -2683,12 +2544,9 @@ font: normal normal bold 11px/normal tahoma, verdana, helvetica;
 height: 28px;
 line-height: 24px;
 margin: 0;
-margin-left: 2px;
-min-width: 20px;
+min-width: 18px;
 outline: 0;
-overflow: visible;
 padding: 0;
-text-align: left;
 width: auto;
 }
 
@@ -2697,7 +2555,6 @@ width: auto;
 
 div#taskbar div#taskbuttons-panel {
 height: 100%;
-left: 60px;
 position: absolute;
 top: 0;
 }
@@ -2781,7 +2638,7 @@ background-color: transparent;
 
 div#taskbar ul#taskbuttons-strip button[type="button"].task {
 background-color: transparent;
-background-image: url(i/apps/icons/application.png);
+background-image: url(i/ux/icons.png);
 background-position: 2px 6px;
 background-repeat: no-repeat;
 border: 0;
@@ -2880,173 +2737,55 @@ width: 14px;
 /* End Taskbar **/
 /** Begin Icons */
 
-div#login div.panel-header {
-background-image: url(i/icons/padlock.png);
-}
-
-div#register div.panel-header {
-background-image: url(i/apps/icons/friends.png);
-}
-
-.icon-logout {
-background-image: url(i/icons/disconnect.png);
-}
+.icon-login  { background-image: url(i/ux/login.png) !important; }
+.icon-register  { background-image: url(i/ux/register.png) !important; }
+.icon-logout { background-image: url(i/ux/logout.png) !important; }
 
 /*** Begin Apps */
 
-.icon-documents {
-background-image: url(i/icons/disk.png) !important;
-}
-
-.icon-preferences {
-background-image: url(i/apps/icons/preferences.png) !important;
-}
-
-.icon-notepad {
-background-image: url(i/apps/icons/notepad.png) !important;
-}
-
-.icon-flash_name {
-background-image: url(i/apps/icons/flash_name.png) !important;
-}
-
-.icon-ytinstant {
-background-image: url(i/apps/icons/ytinstant.png) !important;
-}
-
-.icon-piano {
-background-image: url(i/apps/icons/piano.png) !important;
-}
-
-.icon-about_hnsdesktop {
-background-image: url(i/apps/icons/info.png) !important;
-}
-
-.icon-feedback {
-background-image: url(i/apps/icons/feedback.png) !important;
-}
-
-.icon-tic_tac_toe {
-background-image: url(i/apps/icons/tic_tac_toe.png) !important;
-}
-
-.icon-friends {
-background-image: url(i/apps/icons/friends.png) !important;
-}
-
-.icon-goom_radio {
-background-image: url(i/apps/icons/goom_radio.png) !important;
-}
-
-.icon-search {
-background-image: url(i/icons/zoom.png) !important;
-}
-
-.icon-chat {
-background-image: url(i/apps/icons/chat.png) !important;
-}
-
-.icon-music {
-background-image: url(i/apps/icons/music.png) !important;
-}
-
-.icon-web_browser {
-background-image: url(i/apps/icons/web_browser.png) !important;
-}
-
-.icon-torus {
-background-image: url(i/apps/icons/torus.png) !important;
-}
-
-.icon-calendar {
-background-image: url(i/apps/icons/calendar.png) !important;
-}
-
-.icon-app_explorer {
-background-image: url(i/apps/icons/app_explorer.png) !important;
-}
-
-.icon-calculator {
-background-image: url(i/apps/icons/calculator.png) !important;
-}
+.icon-documents { background-position: -16px 0; }
+.icon-preferences { background-position: -px 0; }
+.icon-notepad { background-position: -px 0; }
+.icon-flash_name { background-position: -px 0; }
+.icon-ytinstant { background-position: -px 0; }
+.icon-piano { background-position: -px 0; }
+.icon-about_hnsdesktop { background-position: -px 0; }
+.icon-feedback { background-position: -px 0; }
+.icon-tic_tac_toe { background-position: -px 0; }
+.icon-friends { background-position: -px 0; }
+.icon-goom_radio { background-position: -px 0; }
+.icon-search { background-position: -px 0; }
+.icon-chat { background-position: -px 0; }
+.icon-music { background-position: -px 0; }
+.icon-web_browser { background-position: -px 0; }
+.icon-torus { background-position: -px 0; }
+.icon-calendar { background-position: -px 0; }
+.icon-app_explorer { background-position: -px 0; }
+.icon-calculator { background-position: -px 0; }
+.icon-twitter { background-position: -px 0; }
 
 /**** Begin Thumbs */
 
-div#desktop div.desktop-body div#thumb-documents div.thumb-button img {
-background-image: url(i/apps/thumbs/documents.png) !important;
-}
-
-div#desktop div.desktop-body div#thumb-preferences div.thumb-button img {
-background-image: url(i/apps/thumbs/preferences.png) !important;
-}
-
-div#desktop div.desktop-body div#thumb-notepad div.thumb-button img {
-background-image: url(i/apps/thumbs/notepad.png) !important;
-}
-
-div#desktop div.desktop-body div#thumb-flash_name div.thumb-button img {
-background-image: url(i/apps/thumbs/flash_name.png) !important;
-}
-
-div#desktop div.desktop-body div#thumb-ytinstant div.thumb-button img {
-background-image: url(i/apps/thumbs/ytinstant.png) !important;
-}
-
-div#desktop div.desktop-body div#thumb-piano div.thumb-button img {
-background-image: url(i/apps/thumbs/piano.png) !important;
-}
-
-div#desktop div.desktop-body div#thumb-about_hnsdesktop div.thumb-button img {
-background-image: url(i/apps/thumbs/info.png) !important;
-}
-
-div#desktop div.desktop-body div#thumb-feedback div.thumb-button img {
-background-image: url(i/apps/thumbs/feedback.png) !important;
-}
-
-div#desktop div.desktop-body div#thumb-tic_tac_toe div.thumb-button img {
-background-image: url(i/apps/thumbs/tic_tac_toe.png) !important;
-}
-
-div#desktop div.desktop-body div#thumb-friends div.thumb-button img {
-background-image: url(i/apps/thumbs/friends.png) !important;
-}
-
-div#desktop div.desktop-body div#thumb-goom_radio div.thumb-button img {
-background-image: url(i/apps/thumbs/goom_radio.png) !important;
-}
-
-div#desktop div.desktop-body div#thumb-search div.thumb-button img {
-background-image: url(i/apps/thumbs/search.png) !important;
-}
-
-div#desktop div.desktop-body div#thumb-chat div.thumb-button img {
-background-image: url(i/apps/thumbs/chat.png) !important;
-}
-
-div#desktop div.desktop-body div#thumb-music div.thumb-button img {
-background-image: url(i/apps/thumbs/music.png) !important;
-}
-
-div#desktop div.desktop-body div#thumb-web_browser div.thumb-button img {
-background-image: url(i/apps/thumbs/web_browser.png) !important;
-}
-
-div#desktop div.desktop-body div#thumb-torus div.thumb-button img {
-background-image: url(i/apps/thumbs/torus.png) !important;
-}
-
-div#desktop div.desktop-body div#thumb-calendar div.thumb-button img {
-background-image: url(i/apps/thumbs/calendar.png) !important;
-}
-
-div#desktop div.desktop-body div#thumb-app_explorer div.thumb-button img {
-background-image: url(i/apps/thumbs/app_explorer.png) !important;
-}
-
-div#desktop div.desktop-body div#thumb-calculator div.thumb-button img {
-background-image: url(i/apps/thumbs/calculator.png) !important;
-}
+.thumb-documents img { background-position: -48px 0; }
+.thumb-preferences img { background-position: -px 0; }
+.thumb-notepad img { background-position: -px 0; }
+.thumb-flash_name img { background-position: -px 0; }
+.thumb-ytinstant img { background-position: -px 0; }
+.thumb-piano img { background-position: -px 0; }
+.thumb-about_hnsdesktop img { background-position: -px 0; }
+.thumb-feedback img { background-position: -px 0; }
+.thumb-tic_tac_toe img { background-position: -px 0; }
+.thumb-friends img { background-position: -px 0; }
+.thumb-goom_radio img { background-position: -px 0; }
+.thumb-search img { background-position: -px 0; }
+.thumb-chat img { background-position: -px 0; }
+.thumb-music img { background-position: -px 0; }
+.thumb-web_browser img { background-position: -px 0; }
+.thumb-torus img { background-position: -px 0; }
+.thumb-calendar img { background-position: -px 0; }
+.thumb-app_explorer img { background-position: -px 0; }
+.thumb-calculator img { background-position: -px 0; }
+.thumb-twitter img { background-position: -px 0; }
 
 /* End Thumbs ****/
 /* End Apps ***/
@@ -3060,17 +2799,14 @@ background-image: url(i/apps/thumbs/calculator.png) !important;
 div#preferences {
 }
 
-div#preferences div.tool.dblarrowleft,
-div#preferences div.tool.maximize {
+div#preferences div.tl.dblarrowleft,
+div#preferences div.tl.maximize {
 display: none;
 }
 
-div#preferences div.panel-mc {
+div#preferences div.pnl-mc {
 background-image: none;
 overflow: hidden;
-}
-
-div#preferences div#splash {
 }
 
 div#preferences div#splash ul {
@@ -3098,25 +2834,11 @@ vertical-align: middle;
 width: 32px;
 }
 
-div#preferences div#splash ul li.thumbs img {
-background-image: url(i/ux/preferences/thumbs.png);
-}
-
-div#preferences div#splash ul li.autorun img {
-background-image: url(i/ux/preferences/autorun.png);
-}
-
-div#preferences div#splash ul li.quickstart img {
-background-image: url(i/ux/preferences/quickstart.png);
-}
-
-div#preferences div#splash ul li.themes img {
-background-image: url(i/ux/preferences/appearance.png);
-}
-
-div#preferences div#splash ul li.wallpaper img {
-background-image: url(i/ux/preferences/wallpaper.png);
-}
+div#preferences div#splash ul li.thumbs img { background-image: url(i/ux/preferences/thumbs.png); }
+div#preferences div#splash ul li.autorun img { background-image: url(i/ux/preferences/autorun.png); }
+div#preferences div#splash ul li.quickstart img { background-image: url(i/ux/preferences/quickstart.png); }
+div#preferences div#splash ul li.themes img { background-image: url(i/ux/preferences/appearance.png); }
+div#preferences div#splash ul li.wallpaper img { background-image: url(i/ux/preferences/wallpaper.png); }
 
 div#preferences div#splash div#name {
 color: #369;
@@ -3218,7 +2940,7 @@ border: 2px solid #99bbe8;
 /* End Preferences ***/
 /*** Begin Notepad */
 
-div#notepad div.panel-mc {
+div#notepad div.pnl-mc {
 background-color: #ecffff;
 background-image: none;
 }
@@ -3240,27 +2962,25 @@ width: 100%;
 /* End Flash Name ***/
 /*** Begin YTInstant */
 
-div#ytinstant {
-}
-
-div#ytinstant div.tool.plus,
-div#ytinstant div.tool.refresh,
-div#ytinstant div.tool.dblarrowright,
-div#ytinstant div.tool.pindown,
-div#ytinstant div.tool.arrowleft,
-div#ytinstant div.tool.arrowright {
+div#ytinstant div.tl.plus,
+div#ytinstant div.tl.refresh,
+div#ytinstant div.tl.dblarrowright,
+div#ytinstant div.tl.pinleft,
+div#ytinstant div.tl.pindown,
+div#ytinstant div.tl.arrowleft,
+div#ytinstant div.tl.arrowright {
 margin-right: 0 !important;
 }
 
-div#ytinstant div.panel-mc {
+div#ytinstant div.pnl-mc {
 background-color: #eeeff4;
 color: #000;
 font-size: 12px;
 }
 
-div#ytinstant #wrapper {
-margin: 30px auto;
-width: 1000px;
+div#ytinstant div#wrapper {
+margin: 0 auto;
+width: 1050px;
 }
 
 div#ytinstant a:link,
@@ -3270,30 +2990,29 @@ text-decoration: none;
 }
 
 div#ytinstant a:hover,
-div#ytinstant a:active,
-.underline:link,
-.underline:visited {
+div#ytinstant a:active {
 text-decoration: underline;
 }
 
-div#ytinstant #logo {
+div#ytinstant div#logo {
 float: left;
 margin: 0 15px 0 0;
 }
 
-div#ytinstant #logo div {
+div#ytinstant div#logo div {
 background: transparent url(i/apps/ytinstant/logo2.png) no-repeat top left;
 display: block;
 height: 32px;
 width: 180px;
 }
 
-div#ytinstant #logo span {
+div#ytinstant div#logo span {
 display: none;
 }
 
-div#ytinstant #header {
-margin: 0 0 20px;
+div#ytinstant div#header {
+margin: 30px 0 19px 0;
+width: 1050px;
 }
 
 div#ytinstant input[type="text"]#searchBox {
@@ -3307,50 +3026,43 @@ font-size: 20px;
 height: 30px;
 margin-right: 15px;
 outline: none;
-padding: 0 5px 0 4px;
-width: 340px;
+padding: 0 35px 0 4px;
+width: 310px;
 }
 
 div#ytinstant input[type="text"]#searchBox:focus {
 border: 2px solid #000;
 }
 
-div#ytinstant #searchTermKeyword {
-font-family: 'Reenie Beanie', arial, serif;
-font-size: 30px;
-}
-
-div#ytinstant .statusLoading {
+div#ytinstant input[type="text"].statusLoading {
 background: #fff url(i/apps/ytinstant/loading.gif) no-repeat 325px 50%;
 }
 
-div#ytinstant .statusPlaying {
+div#ytinstant input[type="text"].statusPlaying {
 background: #fff url(i/apps/ytinstant/playing.gif) no-repeat 325px 50%;
 }
 
-div#ytinstant #main {
-margin: 20px 0 0;
+div#ytinstant div#searchTermWrapper {
+cursor: default;
+float: right;
+position: relative;
+top: -5px;
+width: 484px;
 }
 
-div#ytinstant #hidden {
-display: none;
-height: 0;
+div#ytinstant div#searchTermKeyword {
+font-family: 'Reenie Beanie', arial, serif;
+font-size: 30px;
+overflow: hidden;
+text-align: left;
+text-overflow: ellipsis;
+-o-text-overflow: ellipsis;
+white-space: nowrap;
 }
 
-div#ytinstant #videoDiv {
+div#ytinstant div#videoDiv {
 float: left;
 margin: 0 10px 0 0;
-}
-
-div#ytinstant #videoTools {
-margin: 10px 0 0;
-padding: 10px;
-width: 695px;
-}
-
-div#ytinstant .boxText {
-font-weight: 700;
-margin-right: 10px;
 }
 
 div#ytinstant div#playlistWrapper {
@@ -3361,10 +3073,22 @@ overflow-x: hidden;
 overflow-y: auto;
 position: relative;
 vertical-align: top;
-width: 270px;
+width: 320px;
 }
 
-div#ytinstant div#playlistWrapper div#playlist img {
+div#ytinstant div#playlistWrapper div#playlist div.videoWrap {
+clear: both;
+display: block;
+height: 100px;
+width: 298px;
+}
+
+div#ytinstant div#playlistWrapper div#playlist a {
+display: block;
+width: 300px;
+}
+
+div#ytinstant div#playlistWrapper div#playlist img.thumb {
 clear: both;
 float: left;
 height: 90px;
@@ -3373,89 +3097,105 @@ vertical-align: top;
 width: 120px;
 }
 
-div#ytinstant  div#playlistWrapper div#playlist div {
+div#ytinstant div#playlistWrapper div#playlist div.title {
 float: left;
 font-size: 12px;
 height: 40px;
 margin: 6px 0 0;
-width: 125px;
+width: 175px;
 }
 
-div#ytinstant div#playlistWrapper div#playlist a {
-display: block;
-width: 260px;
+div#ytinstant div#playlistWrapper div#playlist div.selectedThumb div.title {
+font-weight: bold;
 }
 
-div#ytinstant #buttonControl {
+div#ytinstant div#playlistWrapper div#playlist span.viewCount {
+border: 1px solid transparent;
+color: #000;
+cursor: default;
+font: 7pt arial, sans-serif;
+float: right;
+padding-right: 5px;
+position: relative;
+top: 27px;
+}
+
+div#ytinstant div#playlistWrapper div#playlist span.viewCount:hover {
+background-color: #666;
+border: 1px solid #000;
+border-radius: 4px;
+-khtml-border-radius: 4px;
+-moz-border-radius: 4px;
+-opera-border-radius: 4px;
+-webkit-border-radius: 4px;
+color: #fff;
+padding: 0 5px 5px 5px;
+}
+
+div#ytinstant div#playlistWrapper div#playlist span.viewCount img {
+cursor: pointer;
+margin-left: 5px;
+position: relative;
+top: 4.5px;
+}
+
+div#ytinstant div#buttonControl {
 left: 44px;
 position: absolute;
 top: 32px;
 z-index: 1000;
 }
 
-div#ytinstant .play0 #buttonControl {
-top: 32px;
-}
-
-div#ytinstant .play1 #buttonControl {
-top: 136px;
-}
-
-div#ytinstant .play2 #buttonControl {
-top: 237px;
-}
-
-div#ytinstant .play3 #buttonControl {
-top: 338px;
-}
-
-div#ytinstant .play4 #buttonControl {
-top: 439px;
-}
-
-div#ytinstant .play5 #buttonControl {
-top: 540px;
-}
-
-div#ytinstant .play6 #buttonControl {
-top: 641px;
-}
-
-div#ytinstant .play7 #buttonControl {
-top: 742px;
-}
-
-div#ytinstant .play8 #buttonControl {
-top: 843px;
-}
-
-div#ytinstant .play9 #buttonControl {
-top: 944px;
-}
-
-div#ytinstant #buttonControl a {
+div#ytinstant div#buttonControl a {
 display: block;
 height: 32px;
 width: 32px;
 }
 
-div#ytinstant .playButton #buttonControl {
-background: transparent url(i/apps/ytinstant/player_play-1.png) no-repeat top left;
-}
+div#ytinstant div.playButton div#buttonControl { background: transparent url(i/apps/ytinstant/player_play-1.png) no-repeat top left; }
+div#ytinstant div.pauseButton div#buttonControl { background: transparent url(i/apps/ytinstant/player_pause-1.png) no-repeat top left; }
 
-div#ytinstant .pauseButton #buttonControl {
-background: transparent url(i/apps/ytinstant/player_pause-1.png) no-repeat top left;
-}
-
-div#ytinstant #footer {
+div#ytinstant div#footer {
 font-size: 12px;
-margin: 20px 0 0;
+margin: 0;
+width: 1050px;
 }
 
-div#ytinstant .boxHeader {
-font-family: 'Josefin Sans Std Light', arial, serif;
-font-size: 30px;
-margin: 0 0 7px;
+div#ytinstant div#footer div#socialapis {
+height: 30px;
+}
+
+div#ytinstant div#footer div#socialapis iframe#fblike {
+border: none;
+height: 24px;
+margin-top: 2px;
+min-width: 600px;
+overflow: hidden;
+width: auto; /* 708 */
+}
+
+div#ytinstant div#footer div#socialapis div#sub {
+float: right;
+margin-top: 2px;
+width: auto; /* 342 */
+}
+
+div#ytinstant div#footer div#socialapis div#sub div#buzz-container {
+border: none;
+float: left;
+height: 20px;
+margin-top: 2px;
+width: 109px;
+}
+
+div#ytinstant div#footer div#socialapis div#sub iframe#twitter {
+height: 20px;
+width: 109px;
+}
+
+div#ytinstant div#footer div#socialapis div#sub iframe#fbshare {
+height: 21px;
+width: 124px;
 }
 
 div#ytinstant .clearfix:after {
@@ -3479,24 +3219,7 @@ display: block;
 height: 1%;
 }
 
-div#ytinstant del,
-div#ytinstant ins,
-div#ytinstant .underline:hover,
-div#ytinstant .underline:active {
-text-decoration: none;
-}
-
-div#ytinstant sup,
-div#ytinstant sub {
-vertical-align: baseline;
-}
-
-div#ytinstant strong,
-div#ytinstant .selectedThumb {
-font-weight: 700;
-}
-
-div#ytinstant #searchDiv {
+div#ytinstant div#searchDiv {
 float: left;
 }
 
@@ -3506,7 +3229,7 @@ float: left;
 height: 405px;
 position: relative;
 vertical-align: top;
-width: 270px;
+width: 320px;
 }
 
 div#ytinstant div#userPlaylist div#playlistInput {
@@ -3526,7 +3249,7 @@ height: 30px;
 margin-right: 15px;
 outline: none;
 padding: 0 5px 0 4px;
-width: 245px;
+width: 307px;
 }
 
 div#ytinstant div#userPlaylist div#playlistInput input[type="text"]#playlistBox:focus {
@@ -3537,14 +3260,12 @@ div#ytinstant div#userPlaylist div#playlist {
 height: 365px;
 overflow-x: hidden;
 overflow-y: auto;
-width: 258px;
+width: 320px;
 }
 
-div#ytinstant div#userPlaylist div#playlist div#container {
-width: 255px;
-}
-
-div#ytinstant div#userPlaylist div#playlist div.searchItem {
+div#ytinstant div#userPlaylist div#playlist div.searchItem,
+div#ytinstant div#songPlaylists div.searchItem,
+div#ytinstant div#friendPlaylists div.searchItem {
 background-color: #99bbe8;
 border: 1px solid #999;
 border-radius: 4px;
@@ -3554,16 +3275,92 @@ border-radius: 4px;
 -webkit-border-radius: 4px;
 cursor: pointer;
 float: left;
-font-family: 'Reenie Beanie', arial, serif;
-font-size: 14px;
-font-weight: bold;
 margin: 1px;
 padding: 2px 6px;
 }
 
-div#ytinstant div#userPlaylist div#playlist div.searchItem:hover {
+div#ytinstant div#userPlaylist div#playlist div.searchItem {
+font-family: 'Reenie Beanie', arial, serif;
+font-size: 14px;
+font-weight: bold;
+}
+
+div#ytinstant div#songPlaylists div.searchItem,
+div#ytinstant div#friendPlaylists div.searchItem {
+font-family: verdona;
+font-size: 11px;
+}
+
+div#ytinstant div#userPlaylist div#playlist div.searchItem:hover,
+div#ytinstant div#songPlaylists div.searchItem:hover,
+div#ytinstant div#friendPlaylists div.searchItem:hover {
 background-color: #88aadd;
 border: 1px solid #888;
+}
+
+div#ytinstant div#songPlaylists,
+div#ytinstant div#friendPlaylists {
+display: none;
+float: left;
+height: 405px;
+position: relative;
+vertical-align: top;
+width: 320px;
+}
+
+div#ytinstant div#songPlaylists div#playlists,
+div#ytinstant div#friendPlaylists div#playlists {
+height: 367px;
+overflow-x: hidden;
+overflow-y: auto;
+width: 320px;
+}
+
+div#ytinstant div#songPlaylists div.playlist,
+div#ytinstant div#friendPlaylists div.playlist {
+display: none;
+height: 365px;
+overflow-x: hidden;
+overflow-y: auto;
+width: 320px;
+}
+
+div#ytinstant div#songPlaylists div#playlistHeader,
+div#ytinstant div#friendPlaylists div#playlistHeader {
+height: 38px;
+width: 100%;
+}
+
+div#ytinstant div#songPlaylists div#playlistHeader div#friendsPlaylists,
+div#ytinstant div#friendPlaylists div#playlistHeader div#friendsPlaylists {
+}
+
+div#ytinstant div#songPlaylists div#playlistHeader div#friendsPlaylists div#fpButton,
+div#ytinstant div#friendPlaylists div#playlistHeader div#songPlaylists div#spButton {
+font-size: 1.2em;
+padding: 0.25em 0 0.3em 0;
+width: 99.5%%;
+}
+
+div#ytinstant div#songPlaylists div#playlistHeader div#songsHeader,
+div#ytinstant div#friendPlaylists div#playlistHeader div#songsHeader {
+display: none;
+}
+
+div#ytinstant div#songPlaylists div#playlistHeader div#songsHeader div#playlistName,
+div#ytinstant div#friendPlaylists div#playlistHeader div#songsHeader div#playlistName {
+cursor: default;
+font-family: 'Reenie Beanie', arial, serif;
+font-size: 26px;
+font-weight: bold;
+}
+
+div#ytinstant div#songPlaylists div#playlistHeader div#songsHeader img#backtoplaylists,
+div#ytinstant div#friendPlaylists div#playlistHeader div#songsHeader img#backtoplaylists {
+cursor: pointer;
+position: absolute;
+right: 2px;
+top: 8px;
 }
 
 div#ytinstant div#help {
@@ -3572,17 +3369,28 @@ float: left;
 height: 405px;
 position: relative;
 vertical-align: top;
-width: 270px;
+width: 320px;
 }
 
-div#ytinstant div#help div#container {
-width: 255px;
+div#ytinstant div#help div.container {
+width: 305px;
+}
+
+div#ytinstant div#gallery {
+display: none;
+height: 428px;
+width: 1050px;
+}
+
+div#ytinstant div#gallery div.container {
+overflow-x: hidden;
+overflow-y: auto;
 }
 
 /* End YTInstant ***/
 /*** Begin Piano */
 
-div#piano div.panel-mc {
+div#piano div.pnl-mc {
 background-color: #fff;
 background-image: none;
 }
@@ -3622,13 +3430,18 @@ width: 100%;
 /* End Piano ***/
 /*** Begin About HnS Desktop */
 
+div#about_hnsdesktop iframe#hnsfblike {
+height: 70px;
+width: 450px;
+}
+
 /* End About HnS Desktop ***/
 /*** Begin Feedback */
 
 /* End Feedback ***/
 /* Begin Tic Tac Toe ***/
 
-div#tic_tac_toe div.panel-mc {
+div#tic_tac_toe div.pnl-mc {
 background-color: #fff;
 background-image: none;
 }
@@ -3741,10 +3554,6 @@ z-index: 3;
 /* End Tic Tac Toe ***/
 /*** Begin Friends */
 
-div#friends div.panel-mc {
-overflow: auto;
-}
-
 div#friends div.friendsection {
 background-color: #ffffff;
 border-radius: 6px;
@@ -3797,18 +3606,18 @@ padding: 0;
 /* End Goom Radio ***/
 /*** Begin Search */
 
-div#search div.panel-mc {
+div#search div.pnl-mc {
 overflow: auto;
 }
 
 /* End Search ***/
 /*** Begin Chat */
 
-div#chat div.panel-mc {
+div#chat div.pnl-mc {
 }
 
 div#chat div#chatarea {
-background-color: #ffffff;
+background-color: #fff;
 border: 1px solid #acd8f0;
 color: #000000;
 height: 400px;
@@ -4406,7 +4215,7 @@ border-left-style: none;
 border-left-width: medium;
 border-right-style: solid;
 border-right-width: 1;
-border-top: 1px solid #000000;
+border-top: 1px solid #000;
 }
 
 div#calendar table.maintable table#evtcal {
@@ -4425,26 +4234,26 @@ width: 314px;
 }
 
 div#calendar #evtcal a:link {
-color: #004400;
-font: normal 12pt "Arial", "Helvetica", "Sans Serif";
+color: #040;
+font: normal 12pt arial, helvetica, "sans serif";
 text-decoration: none;
 }
 
 div#calendar #evtcal a:visited {
-color: #004400;
-font: normal 12pt "Arial", "Helvetica", "Sans Serif";
+color: #040;
+font: normal 12pt arial, helvetica, "sans serif";
 text-decoration: none;
 }
 
 div#calendar #evtcal a:hover {
-color: #004400;
-font: normal 12pt "Arial", "Helvetica", "Sans Serif";
+color: #040;
+font: normal 12pt arial, helvetica, "sans serif";
 text-decoration: underline;
 }
 
 div#calendar #evtcal a:active {
-color: #004400;
-font: normal 12pt "Arial", "Helvetica", "Sans Serif";
+color: #040;
+font: normal 12pt arial, helvetica, "sans serif";
 text-decoration: none;
 }
 
@@ -4457,10 +4266,14 @@ div#calendar #eventform {
 /* End Calendar ***/
 /*** Begin App Explorer */
 
+div#app_explorer {
+
+}
+
 /* End App Explorer ***/
 /*** Begin Calculator */
 
-div#calculator div.tool.help {
+div#calculator div.tl.help {
 margin-right: 0 !important;
 }
 
@@ -4552,5 +4365,56 @@ display: none;
 }
 
 /* End Calculator ***/
+/*** Begin Calculator */
+
+div#twitter div.tl.plus,
+div#twitter div.tl.refresh {
+margin-right: 0 !important;
+}
+
+div#twitter div.body {
+background-color: darkgrey;
+text-align: center;
+}
+
+div#twitter input[type="text"]#search {
+border: 2px solid #999;
+border-radius: 5px;
+-khtml-border-radius: 5px;
+-moz-border-radius: 5px;
+-opera-border-radius: 5px;
+-webkit-border-radius: 5px;
+font-size: 20px;
+height: 30px;
+margin: 0 15px 10px 0;
+outline: none;
+padding: 0 35px 0 4px;
+width: 310px;
+}
+
+div#twitter input[type="text"]#search:focus {
+border: 2px solid #000;
+}
+
+div#twitter table#tweets {
+background-color: lightgray;
+margin: 2px;
+padding: 5px;
+spacing: 4px;
+text-align: left;
+}
+
+div#twitter table#tweets tr {
+background-color: darkgrey;
+}
+
+div#twitter table#tweets tr td {
+margin: 2px;
+padding: 2px;
+spacing: 2px;
+}
+
+/* End Calculator ***/
 /* End Apps **/
 /* End User Interface */
+<?php ob_end_flush(); ?>

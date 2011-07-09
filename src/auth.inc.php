@@ -1,7 +1,6 @@
 <?php
 session_start();
-
-include ("db.inc.php");
+include ('db.inc.php');
 
 if (!isset($_SESSION['logged']) || ($_SESSION['logged'] != 1)) {
 header('refresh: 4; url=index.php');
@@ -75,11 +74,7 @@ display();
 </div>
 </div>
 <!-- End page content -->
-<?php include ("tracking_scripts.inc.php"); ?>
 </body>
 
 </html>
-<?php
-die();
-}
-?>
+<?php die(); } ?>
