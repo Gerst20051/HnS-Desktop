@@ -145,7 +145,7 @@ width: 100%;
 
 html {
 background-color: #fff;
-background-image: url('i/wallpapers/vista.jpg');
+background-image: url(i/wallpapers/vista.jpg);
 background-position: center center;
 background-repeat: no-repeat;
 color: #000;
@@ -170,6 +170,7 @@ width: 100%;
 background-repeat: repeat;
 background-position: left top;
 }
+
 .wallpaper-center {
 background-position: center;
 }
@@ -398,7 +399,7 @@ top: 0px;
 width: 94%;
 }
 
-.shiny-button1:hover {/* red */
+.shiny-button1:hover { /* red */
 background-color: rgba(255,0,0,0.75);
 background-image: -moz-linear-gradient(top, bottom, from(rgba(128,64,64,0.75)), to(rgba(192,128,128,0.9)));
 background-image: -webkit-gradient(linear, 0% 0%, 0% 90%, from(rgba(128,64,64,0.75)), to(rgba(256,128,128,0.9)));
@@ -409,7 +410,7 @@ box-shadow: rgba(256,128,128,0.5) 0px 8px 24px;
 -webkit-box-shadow: rgba(256,128,128,0.5) 0px 8px 24px;
 }
 
-.shiny-button2:hover {/* green */
+.shiny-button2:hover { /* green */
 background-color: rgba(0,128,0,0.75);
 background-image: -moz-linear-gradient(top, bottom, from(rgba(64,128,64,0.75)), to(rgba(128,192,128,0.9)));
 background-image: -webkit-gradient(linear, 0% 0%, 0% 90%, from(rgba(64,128,64,0.75)), to(rgba(128,255,128,0.9)));
@@ -420,7 +421,7 @@ box-shadow: rgba(128,256,128,0.6) 0px 8px 24px;
 -webkit-box-shadow: rgba(128,256,128,0.6) 0px 8px 24px;
 }
 
-.shiny-button3:hover {/* blue */
+.shiny-button3:hover { /* blue */
 background-color: rgba(64,128,192,0.75);
 background-image: -moz-linear-gradient(top, bottom, from(rgba(16,96,192,0.75)), to(rgba(96,192,255,0.9)));
 background-image: -webkit-gradient(linear, 0% 0%, 0% 90%, from(rgba(16,96,192,0.75)), to(rgba(96,192,255,0.9)));
@@ -665,6 +666,67 @@ z-index: 101;
 }
 
 /* End Drag/Resize */
+/* Begin ContextMenu */
+
+.contextMenu {
+background: #eee;
+border: solid 1px #ccc;
+display: none;
+margin: 0px;
+padding: 0px;
+position: absolute;
+width: 120px;
+z-index: 99999;
+}
+
+.contextMenu li {
+list-style: none;
+margin: 0px;
+padding: 0px;
+}
+
+.contextMenu a {
+background-position: 6px center;
+background-repeat: no-repeat;
+color: #333;
+display: block;
+height: 20px;
+line-height: 20px;
+outline: none;
+padding: 1px 5px;
+padding-left: 28px;
+text-decoration: none;
+}
+
+.contextMenu li.hover a {
+background-color: #3399ff;
+color: #fff;
+}
+
+.contextMenu li.disabled a {
+color: #aaa;
+cursor: default;
+}
+
+.contextMenu li.hover.disabled a {
+background-color: transparent;
+}
+
+.contextMenu li.separator {
+border-top: solid 1px #ccc;
+}
+
+/* Adding Icons */
+
+.contextMenu li.edit a { background-image: url(i/icons/edit.png); }
+.contextMenu li.cut a { background-image: url(i/icons/cut.png); }
+.contextMenu li.copy a { background-image: url(i/icons/page_white_copy.png); }
+.contextMenu li.paste a { background-image: url(i/icons/page_white_paste.png); }
+.contextMenu li.delete a { background-image: url(i/icons/delete.png); }
+.contextMenu li.quit a { background-image: url(i/icons/door.png); }
+.contextMenu li.insert a { background-image: url(i/icons/plus.png); }
+
+/* End ContextMenu */
 /* Begin Panel */
 
 div.panel {
@@ -673,6 +735,7 @@ border: 1px solid #99bbe8;
 border-radius: 4px;
 -khtml-border-radius: 4px;
 -moz-border-radius: 4px;
+-opera-border-radius: 4px;
 -webkit-border-radius: 4px;
 box-shadow: rgba(0,0,0,0.5) 0 0 24px;
 -khtml-box-shadow: rgba(0,0,0,0.5) 0 0 24px;
@@ -689,6 +752,7 @@ border-top-right-radius: 4px;
 -khtml-border-top-right-radius: 4px;
 -moz-border-radius-topleft: 4px;
 -moz-border-radius-topright: 4px;
+-opera-border-radius: 4px; /* Fix */
 -webkit-border-top-left-radius: 4px;
 -webkit-border-top-right-radius: 4px;
 height: 24px;
@@ -708,7 +772,7 @@ div.panel-tl div.panel-tr div.panel-tc {
 }
 
 div.panel-tc div.panel-header {
-background-image: url('i/icons/application.png');
+background-image: url(i/apps/icons/application.png);
 background-position: 0 4px;
 background-repeat: no-repeat;
 cursor: move;
@@ -799,7 +863,7 @@ margin-right: 0;
 }
 
 div.panel-header div.tools div.tool {
-background-image: url('i/ux/tools.gif');
+background-image: url(i/ux/tools.gif);
 background-repeat: no-repeat;
 cursor: pointer;
 float: right;
@@ -809,302 +873,744 @@ width: 25px;
 }
 
 div.panel-header div.tools div.close {
-background-position: -8px -36px;
+background-position: -10px -36px;
 width: 44px;
 }
 
 div.panel-header div.tools div.close:hover {
-background-position: -8px -54px;
+background-position: -10px -54px;
 }
 
 div.panel-header div.tools div.close_corners {
-background-position: -7px 0 !important;
+background-position: -9px 0 !important;
 width: 45px !important;
 }
 
 div.panel-header div.tools div.close_corners:hover {
-background-position: -7px -18px !important;
+background-position: -9px -18px !important;
 }
 
 div.panel-header div.tools div.maximize {
-background-position: -2px -144px;
+background-position: -4px -144px;
 }
 
 div.panel-header div.tools div.maximize:hover {
-background-position: -27px -144px;
+background-position: -29px -144px;
 }
 
 div.panel-header div.tools div.maximize_end {
-background-position: 0 -127px !important;
+background-position: -2px -127px !important;
 width: 26px;
 }
 
 div.panel-header div.tools div.maximize_end:hover {
-background-position: -26px -127px !important;
+background-position: -28px -127px !important;
 }
 
 div.panel-header div.tools div.maximize_corners {
-background-position: -2px -162px !important;
+background-position: -4px -162px !important;
 }
 
 div.panel-header div.tools div.maximize_corners:hover {
-background-position: -27px -162px !important;
+background-position: -29px -162px !important;
 }
 
 div.panel-header div.tools div.restore {
-background-position: -2px -198px;
+background-position: -4px -198px;
 }
 
 div.panel-header div.tools div.restore:hover {
-background-position: -27px -198px;
+background-position: -29px -198px;
 }
 
 div.panel-header div.tools div.restore_end{
-background-position: 0 -180px !important;
+background-position: -2px -180px !important;
 width: 26px;
 }
 
 div.panel-header div.tools div.restore_end:hover {
-background-position: -26px -180px !important;
+background-position: -28px -180px !important;
 }
 
 div.panel-header div.tools div.restore_corners {
-background-position: -2px -216px !important;
+background-position: -4px -216px !important;
 }
 
 div.panel-header div.tools div.restore_corners:hover {
-background-position: -27px -216px !important;
+background-position: -29px -216px !important;
 }
 
 div.panel-header div.tools div.minimize {
-background-position: 0 -72px;
+background-position: -2px -72px;
 width: 26px;
 }
 
 div.panel-header div.tools div.minimize:hover {
-background-position: -26px -72px;
+background-position: -28px -72px;
 }
 
 div.panel-header div.tools div.minimize_middle {
-background-position: -2px -90px !important;
+background-position: -4px -90px !important;
 width: 25px !important;
 }
 
 div.panel-header div.tools div.minimize_middle:hover {
-background-position: -27px -90px !important;
+background-position: -29px -90px !important;
 }
 
 div.panel-header div.tools div.minimize_corners {
-background-position: -2px -108px !important;
+background-position: -4px -108px !important;
 width: 25px !important;
 }
 
 div.panel-header div.tools div.minimize_corners:hover {
-background-position: -27px -108px !important;
+background-position: -29px -108px !important;
 }
 
 div.panel-header div.tools div.blank {
-background-position: -2px -270px;
+background-position: -4px -288px;
 }
 
 div.panel-header div.tools div.blank:hover {
-background-position: -27px -270px;
+background-position: -29px -288px;
 }
 
 div.panel-header div.tools div.blank_middle {
-background-position: -2px -252px !important;
+background-position: -4px -270px !important;
 }
 
 div.panel-header div.tools div.blank_middle:hover {
-background-position: -27px -252px !important;
+background-position: -29px -270px !important;
 }
 
 div.panel-header div.tools div.blank_end {
-background-position: 0 -234px !important;
+background-position: -2px -252px !important;
 width: 26px;
 }
 
 div.panel-header div.tools div.blank_end:hover {
-background-position: -26px -234px !important;
+background-position: -28px -252px !important;
+}
+
+div.panel-header div.tools div.blank_begin {
+background-position: -2px -234px !important;
+width: 26px;
+}
+
+div.panel-header div.tools div.blank_begin:hover {
+background-position: -28px -234px !important;
 }
 
 div.panel-header div.tools div.toggle {
-background-position: -2px -324px;
+background-position: -4px -360px;
 }
 
 div.panel-header div.tools div.toggle:hover {
-background-position: -27px -324px;
+background-position: -29px -360px;
 }
 
 div.panel-header div.tools div.toggle_middle {
-background-position: -2px -306px !important;
+background-position: -4px -342px !important;
 }
 
 div.panel-header div.tools div.toggle_middle:hover {
-background-position: -27px -306px !important;
+background-position: -29px -342px !important;
 }
 
 div.panel-header div.tools div.toggle_end {
-background-position: 0 -288px !important;
+background-position: -2px -324px !important;
 width: 26px;
 }
 
 div.panel-header div.tools div.toggle_end:hover {
-background-position: -26px -288px !important;
+background-position: -28px -324px !important;
+}
+
+div.panel-header div.tools div.toggle_begin {
+background-position: -2px -306px !important;
+width: 26px;
+}
+
+div.panel-header div.tools div.toggle_begin:hover {
+background-position: -28px -306px !important;
 }
 
 div.panel-header div.tools div.toggledown {
-background-position: -2px -378px;
+background-position: -4px -432px;
 }
 
 div.panel-header div.tools div.toggledown:hover {
-background-position: -27px -378px;
+background-position: -29px -432px;
 }
 
 div.panel-header div.tools div.toggledown_middle {
-background-position: -2px -360px !important;
+background-position: -4px -414px !important;
 }
 
 div.panel-header div.tools div.toggledown_middle:hover {
-background-position: -27px -360px !important;
+background-position: -29px -414px !important;
 }
 
 div.panel-header div.tools div.toggledown_end {
-background-position: 0 -342px !important;
+background-position: -2px -396px !important;
 width: 26px;
 }
 
 div.panel-header div.tools div.toggledown_end:hover {
-background-position: -26px -342px !important;
+background-position: -28px -396px !important;
 }
 
+div.panel-header div.tools div.toggledown_begin {
+background-position: -2px -378px !important;
+width: 26px;
+}
+
+div.panel-header div.tools div.toggledown_begin:hover {
+background-position: -28px -378px !important;
+}
 
 div.panel-header div.tools div.config {
-background-position: -2px -432px;
+background-position: -4px -504px;
 }
 
 div.panel-header div.tools div.config:hover {
-background-position: -27px -432px;
+background-position: -29px -504px;
+}
+
+div.panel-header div.tools div.config_middle {
+background-position: -4px -486px !important;
+}
+
+div.panel-header div.tools div.config_middle:hover {
+background-position: -29px -486px !important;
+}
+
+div.panel-header div.tools div.config_end {
+background-position: 0 -468px !important;
+width: 27px;
+}
+
+div.panel-header div.tools div.config_end:hover {
+background-position: -27px -468px !important;
+}
+
+div.panel-header div.tools div.config_begin {
+background-position: -2px -450px !important;
+width: 26px;
+}
+
+div.panel-header div.tools div.config_begin:hover {
+background-position: -28px -450px !important;
 }
 
 div.panel-header div.tools div.arrowleft {
-background-position: -2px -486px;
+background-position: -4px -576px;
 }
 
 div.panel-header div.tools div.arrowleft:hover {
-background-position: -27px -486px;
+background-position: -29px -576px;
+}
+
+div.panel-header div.tools div.arrowleft_middle {
+background-position: -4px -558px !important;
+}
+
+div.panel-header div.tools div.arrowleft_middle:hover {
+background-position: -29px -558px !important;
+}
+
+div.panel-header div.tools div.arrowleft_end {
+background-position: 0 -540px !important;
+width: 27px;
+}
+
+div.panel-header div.tools div.arrowleft_end:hover {
+background-position: -27px -540px !important;
+}
+
+div.panel-header div.tools div.arrowleft_begin {
+background-position: -2px -522px !important;
+width: 26px;
+}
+
+div.panel-header div.tools div.arrowleft_begin:hover {
+background-position: -28px -522px !important;
 }
 
 div.panel-header div.tools div.arrowright {
-background-position: -2px -540px;
+background-position: -4px -648px;
 }
 
 div.panel-header div.tools div.arrowright:hover {
-background-position: -27px -540px;
+background-position: -29px -648px;
+}
+
+div.panel-header div.tools div.arrowright_middle {
+background-position: -4px -630px !important;
+}
+
+div.panel-header div.tools div.arrowright_middle:hover {
+background-position: -29px -630px !important;
+}
+
+div.panel-header div.tools div.arrowright_end {
+background-position: -2px -612px !important;
+width: 27px;
+}
+
+div.panel-header div.tools div.arrowright_end:hover {
+background-position: -28px -612px !important;
+}
+
+div.panel-header div.tools div.arrowright_begin {
+background-position: 0 -594px !important;
+width: 26px;
+}
+
+div.panel-header div.tools div.arrowright_begin:hover {
+background-position: -27px -594px !important;
 }
 
 div.panel-header div.tools div.pindown {
-background-position: -2px -594px;
+background-position: -4px -720px;
 }
 
 div.panel-header div.tools div.pindown:hover {
-background-position: -27px -594px;
+background-position: -29px -720px;
+}
+
+div.panel-header div.tools div.pindown_middle {
+background-position: -4px -702px !important;
+}
+
+div.panel-header div.tools div.pindown_middle:hover {
+background-position: -29px -702px !important;
+}
+
+div.panel-header div.tools div.pindown_end {
+background-position: 0 -684px !important;
+width: 27px;
+}
+
+div.panel-header div.tools div.pindown_end:hover {
+background-position: -27px -684px !important;
+}
+
+div.panel-header div.tools div.pindown_begin {
+background-position: -2px -666px !important;
+width: 26px;
+}
+
+div.panel-header div.tools div.pindown_begin:hover {
+background-position: -28px -666px !important;
 }
 
 div.panel-header div.tools div.pinleft {
-background-position: -2px -648px;
+background-position: -4px -792px;
 }
 
 div.panel-header div.tools div.pinleft:hover {
-background-position: -27px -648px;
+background-position: -29px -792px;
+}
+
+div.panel-header div.tools div.pinleft_middle {
+background-position: -4px -774px !important;
+}
+
+div.panel-header div.tools div.pinleft_middle:hover {
+background-position: -29px -774px !important;
+}
+
+div.panel-header div.tools div.pinleft_end {
+background-position: 0 -756px !important;
+width: 27px;
+}
+
+div.panel-header div.tools div.pinleft_end:hover {
+background-position: -27px -756px !important;
+}
+
+div.panel-header div.tools div.pinleft_begin {
+background-position: -2px -738px !important;
+width: 26px;
+}
+
+div.panel-header div.tools div.pinleft_begin:hover {
+background-position: -28px -738px !important;
 }
 
 div.panel-header div.tools div.dblarrowright {
-background-position: -2px -702px;
+background-position: -4px -864px;
 }
 
 div.panel-header div.tools div.dblarrowright:hover {
-background-position: -27px -702px;
+background-position: -29px -864px;
+}
+
+div.panel-header div.tools div.dblarrowright_middle {
+background-position: -4px -846px !important;
+}
+
+div.panel-header div.tools div.dblarrowright_middle:hover {
+background-position: -29px -846px !important;
+}
+
+div.panel-header div.tools div.dblarrowright_end {
+background-position: 0 -828px !important;
+width: 27px;
+}
+
+div.panel-header div.tools div.dblarrowright_end:hover {
+background-position: -27px -828px !important;
+}
+
+div.panel-header div.tools div.dblarrowright_begin {
+background-position: -2px -810px !important;
+width: 26px;
+}
+
+div.panel-header div.tools div.dblarrowright_begin:hover {
+background-position: -28px -810px !important;
 }
 
 div.panel-header div.tools div.dblarrowleft {
-background-position: -2px -755px;
+background-position: -4px -936px;
 }
 
-div.panel-tc div.panel-header div.tools div.dblarrowleft:hover {
-background-position: -27px -755px;
+div.panel-header div.tools div.dblarrowleft:hover {
+background-position: -29px -936px;
+}
+
+div.panel-header div.tools div.dblarrowleft_middle {
+background-position: -4px -918px !important;
+}
+
+div.panel-header div.tools div.dblarrowleft_middle:hover {
+background-position: -29px -918px !important;
+}
+
+div.panel-header div.tools div.dblarrowleft_end {
+background-position: 0 -900px !important;
+width: 27px;
+}
+
+div.panel-header div.tools div.dblarrowleft_end:hover {
+background-position: -27px -900px !important;
+}
+
+div.panel-header div.tools div.dblarrowleft_begin {
+background-position: -2px -882px !important;
+width: 26px;
+}
+
+div.panel-header div.tools div.dblarrowleft_begin:hover {
+background-position: -28px -882px !important;
 }
 
 div.panel-header div.tools div.dblarrowdown {
-background-position: -2px -808px;
+background-position: -4px -1008px;
 }
 
 div.panel-header div.tools div.dblarrowdown:hover {
-background-position: -27px -808px;
+background-position: -29px -1008px;
+}
+
+div.panel-header div.tools div.dblarrowdown_middle {
+background-position: -4px -990px !important;
+}
+
+div.panel-header div.tools div.dblarrowdown_middle:hover {
+background-position: -29px -990px !important;
+}
+
+div.panel-header div.tools div.dblarrowdown_end {
+background-position: 0 -972px !important;
+width: 27px;
+}
+
+div.panel-header div.tools div.dblarrowdown_end:hover {
+background-position: -27px -972px !important;
+}
+
+div.panel-header div.tools div.dblarrowdown_begin {
+background-position: -2px -954px !important;
+width: 26px;
+}
+
+div.panel-header div.tools div.dblarrowdown_begin:hover {
+background-position: -28px -954px !important;
 }
 
 div.panel-header div.tools div.dblarrowup {
-background-position: -2px -862px;
+background-position: -4px -1080px;
 }
 
 div.panel-header div.tools div.dblarrowup:hover {
-background-position: -27px -862px;
+background-position: -29px -1080px;
+}
+
+div.panel-header div.tools div.dblarrowup_middle {
+background-position: -4px -1062px !important;
+}
+
+div.panel-header div.tools div.dblarrowup_middle:hover {
+background-position: -29px -1062px !important;
+}
+
+div.panel-header div.tools div.dblarrowup_end {
+background-position: 0 -1044px !important;
+width: 27px;
+}
+
+div.panel-header div.tools div.dblarrowup_end:hover {
+background-position: -27px -1044px !important;
+}
+
+div.panel-header div.tools div.dblarrowup_begin {
+background-position: -2px -1026px !important;
+width: 26px;
+}
+
+div.panel-header div.tools div.dblarrowup_begin:hover {
+background-position: -28px -1026px !important;
 }
 
 div.panel-header div.tools div.refresh {
-background-position: -2px -916px;
+background-position: -4px -1152px;
 }
 
 div.panel-header div.tools div.refresh:hover {
-background-position: -27px -916px;
+background-position: -29px -1152px;
+}
+
+div.panel-header div.tools div.refresh_middle {
+background-position: -4px -1134px !important;
+}
+
+div.panel-header div.tools div.refresh_middle:hover {
+background-position: -29px -1134px !important;
+}
+
+div.panel-header div.tools div.refresh_end {
+background-position: 0 -1116px !important;
+width: 27px;
+}
+
+div.panel-header div.tools div.refresh_end:hover {
+background-position: -27px -1116px !important;
+}
+
+div.panel-header div.tools div.refresh_begin {
+background-position: -2px -1098px !important;
+width: 26px;
+}
+
+div.panel-header div.tools div.refresh_begin:hover {
+background-position: -28px -1098px !important;
 }
 
 div.panel-header div.tools div.plus {
-background-position: -2px -970px;
+background-position: -4px -1224px;
 }
 
 div.panel-header div.tools div.plus:hover {
-background-position: -27px -970px;
+background-position: -29px -1224px;
+}
+
+div.panel-header div.tools div.plus_middle {
+background-position: -4px -1206px !important;
+}
+
+div.panel-header div.tools div.plus_middle:hover {
+background-position: -29px -1206px !important;
+}
+
+div.panel-header div.tools div.plus_end {
+background-position: 0 -1188px !important;
+width: 27px;
+}
+
+div.panel-header div.tools div.plus_end:hover {
+background-position: -27px -1188px !important;
+}
+
+div.panel-header div.tools div.plus_begin {
+background-position: -2px -1170px !important;
+width: 26px;
+}
+
+div.panel-header div.tools div.plus_begin:hover {
+background-position: -28px -1170px !important;
 }
 
 div.panel-header div.tools div.minus {
-background-position: -2px -1024px;
+background-position: -4px -1296px;
 }
 
 div.panel-header div.tools div.minus:hover {
-background-position: -27px -1024px;
+background-position: -29px -1296px;
+}
+
+div.panel-header div.tools div.minus_middle {
+background-position: -4px -1278px !important;
+}
+
+div.panel-header div.tools div.minus_middle:hover {
+background-position: -29px -1278px !important;
+}
+
+div.panel-header div.tools div.minus_end {
+background-position: 0 -1260px !important;
+width: 27px;
+}
+
+div.panel-header div.tools div.minus_end:hover {
+background-position: -27px -1260px !important;
+}
+
+div.panel-header div.tools div.minus_begin {
+background-position: -2px -1242px !important;
+width: 26px;
+}
+
+div.panel-header div.tools div.minus_begin:hover {
+background-position: -28px -1242px !important;
 }
 
 div.panel-header div.tools div.search {
-background-position: -2px -1078px;
+background-position: -4px -1368px;
 }
 
 div.panel-header div.tools div.search:hover {
-background-position: -27px -1078px;
+background-position: -29px -1368px;
+}
+
+div.panel-header div.tools div.search_middle {
+background-position: -4px -1350px !important;
+}
+
+div.panel-header div.tools div.search_middle:hover {
+background-position: -29px -1350px !important;
+}
+
+div.panel-header div.tools div.search_end {
+background-position: 0 -1332px !important;
+width: 27px;
+}
+
+div.panel-header div.tools div.search_end:hover {
+background-position: -27px -1332px !important;
+}
+
+div.panel-header div.tools div.search_begin {
+background-position: -2px -1314px !important;
+width: 26px;
+}
+
+div.panel-header div.tools div.search_begin:hover {
+background-position: -28px -1314px !important;
 }
 
 div.panel-header div.tools div.save {
-background-position: -2px -1132px;
+background-position: -4px -1440px;
 }
 
 div.panel-header div.tools div.save:hover {
-background-position: -27px -1132px;
+background-position: -29px -1440px;
+}
+
+div.panel-header div.tools div.save_middle {
+background-position: -4px -1422px !important;
+}
+
+div.panel-header div.tools div.save_middle:hover {
+background-position: -29px -1422px !important;
+}
+
+div.panel-header div.tools div.save_end {
+background-position: 0 -1404px !important;
+width: 27px;
+}
+
+div.panel-header div.tools div.save_end:hover {
+background-position: -27px -1404px !important;
+}
+
+div.panel-header div.tools div.save_begin {
+background-position: -2px -1386px !important;
+width: 26px;
+}
+
+div.panel-header div.tools div.save_begin:hover {
+background-position: -28px -1386px !important;
 }
 
 div.panel-header div.tools div.help {
-background-position: -2px -1186px;
+background-position: -4px -1512px;
 }
 
 div.panel-header div.tools div.help:hover {
-background-position: -27px -1186px;
+background-position: -29px -1512px;
+}
+
+div.panel-header div.tools div.help_middle {
+background-position: -4px -1494px !important;
+}
+
+div.panel-header div.tools div.help_middle:hover {
+background-position: -29px -1494px !important;
+}
+
+div.panel-header div.tools div.help_end {
+background-position: 0 -1476px !important;
+width: 27px;
+}
+
+div.panel-header div.tools div.help_end:hover {
+background-position: -27px -1476px !important;
+}
+
+div.panel-header div.tools div.help_begin {
+background-position: -2px -1458px !important;
+width: 26px;
+}
+
+div.panel-header div.tools div.help_begin:hover {
+background-position: -28px -1458px !important;
 }
 
 div.panel-header div.tools div.print {
-background-position: -2px -1240px;
+background-position: -4px -1584px;
 }
 
 div.panel-header div.tools div.print:hover {
-background-position: -27px -1240px;
+background-position: -29px -1584px;
+}
+
+div.panel-header div.tools div.print_middle {
+background-position: -4px -1566px !important;
+}
+
+div.panel-header div.tools div.print_middle:hover {
+background-position: -29px -1566px !important;
+}
+
+div.panel-header div.tools div.print_end {
+background-position: 0 -1548px !important;
+width: 27px;
+}
+
+div.panel-header div.tools div.print_end:hover {
+background-position: -27px -1548px !important;
+}
+
+div.panel-header div.tools div.print_begin {
+background-position: -2px -1530px !important;
+width: 26px;
+}
+
+div.panel-header div.tools div.print_begin:hover {
+background-position: -28px -1530px !important;
 }
 
 /* End Tools **/
@@ -1172,6 +1678,7 @@ border: 2px solid #99bbe8;
 border-radius: 10px;
 -khtml-border-radius: 10px;
 -moz-border-radius: 10px;
+-opera-border-radius: 10px;
 -webkit-border-radius: 10px;
 box-shadow: rgba(153,187,232,0.5) 0 0 24px;
 -khtml-box-shadow: rgba(153,187,232,0.5) 0 0 24px;
@@ -1197,7 +1704,7 @@ text-align: center;
 }
 
 div#loading div.dialog div.content div.heading {
-background-image: url('i/icons/loading.gif');
+background-image: url(i/icons/loading.gif);
 background-repeat: no-repeat;
 background-position: 9px 6px;
 color: #000;
@@ -1218,6 +1725,11 @@ div.fullscreen {
 left: 0 !important;
 top: 0 !important;
 width: 100% !important;
+}
+
+canvas#c_animation {
+background-color: #ffffff;
+visibility: hidden;
 }
 
 /* End Splash **/
@@ -1258,6 +1770,7 @@ border: 1px solid transparent;
 border-radius: 8px;
 -khtml-border-radius: 8px;
 -moz-border-radius: 8px;
+-opera-border-radius: 8px;
 -webkit-border-radius: 8px;
 clear: right;
 cursor: pointer;
@@ -1291,7 +1804,7 @@ text-align: center;
 }
 
 div#desktop div.desktop-body div.desktop-thumb div.thumb-button img {
-background-image: url('i/thumbs/grid.gif');
+background-image: url(i/apps/thumbs/grid.gif);
 border-width: 0;
 height: 48px;
 width: 48px;
@@ -1324,7 +1837,7 @@ $bg = rand(0,3);
 
 div#login div.panel-mc {
 background-color: #fff;
-background-image: url('i/<?php echo $panel_bg[$bg];?>');
+background-image: url(i/apps/splash/<?php echo $panel_bg[$bg]; ?>);
 background-repeat: no-repeat;
 background-position: top center;
 border: 1px solid #99bbe8;
@@ -1402,7 +1915,7 @@ width: 75%;
 }
 
 div#register legend {
-background: #fff url('i/ux/form.gif') repeat-x 0% 50%;
+background: #fff url(i/ux/form.gif) repeat-x 0% 50%;
 border: 3px solid #fff;
 color: #000;
 font-family: georgia, sans-serif;
@@ -1412,7 +1925,7 @@ margin-bottom: 5px;
 padding: 3px;
 padding-left: 6px;
 text-align: left;
-widtH: 260px;
+width: 260px;
 }
 
 div#register small.formreminder {
@@ -1460,7 +1973,7 @@ width: 80%;
 }
 
 div#register table td.input input {
-background: #fff url('i/ux/form.gif') repeat-x 0% 50%;
+background: #fff url(i/ux/form.gif) repeat-x 0% 50%;
 border: 1px solid #fff;
 margin-right: 10px;
 }
@@ -1482,7 +1995,7 @@ font: inherit !important;
 }
 
 div#register input[type="text"] {
-background: #fff url('i/ux/form.gif') repeat-x 0% 50%;
+background: #fff url(i/ux/form.gif) repeat-x 0% 50%;
 border: 1px solid #fff;
 font-size: 14pt;
 height: 25px;
@@ -1504,7 +2017,7 @@ letter-spacing: 2px;
 line-height: 25px;
 }
 
-div#register input[type="radio"] {
+div#register input[type="goom_radio"] {
 font-size: 14pt;
 height: 25px;
 letter-spacing: 2px;
@@ -1519,7 +2032,7 @@ letter-spacing: 2px;
 line-height: 29px;
 }
 
-div#register table td.input span.radio {
+div#register table td.input span.goom_radio {
 left: 2px;
 position: relative;
 top: -6.5px;
@@ -1562,6 +2075,7 @@ border: none;
 border-radius: 4px;
 -khtml-border-radius: 4px;
 -moz-border-radius: 4px;
+-opera-border-radius: 4px;
 -webkit-border-radius: 4px;
 bottom: 2px;
 box-shadow: rgba(153,187,232,1) 0 0 28px;
@@ -1581,6 +2095,7 @@ border: 1px solid #99bbe8;
 border-radius: 4px;
 -khtml-border-radius: 4px;
 -moz-border-radius: 4px;
+-opera-border-radius: 4px;
 -webkit-border-radius: 4px;
 height: 100%;
 overflow: hidden;
@@ -1593,6 +2108,7 @@ border-top-right-radius: 4px;
 -khtml-border-top-right-radius: 4px;
 -moz-border-radius-topleft: 4px;
 -moz-border-radius-topright: 4px;
+-opera-border-radius: 4px; /* FIX */
 -webkit-border-top-left-radius: 4px;
 -webkit-border-top-right-radius: 4px;
 height: 24px;
@@ -1612,7 +2128,7 @@ div.startmenu-tl div.startmenu-tr div.startmenu-tc {
 }
 
 div.startmenu-tc div.startmenu-header {
-background-image: url('i/icons/friends.png');
+background-image: url(i/apps/icons/friends.png);
 background-position: 0 4px;
 background-repeat: no-repeat;
 cursor: default;
@@ -1624,6 +2140,29 @@ color: #fff;
 font: normal normal bold 11px/normal tahoma, arial, verdana, sans-serif;
 line-height: 26px;
 padding-left: 20px !important;
+}
+
+div.startmenu-tc div.startmenu-header div.image {
+background-image: url(i/ux/startmenu/user_image.png);
+background-repeat: no-repeat;
+height: 70px;
+position: absolute;
+right: 42px;
+top: -48px;
+width: 70px;
+}
+
+div.startmenu-tc div.startmenu-header div.image img.userimage {
+border-radius: 1px;
+-khtml-border-radius: 1px;
+-moz-border-radius: 1px;
+-opera-border-radius: 1px;
+-webkit-border-radius: 1px;
+height: 53px;
+position: relative;
+left: 9px;
+top: 8px;
+width: 53px;
 }
 
 div.startmenu-bwrap {
@@ -1701,6 +2240,8 @@ top: 0;
 div.startmenu-mc div.startmenu-body div.apps div.apps-body {
 border: 1px solid #1e2124;
 height: 338px;
+overflow-x: hidden;
+overflow-y: auto;
 }
 
 div.startmenu-mc div.startmenu-body div.apps div.apps-menu {
@@ -1765,7 +2306,7 @@ padding-bottom: 6px;
 /** Begin Taskbar */
 
 div#taskbar {
-background: transparent url('i/ux/taskbar/taskbar-bg.gif') repeat-x left top;
+background: transparent url(i/ux/taskbar/taskbar-bg.gif) repeat-x left top;
 bottom: 0;
 display: block;
 left: 0;
@@ -1788,7 +2329,7 @@ top: 0;
 /*** Begin Splitbars */
 
 div#taskbar div.splitbar {
-background: transparent url('i/ux/taskbar/taskbar-split-h.gif') no-repeat 0 0;
+background: transparent url(i/ux/taskbar/taskbar-split-h.gif) no-repeat 0 0;
 cursor: col-resize;
 height: 100%;
 position: absolute;
@@ -1825,7 +2366,7 @@ white-space: nowrap;
 }
 
 div#taskbar div#start table td {
-background-image: url('i/ux/taskbar/startbutton.gif');
+background-image: url(i/ux/taskbar/startbutton.gif);
 border-width: 0;
 margin: 0;
 padding: 0;
@@ -1872,7 +2413,7 @@ background-color: transparent;
 
 div#taskbar div#start button[type="button"].start {
 background-color: transparent;
-background-image: url('i/ux/taskbar/startbutton-icon.gif');
+background-image: url(i/ux/taskbar/startbutton-icon.gif);
 background-repeat: no-repeat;
 background-position: 0 2px;
 border: 0;
@@ -1937,7 +2478,7 @@ white-space: nowrap;
 }
 
 div#taskbar ul#taskbuttons-strip table td {
-background-image: url('i/ux/taskbar/taskbutton.gif');
+background-image: url(i/ux/taskbar/taskbutton.gif);
 border-width: 0;
 margin: 0;
 padding: 0;
@@ -1983,7 +2524,7 @@ background-color: transparent;
 
 div#taskbar ul#taskbuttons-strip button[type="button"].taskbutton {
 background-color: transparent;
-background-image: url('i/icons/application.png');
+background-image: url(i/apps/icons/application.png);
 background-repeat: no-repeat;
 background-position: 2px 6px;
 border: 0;
@@ -2085,57 +2626,73 @@ width: 14px;
 /**** Begin Panels */
 
 div#login div.panel-header {
-background-image: url('i/icons/padlock.png');
+background-image: url(i/icons/padlock.png);
 }
 
 div#register div.panel-header {
-background-image: url('i/icons/friends.png');
+background-image: url(i/apps/icons/friends.png);
 }
 
 /* End Panels ****/
 
-div#wallpaper div.panel-header {
-background-image: url('i/icons/pictures.png');
-}
-
-div#notepad div.panel-header {
-background-image: url('i/icons/notepad.png');
+div#documents div.panel-header {
+background-image: url(i/icons/disk.png);
 }
 
 div#preferences div.panel-header {
-background-image: url('i/icons/preferences.png');
+background-image: url(i/apps/icons/preferences.png);
+}
+
+div#notepad div.panel-header {
+background-image: url(i/apps/icons/notepad.png);
 }
 
 div#flash_name div.panel-header {
-background-image: url('i/icons/flash_name.png');
+background-image: url(i/apps/icons/flash_name.png);
+}
+
+div#ytinstant div.panel-header {
+background-image: url(i/apps/icons/ytinstant.png);
 }
 
 div#piano div.panel-header {
-background-image: url('i/icons/piano.png');
+background-image: url(i/apps/icons/piano.png);
+}
+
+div#about_hnsdesktop div.panel-header {
+background-image: url(i/apps/icons/info.png);
+}
+
+div#feedback div.panel-header {
+background-image: url(i/apps/icons/feedback.png);
 }
 
 div#tic_tac_toe div.panel-header {
-background-image: url('i/icons/tic_tac_toe.png');
+background-image: url(i/apps/icons/tic_tac_toe.png);
 }
 
 div#friends div.panel-header {
-background-image: url('i/icons/friends.png');
+background-image: url(i/apps/icons/friends.png);
 }
 
-div#radio div.panel-header {
-background-image: url('i/icons/radio.png');
+div#goom_radio div.panel-header {
+background-image: url(i/apps/icons/goom_radio.png);
 }
 
 div#search div.panel-header {
-background-image: url('i/icons/zoom.png');
+background-image: url(i/icons/zoom.png);
 }
 
 div#chat div.panel-header {
-background-image: url('i/icons/chat.png');
+background-image: url(i/apps/icons/chat.png);
 }
 
 div#music div.panel-header {
-background-image: url('i/icons/music.png');
+background-image: url(i/apps/icons/music.png);
+}
+
+div#web_browser div.panel-header {
+background-image: url(i/apps/icons/web_browser.png);
 }
 
 /* End Icons (Header) ***/
@@ -2143,156 +2700,204 @@ background-image: url('i/icons/music.png');
 /**** Begin Panels */
 
 .icon-logout {
-background-image: url('i/icons/disconnect.png');
+background-image: url(i/icons/disconnect.png);
 }
 
 /* End Panels ****/
 
 .icon-documents {
-background-image: url('i/icons/disk.png');
-}
-
-.icon-notepad {
-background-image: url('i/icons/notepad.png');
+background-image: url(i/icons/disk.png);
 }
 
 .icon-preferences {
-background-image: url('i/icons/preferences.png');
+background-image: url(i/apps/icons/preferences.png);
+}
+
+.icon-notepad {
+background-image: url(i/apps/icons/notepad.png);
 }
 
 .icon-piano {
-background-image: url('i/icons/piano.png');
+background-image: url(i/apps/icons/piano.png);
 }
 
 .icon-flash_name {
-background-image: url('i/icons/flash_name.png');
+background-image: url(i/apps/icons/flash_name.png);
 }
 
-.icon-wallpaper {
-background-image: url('i/icons/pictures.png');
+.icon-ytinstant {
+background-image: url(i/apps/icons/ytinstant.png);
+}
+
+.icon-about_hnsdesktop {
+background-image: url(i/apps/icons/info.png);
+}
+
+.icon-feedback {
+background-image: url(i/apps/icons/feedback.png);
 }
 
 .icon-tic_tac_toe {
-background-image: url('i/icons/tic_tac_toe.png');
+background-image: url(i/apps/icons/tic_tac_toe.png);
 }
 
 .icon-friends {
-background-image: url('i/icons/friends.png');
+background-image: url(i/apps/icons/friends.png);
 }
 
-.icon-radio {
-background-image: url('i/icons/radio.png');
+.icon-goom_radio {
+background-image: url(i/apps/icons/goom_radio.png);
 }
 
 .icon-search {
-background-image: url('i/icons/zoom.png');
+background-image: url(i/icons/zoom.png);
 }
 
 .icon-chat {
-background-image: url('i/icons/chat.png');
+background-image: url(i/apps/icons/chat.png);
 }
 
 .icon-music {
-background-image: url('i/icons/music.png');
+background-image: url(i/apps/icons/music.png);
+}
+
+.icon-web_browser {
+background-image: url(i/apps/icons/web_browser.png);
 }
 
 /* End Icons (Class) ***/
 /*** Begin Icons (Taskbutton) */
 
-div#taskbar button[type="button"]#taskbutton-wallpaper {
-background-image: url('i/icons/pictures.png') !important;
-}
 
-div#taskbar button[type="button"]#taskbutton-notepad {
-background-image: url('i/icons/notepad.png') !important;
+div#taskbar button[type="button"]#taskbutton-documents {
+background-image: url(i/icons/disk.png) !important;
 }
 
 div#taskbar button[type="button"]#taskbutton-preferences {
-background-image: url('i/icons/preferences.png') !important;
+background-image: url(i/apps/icons/preferences.png) !important;
+}
+
+div#taskbar button[type="button"]#taskbutton-notepad {
+background-image: url(i/apps/icons/notepad.png) !important;
 }
 
 div#taskbar button[type="button"]#taskbutton-flash_name {
-background-image: url('i/icons/flash_name.png') !important;
+background-image: url(i/apps/icons/flash_name.png) !important;
+}
+
+div#taskbar button[type="button"]#taskbutton-ytinstant {
+background-image: url(i/apps/icons/ytinstant.png) !important;
 }
 
 div#taskbar button[type="button"]#taskbutton-piano {
-background-image: url('i/icons/piano.png') !important;
+background-image: url(i/apps/icons/piano.png) !important;
+}
+
+div#taskbar button[type="button"]#taskbutton-about_hnsdesktop {
+background-image: url(i/apps/icons/info.png) !important;
+}
+
+div#taskbar button[type="button"]#taskbutton-feedback {
+background-image: url(i/apps/icons/feedback.png) !important;
 }
 
 div#taskbar button[type="button"]#taskbutton-tic_tac_toe {
-background-image: url('i/icons/tic_tac_toe.png') !important;
+background-image: url(i/apps/icons/tic_tac_toe.png) !important;
 }
 
 div#taskbar button[type="button"]#taskbutton-friends {
-background-image: url('i/icons/friends.png') !important;
+background-image: url(i/apps/icons/friends.png) !important;
 }
 
-div#taskbar button[type="button"]#taskbutton-radio {
-background-image: url('i/icons/radio.png') !important;
+div#taskbar button[type="button"]#taskbutton-goom_radio {
+background-image: url(i/apps/icons/goom_radio.png) !important;
 }
 
 div#taskbar button[type="button"]#taskbutton-search {
-background-image: url('i/icons/zoom.png') !important;
+background-image: url(i/icons/zoom.png) !important;
 }
 
 div#taskbar button[type="button"]#taskbutton-chat {
-background-image: url('i/icons/chat.png') !important;
+background-image: url(i/apps/icons/chat.png) !important;
 }
 
 div#taskbar button[type="button"]#taskbutton-music {
-background-image: url('i/icons/music.png') !important;
+background-image: url(i/apps/icons/music.png) !important;
+}
+
+div#taskbar button[type="button"]#taskbutton-web_browser {
+background-image: url(i/apps/icons/web_browser.png) !important;
 }
 
 /* End Icons (Taskbutton) ***/
 /*** Begin Icons (Thumb) */
 
-div#desktop div.desktop-body div#thumb-wallpaper div.thumb-button img {
-background-image: url('i/thumbs/wallpaper.png') !important;
-}
-
-div#desktop div.desktop-body div#thumb-notepad div.thumb-button img {
-background-image: url('i/thumbs/notepad.png') !important;
+div#desktop div.desktop-body div#thumb-documents div.thumb-button img {
+background-image: url(i/apps/thumbs/documents.png) !important;
 }
 
 div#desktop div.desktop-body div#thumb-preferences div.thumb-button img {
-background-image: url('i/thumbs/preferences.png') !important;
+background-image: url(i/apps/thumbs/preferences.png) !important;
+}
+
+div#desktop div.desktop-body div#thumb-notepad div.thumb-button img {
+background-image: url(i/apps/thumbs/notepad.png) !important;
 }
 
 div#desktop div.desktop-body div#thumb-flash_name div.thumb-button img {
-background-image: url('i/thumbs/flash_name.png') !important;
+background-image: url(i/apps/thumbs/flash_name.png) !important;
+}
+
+div#desktop div.desktop-body div#thumb-ytinstant div.thumb-button img {
+background-image: url(i/apps/thumbs/ytinstant.png) !important;
 }
 
 div#desktop div.desktop-body div#thumb-piano div.thumb-button img {
-background-image: url('i/thumbs/piano.png') !important;
+background-image: url(i/apps/thumbs/piano.png) !important;
+}
+
+div#desktop div.desktop-body div#thumb-about_hnsdesktop div.thumb-button img {
+background-image: url(i/apps/thumbs/info.png) !important;
+}
+
+div#desktop div.desktop-body div#thumb-feedback div.thumb-button img {
+background-image: url(i/apps/thumbs/feedback.png) !important;
 }
 
 div#desktop div.desktop-body div#thumb-tic_tac_toe div.thumb-button img {
-background-image: url('i/thumbs/tic_tac_toe.png') !important;
+background-image: url(i/apps/thumbs/tic_tac_toe.png) !important;
 }
 
 div#desktop div.desktop-body div#thumb-friends div.thumb-button img {
-background-image: url('i/thumbs/friends.png') !important;
+background-image: url(i/apps/thumbs/friends.png) !important;
 }
 
-div#desktop div.desktop-body div#thumb-radio div.thumb-button img {
-background-image: url('i/thumbs/radio.png') !important;
+div#desktop div.desktop-body div#thumb-goom_radio div.thumb-button img {
+background-image: url(i/apps/thumbs/goom_radio.png) !important;
 }
 
 div#desktop div.desktop-body div#thumb-search div.thumb-button img {
-background-image: url('i/thumbs/search.png') !important;
+background-image: url(i/apps/thumbs/search.png) !important;
 }
 
 div#desktop div.desktop-body div#thumb-chat div.thumb-button img {
-background-image: url('i/thumbs/chat.png') !important;
+background-image: url(i/apps/thumbs/chat.png) !important;
 }
 
 div#desktop div.desktop-body div#thumb-music div.thumb-button img {
-background-image: url('i/thumbs/music.png') !important;
+background-image: url(i/apps/thumbs/music.png) !important;
+}
+
+div#desktop div.desktop-body div#thumb-web_browser div.thumb-button img {
+background-image: url(i/apps/thumbs/web_browser.png) !important;
 }
 
 /* End Icons (Thumb) ***/
 /* End Icons **/
 /** Begin Apps */
+/*** Begin Documents */
+
+/* End Documents ***/
 /*** Begin Preferences */
 
 div#preferences {
@@ -2332,23 +2937,23 @@ width: 32px;
 }
 
 div#preferences div#splash ul li.thumbs img {
-background-image: url('i/ux/preferences/thumbs.png');
+background-image: url(i/ux/preferences/thumbs.png);
 }
 
 div#preferences div#splash ul li.autorun img {
-background-image: url('i/ux/preferences/autorun.png');
+background-image: url(i/ux/preferences/autorun.png);
 }
 
 div#preferences div#splash ul li.quickstart img {
-background-image: url('i/ux/preferences/quickstart.png');
+background-image: url(i/ux/preferences/quickstart.png);
 }
 
 div#preferences div#splash ul li.themes img {
-background-image: url('i/ux/preferences/appearance.png');
+background-image: url(i/ux/preferences/appearance.png);
 }
 
 div#preferences div#splash ul li.wallpaper img {
-background-image: url('i/ux/preferences/wallpaper.png');
+background-image: url(i/ux/preferences/wallpaper.png);
 }
 
 div#preferences div#splash div#name {
@@ -2378,7 +2983,6 @@ background-color: #ecffff;
 background-image: none;
 height: 100%;
 overflow: none;
-margin: 10px;
 width: 100%;
 }
 
@@ -2394,9 +2998,11 @@ border: 2px solid #fff;
 border-radius: 2px;
 -khtml-border-radius: 2px;
 -moz-border-radius: 2px;
+-opera-border-radius: 2px;
 -webkit-border-radius: 2px;
 cursor: pointer;
 margin: 1px;
+padding: 1px;
 }
 
 div#preferences div#wallpaper div#slideshow img.thumbnail:hover {
@@ -2428,6 +3034,337 @@ width: 100%;
 }
 
 /* End Notepad ***/
+/*** Begin Flash Name */
+
+/* End Flash Name ***/
+/*** Begin YTInstant */
+
+div#ytinstant {
+}
+
+div#ytinstant div.panel-header div.tools div.refresh {
+margin-right: 0 !important;
+}
+
+div#ytinstant div.panel-header div.tools div.plus {
+margin-right: 0 !important;
+}
+
+div#ytinstant div.panel-mc {
+background-color: #eeeff4;
+color: #000;
+font-size: 12px;
+}
+
+div#ytinstant #wrapper {
+margin: 30px auto;
+width: 1000px;
+}
+
+div#ytinstant a:link,
+div#ytinstant a:visited {
+color: #3b5998;
+text-decoration: none;
+}
+
+div#ytinstant a:hover,
+div#ytinstant a:active,
+.underline:link,
+.underline:visited {
+text-decoration: underline;
+}
+
+div#ytinstant #logo {
+float: left;
+margin: 0 15px 0 0;
+}
+
+div#ytinstant #logo div {
+background: transparent url(i/apps/ytinstant/logo2.png) no-repeat top left;
+display: block;
+height: 32px;
+width: 180px;
+}
+
+div#ytinstant #logo span {
+display: none;
+}
+
+div#ytinstant #header {
+margin: 0 0 20px;
+}
+
+div#ytinstant input[type="text"]#searchBox {
+border: 2px solid #999;
+border-radius: 5px;
+-khtml-border-radius: 5px;
+-moz-border-radius: 5px;
+-opera-border-radius: 5px;
+-webkit-border-radius: 5px;
+font-size: 20px;
+height: 30px;
+margin-right: 15px;
+outline: none;
+padding: 0 5px 0 4px;
+width: 340px;
+}
+
+div#ytinstant input[type="text"]#searchBox:focus {
+border: 2px solid #000;
+}
+
+div#ytinstant #searchTermKeyword {
+font-family: 'Reenie Beanie', arial, serif;
+font-size: 30px;
+}
+
+div#ytinstant .statusLoading {
+background: #fff url(i/apps/ytinstant/loading.gif) no-repeat 325px 50%;
+}
+
+div#ytinstant .statusPlaying {
+background: #fff url(i/apps/ytinstant/playing.gif) no-repeat 325px 50%;
+}
+
+div#ytinstant #main {
+margin: 20px 0 0;
+}
+
+div#ytinstant #hidden {
+display: none;
+height: 0;
+}
+
+div#ytinstant #videoDiv {
+float: left;
+margin: 0 10px 0 0;
+}
+
+div#ytinstant #videoTools {
+margin: 10px 0 0;
+padding: 10px;
+width: 695px;
+}
+
+div#ytinstant .boxText {
+font-weight: 700;
+margin-right: 10px;
+}
+
+div#ytinstant div#playlistWrapper {
+display: none;
+float: left;
+height: 405px;
+overflow-x: hidden;
+overflow-y: auto;
+position: relative;
+vertical-align: top;
+width: 270px;
+}
+
+div#ytinstant div#playlistWrapper div#playlist img {
+clear: both;
+float: left;
+height: 90px;
+margin: 0 5px 12px 0;
+vertical-align: top;
+width: 120px;
+}
+
+div#ytinstant  div#playlistWrapper div#playlist div {
+float: left;
+font-size: 12px;
+height: 40px;
+margin: 6px 0 0;
+width: 125px;
+}
+
+div#ytinstant div#playlistWrapper div#playlist a {
+display: block;
+width: 260px;
+}
+
+div#ytinstant #buttonControl {
+left: 44px;
+position: absolute;
+top: 32px;
+z-index: 1000;
+}
+
+div#ytinstant .play0 #buttonControl {
+top: 32px;
+}
+
+div#ytinstant .play1 #buttonControl {
+top: 136px;
+}
+
+div#ytinstant .play2 #buttonControl {
+top: 237px;
+}
+
+div#ytinstant .play3 #buttonControl {
+top: 338px;
+}
+
+div#ytinstant .play4 #buttonControl {
+top: 439px;
+}
+
+div#ytinstant .play5 #buttonControl {
+top: 540px;
+}
+
+div#ytinstant .play6 #buttonControl {
+top: 641px;
+}
+
+div#ytinstant .play7 #buttonControl {
+top: 742px;
+}
+
+div#ytinstant .play8 #buttonControl {
+top: 843px;
+}
+
+div#ytinstant .play9 #buttonControl {
+top: 944px;
+}
+
+div#ytinstant #buttonControl a {
+display: block;
+height: 32px;
+width: 32px;
+}
+
+div#ytinstant .playButton #buttonControl {
+background: transparent url(i/apps/ytinstant/player_play-1.png) no-repeat top left;
+}
+
+div#ytinstant .pauseButton #buttonControl {
+background: transparent url(i/apps/ytinstant/player_pause-1.png) no-repeat top left;
+}
+
+div#ytinstant #footer {
+font-size: 12px;
+margin: 20px 0 0;
+}
+
+div#ytinstant .boxHeader {
+font-family: 'Josefin Sans Std Light', arial, serif;
+font-size: 30px;
+margin: 0 0 7px;
+}
+
+div#ytinstant .clearfix:after {
+clear: both;
+content: ".";
+display: block;
+height: 0;
+line-height: 0;
+visibility: hidden;
+}
+
+div#ytinstant .clearfix {
+display: inline-block;
+}
+
+html[xmlns] div#ytinstant .clearfix {
+display: block;
+}
+
+* html div#ytinstant .clearfix {
+height: 1%;
+}
+
+div#ytinstant del,
+div#ytinstant ins,
+div#ytinstant .underline:hover,
+div#ytinstant .underline:active {
+text-decoration: none;
+}
+
+div#ytinstant sup,
+div#ytinstant sub {
+vertical-align: baseline;
+}
+
+div#ytinstant strong,
+div#ytinstant .selectedThumb {
+font-weight: 700;
+}
+
+div#ytinstant #searchDiv {
+float: left;
+}
+
+div#ytinstant div#userPlaylist {
+display: none;
+float: left;
+height: 405px;
+position: relative;
+vertical-align: top;
+width: 270px;
+}
+
+div#ytinstant div#userPlaylist div#playlistInput {
+height: 40px;
+width: 100%;
+}
+
+div#ytinstant div#userPlaylist div#playlistInput input[type="text"]#playlistBox {
+border: 2px solid #999;
+border-radius: 5px;
+-khtml-border-radius: 5px;
+-moz-border-radius: 5px;
+-opera-border-radius: 5px;
+-webkit-border-radius: 5px;
+font-size: 16px;
+height: 30px;
+margin-right: 15px;
+outline: none;
+padding: 0 5px 0 4px;
+width: 245px;
+}
+
+div#ytinstant div#userPlaylist div#playlistInput input[type="text"]#playlistBox:focus {
+border: 2px solid #000;
+}
+
+div#ytinstant div#userPlaylist div#playlist {
+height: 365px;
+overflow-x: hidden;
+overflow-y: auto;
+width: 258px;
+}
+
+div#ytinstant div#userPlaylist div#playlist div#container {
+width: 255px;
+}
+
+div#ytinstant div#userPlaylist div#playlist div.searchItem {
+background-color: #99bbe8;
+border: 1px solid #999;
+border-radius: 4px;
+-khtml-border-radius: 4px;
+-moz-border-radius: 4px;
+-opera-border-radius: 4px;
+-webkit-border-radius: 4px;
+cursor: pointer;
+float: left;
+font-family: 'Reenie Beanie', arial, serif;
+font-size: 14px;
+font-weight: bold;
+margin: 1px;
+padding: 2px 6px;
+}
+
+div#ytinstant div#userPlaylist div#playlist div.searchItem:hover {
+background-color: #88aadd;
+border: 1px solid #888;
+}
+
+/* End YTInstant ***/
 /*** Begin Piano */
 
 div#piano div.panel-mc {
@@ -2468,6 +3405,12 @@ width: 100%;
 }
 
 /* End Piano ***/
+/*** Begin About HnS Desktop */
+
+/* End About HnS Desktop ***/
+/*** Begin Feedback */
+
+/* End Feedback ***/
 /* Begin Tic Tac Toe ***/
 
 div#tic_tac_toe div.panel-mc {
@@ -2592,6 +3535,7 @@ background-color: #ffffff;
 border-radius: 6px;
 -khtml-border-radius: 6px;
 -moz-border-radius: 6px;
+-opera-border-radius: 6px;
 -webkit-border-radius: 6px;
 clear: right;
 display: block;
@@ -2607,6 +3551,7 @@ div#friends div.friendsection img.friend {
 border-radius: 6px;
 -khtml-border-radius: 6px;
 -moz-border-radius: 6px;
+-opera-border-radius: 6px;
 -webkit-border-radius: 6px;
 border-width: 0;
 height: auto;
@@ -2619,22 +3564,22 @@ margin-top: 4px;
 }
 
 /* End Friends ***/
-/*** Begin Radio */
+/*** Begin Goom Radio */
 
-div#radio div#data {
+div#goom_radio div#data {
 height: 340px;
 margin: 0 auto;
 width: 300px;
 }
 
-div#radio div#goomdiv iframe {
+div#goom_radio div#goomdiv iframe {
 border: 0;
 margin: 0;
 overflow: hidden;
 padding: 0;
 }
 
-/* End Radio ***/
+/* End Goom Radio ***/
 /*** Begin Search */
 
 div#search div.panel-mc {
@@ -2645,14 +3590,74 @@ overflow: auto;
 /*** Begin Chat */
 
 div#chat div.panel-mc {
+}
+
+div#chat div#chatarea {
+background-color: #ffffff;
+border: 1px solid #acd8f0;
+color: #000000;
+height: 400px;
+margin: 0 auto;
 overflow: auto;
+padding: 5px;
+text-align: left;
+width: 600px;
+}
+
+div#chat div#messagearea {
+}
+
+div#chat div#messagearea input[type="text"]#message {
+margin: 0 auto;
+padding-bottom: 5px;
+padding-top: 5px;
+text-align: center;
+width: 400px;
 }
 
 /* End Chat ***/
 /*** Begin Music */
 
-
-
 /* End Music ***/
+/*** Begin Web Broswer */
+
+div#web_browser {
+
+}
+
+div#web_browser div#nav { /* back, forward, refresh, url, go, fav, home, settings { favorites manager, history } */
+width: 100%;
+}
+
+div#web_browser div#nav input[type="text"]#address {
+border: 2px solid #999;
+border-radius: 5px;
+-khtml-border-radius: 5px;
+-moz-border-radius: 5px;
+-opera-border-radius: 5px;
+-webkit-border-radius: 5px;
+font-size: 20px;
+height: 30px;
+margin-right: 15px;
+outline: none;
+padding: 0 5px 0 4px;
+width: 340px;
+}
+
+div#web_browser div#nav input[type="text"]#address:focus {
+border: 2px solid #000;
+}
+
+div#web_browser div#window {
+
+}
+
+div#web_browser div#window iframe#browser {
+height: 100%;
+overflow: auto;
+width: 100%;
+}
+
+/* End Web Broswer ***/
 /* End Apps **/
 /* End User Interface */
