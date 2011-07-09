@@ -157,5 +157,6 @@ e&&e.document?e.document.compatMode==="CSS1Compat"&&e.document.documentElement["
 
 // document.write('<script type="text/javascript" src="jquery/jquery.corners.js"></script>');
 // document.write('<script type="text/javascript" src="jquery/jquery.moreselectors.js"></script>');
+document.write('<script type="text/javascript" src="jquery/min/jquery.editable.min.js"></script>');
 document.write('<script type="text/javascript" src="jquery/min/jquery.effects.core.min.js"></script>');
 document.write('<script type="text/javascript" src="jquery/min/jquery.effects.slide.min.js"></script>');

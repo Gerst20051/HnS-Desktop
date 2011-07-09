@@ -849,6 +849,53 @@ function div_selection(e, eq) {
 	this.div_panel_tool = function() { return ['div#', this.selection, ' div.tool'].join(''); }
 }
 
+ function maxWindow() {
+	window.moveTo(0, 0);
+
+	if (document.all) {
+		top.window.resizeTo(screen.availWidth, screen.availHeight);
+	} else if (document.layers || document.getElementById) {
+		if (top.window.outerHeight < screen.availHeight || top.window.outerWidth < screen.availWidth) {
+			top.window.outerHeight = screen.availHeight;
+			top.window.outerWidth = screen.availWidth;
+		}
+	}
+}
+
+/* Frames Killer
+
+if (top.location != self.location) {
+	top.location = self.location
+}
+
+function CNN_extractHost(url) {
+    var returnArry = /^(?:[^:\/?#]+):\/\/([^\/?#]+)(?::\d+)?(?:[^?#]*)\//i.exec(url);
+    if(returnArry && typeof returnArry === "object") {
+        return returnArry[1];
+    } else {
+        return "";
+    }
+}
+
+function CNN_bustFrame(){
+   var blacklist = ['digg.com'];
+   if (top.location!=window.location) {
+      var topURL = CNN_extractHost(document.referrer);
+      if (topURL) {
+         for (var i=0; i < blacklist.length; i++) {
+            if (topURL.indexOf( blacklist[i] ) != -1) { 
+        top.location.replace(window.location);
+                return;
+            }
+         }
+      }
+   }
+}
+
+CNN_bustFrame();
+
+*/
+
 /* end misc functions */
 
 createTaskButton = function(task_title, task_id) {
@@ -1468,7 +1515,128 @@ var tic_tac_toe_content = [
 ].join('');
 
 var friends_content = [
-'<div class="content"><div class="body"><?php echo $friends; ?>',
+'<div class="content"><div class="body">',
+<?php
+if ($_SESSION['username'] == "Admin") {
+$members_result = mysql_query('SELECT user_id FROM login WHERE user_id != 2', $db) or die(mysql_error($db));
+$members = mysql_num_rows($members_result);
+
+$rorder = mt_rand(0, 3);
+
+switch ($rorder) {
+case 0:
+$order = "user_id";
+break;
+
+case 1:
+$order = "username";
+break;
+
+case 2:
+$order = "first_name";
+break;
+
+case 3:
+$order = "last_name";
+break;
+}
+
+$rsort = mt_rand(0, 1);
+
+if ($rsort == 0) {
+$sort = "ASC";
+} else {
+$sort = "DESC";
+}
+
+$range = 18;
+$limit1 = mt_rand(0, ($members - $range));
+$count = 0;
+
+$query = "SELECT u.user_id, username, first_name, last_name, default_image FROM
+login u
+JOIN
+info i
+ON
+u.user_id = i.user_id
+WHERE
+u.user_id != 2
+ORDER BY
+$order $sort
+LIMIT $limit1, $range";
+$friends_result = mysql_query($query, $db) or die(mysql_error($db));
+
+while ($friends_row = mysql_fetch_array($friends_result)) {
+if ($count > 0) {
+$friends .= ", " . $friends_row['username'];
+} else {
+$friends = $friends_row['username'];
+}
+
+$count++;
+}
+}
+
+if ($friends == null) {
+$friends = "Admin";
+$numfriends = 1;
+} else {
+if ($_SESSION['username'] != "Admin") {
+$friends = "Admin, " . $friends;
+}
+
+if ($_SESSION['username'] != "Admin") {
+$numfriends = count(explode(", ", $friends));
+} else {
+$numfriends = $members;
+}
+}
+
+$friends = explode(", ", $friends);
+$fcount = 1;
+
+if ($numfriends > 0) {
+foreach ($friends as $friend) {
+$friend_query = "SELECT u.user_id, u.username, i.first_name, i.last_name, i.default_image FROM login u JOIN info i ON u.user_id = i.user_id WHERE u.username = '" . $friend . "'";
+$friend_result = mysql_query($friend_query, $db) or die(mysql_error($db));
+$friend_row = mysql_fetch_array($friend_result);
+
+echo "'<!-- Begin " . addslashes($friend_row['first_name']) . " " . addslashes($friend_row['last_name']) . "\'s section -->',\n";
+echo "'<a href=\"/user_profile.php?id=" . $friend_row['user_id'] . "\" title=\"View " . addslashes($friend) . "\'s Profile\">',\n";
+echo "'<div class=\"friendsection\">',\n";
+
+if ($friend_row['default_image'] != null) {
+echo "'<img src=\"/uploads/" . addslashes($friend_row['username']) . "/images/thumb/" . addslashes($friend_row['default_image']) . "\" class=\"friend\" /><br />',\n";
+} else {
+echo "'<img src=\"/i/mem/default.jpg\" class=\"friend\" /><br />',\n";
+}
+
+echo "'<div class=\"name\">" . addslashes($friend_row['first_name']) . " " . addslashes($friend_row['last_name']) . "</div>',\n";
+
+echo "'</div>',\n";
+echo "'</a>',\n";
+echo "'<!-- End " . addslashes($friend_row['first_name']) . " " . addslashes($friend_row['last_name']) . "\'s section -->',\n";
+
+$break = "'<div style=\"clear: both; width: 100%;\"> </div>',\n";
+
+if ($fcount == 3) {
+echo $break;
+} elseif ($fcount == 6) {
+echo $break;
+} elseif ($fcount == 9) {
+echo $break;
+} elseif ($fcount == 12) {
+echo $break;
+} elseif ($fcount == 15) {
+echo $break;
+}
+
+$fcount++;
+}
+
+echo $break;
+}
+?>
 '</div></div>'
 ].join('');
 
@@ -1515,7 +1683,7 @@ var search = new panel('Search','search',true,false,true,false,true,550,599,534,
 var chat = new panel('Chat','chat',true,false,true,false,true,550,599,534,538,'absolute',0,0,'l','t',true,chat_content);
 var music = new panel('Music','music',true,false,true,false,true,64,64,316,316,'absolute',0,0,'l','t',true,music_content);
 
-/** end app variables */
+/* end app variables **/
 /* end panel variables */
 
 <?php
@@ -1970,6 +2138,8 @@ $registererrors[] = 'Security Code cannot be incorrect.';
 }
 
 */
+
+// CHECK VALIDITY OF INPUTS ON CHANGE
 
 $("div#register-button").click(function() {
 	$("img.error").hide();
@@ -2573,12 +2743,13 @@ $("div.desktop-thumb").dblclick(function(e) {
 	setTimeout('$(tdthumb).removeClass("desktop-thumb-selected")', 1200);
 });
 
-$("div.panel").click(function() {
+$("div.application").click(function() {
 	if ($("div#startmenu").is(":visible")) {
 		$("div#startmenu").hide();
 	}
 });
 
+/*
 $(document.documentElement).keydown(function(event) { // handle cursor keys
 	var direction;
 
@@ -2601,6 +2772,8 @@ $(document.documentElement).keydown(function(event) { // handle cursor keys
 	if (direction != null) {
 	}
 });
+
+*/
 
 /* end desktop functions */
 /* begin startmenu functions */
@@ -2971,7 +3144,11 @@ $("div#notepad div.panel-header div.tools div.save").click(function() {
 	alert("save");
 });
 
-/*
+$("div#notepad").click(function() {
+	$("div#notepad textarea").focus();
+});
+
+
 $("div#notepad textarea").keyup(function(event) {
 	//$(this).keyup(function(event) {
 		$.ajax({
@@ -2981,7 +3158,7 @@ $("div#notepad textarea").keyup(function(event) {
 		});
 	//});
 });
-*/
+
 /*
 $("div#notepad textarea").live('focus', function(event) {
 	//$(this).keyup(function(event) {

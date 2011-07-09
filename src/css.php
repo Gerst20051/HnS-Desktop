@@ -3,9 +3,9 @@ session_start();
 header("Content-Type: text/css");
 
 if (isset($_GET['id']) && ($_GET['id'] >= 1)) {
-	$theme_id = $_GET['id'];
+$theme_id = $_GET['id'];
 } else {
-	$theme_id = 1;
+$theme_id = 1;
 }
 ?>
 /* ---------------------------------------------------- */
@@ -16,9 +16,9 @@ if (isset($_GET['id']) && ($_GET['id'] >= 1)) {
 /* Site Name:    HnS Desktop
 /* Site Creator: Andrew Gerst
 /* Site Created: Wed, 24 Mar 2010 21:22:05 -0400
-/* Last Updated: <?php echo date(r, filemtime('css.php')) . "\n"; ?>
-<?php if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) { ?>/* Current User: <?php echo $_SESSION['first_name'] . " " . $_SESSION['last_name'] . "\n"; } ?>
-/* Select Theme: <?php echo $theme_id . "\n"; ?>
+/* Last Updated: <?php echo date(r, filemtime('css.php')) . "\n";?>
+<?php if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) {?>/* Current User: <?php echo $_SESSION['first_name'] . " " . $_SESSION['last_name'] . "\n";} ?>
+/* Select Theme: <?php echo $theme_id . "\n";?>
 /* ---------------------------------------------------- */
 
 /* ---------------------------------------------------- */
@@ -63,7 +63,7 @@ if (isset($_GET['id']) && ($_GET['id'] >= 1)) {
 html {
 background-color: #fff;
 color: #000;
-font-size: 100.01%; /* 16px */
+font-size: 100.01%;/* 16px */
 }
 
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
@@ -167,87 +167,87 @@ width: 100%;
 
 /*
 .wallpaper-tile {
-	background-repeat: repeat;
-	background-position: left top;
+background-repeat: repeat;
+background-position: left top;
 }
 .wallpaper-center {
-	background-position: center;
+background-position: center;
 }
 */
 
 h1 {
-font-size: 138.5%; /* 18px */
+font-size: 138.5%;/* 18px */
 }
 
 h2 {
-font-size: 123.1%; /* 16px */
+font-size: 123.1%;/* 16px */
 }
 
 h3 {
-font-size: 108%; /* 14px */
+font-size: 108%;/* 14px */
 }
 
 h1, h2, h3 {
-margin: 1em 0; /* top & bottom margin based on font size */
+margin: 1em 0;/* top & bottom margin based on font size */
 }
 
 h1, h2, h3, h4, h5, h6, strong {
-font-weight: bold; /* bringing boldness back to headers and the strong element */
+font-weight: bold;/* bringing boldness back to headers and the strong element */
 }
 
-abbr, acronym { /* indicating to users that more info is available */
+abbr, acronym {/* indicating to users that more info is available */
 border-bottom: 1px dotted #000;
 cursor: help;
 }
 
 em {
-font-style: italic; /* bringing italics back to the em element */
+font-style: italic;/* bringing italics back to the em element */
 }
 
 blockquote, ul, ol, dl {
-margin: 1em; /* giving blockquotes and lists room to breath */
+margin: 1em;/* giving blockquotes and lists room to breath */
 }
 
 ol, ul, dl {
-margin-left: 2em; /* bringing lists on to the page with breathing room */
+margin-left: 2em;/* bringing lists on to the page with breathing room */
 }
 
 ol li {
-list-style: decimal outside; /* giving OL's LIs generated numbers */
+list-style: decimal outside;/* giving OL's LIs generated numbers */
 }
 
 ul li {
-list-style: disc outside; /* giving UL's LIs generated disc markers */
+list-style: disc outside;/* giving UL's LIs generated disc markers */
 }
 
 dl dd {
 margin-left: 1em;
 }
 
-th, td { /* borders and padding to make the table readable */
+th, td {/* borders and padding to make the table readable */
 border: 1px solid #000;
 padding: .5em;
 }
 
-th { /* distinguishing table headers from data cells */
+th {/* distinguishing table headers from data cells */
 font-weight: bold;
 text-align: center;
 }
 
 caption {
-margin-bottom: .5em; /* coordinated marking to match cell's padding */
-text-align: center; /* centered so it doesn't blend in to other content */
+margin-bottom: .5em;/* coordinated marking to match cell's padding */
+text-align: center;/* centered so it doesn't blend in to other content */
 }
 
 p, fieldset, table {
-margin-bottom: 1em; /* so things don't run into each other */
+margin-bottom: 1em;/* so things don't run into each other */
 }
 
 /* End CSS Base */
 /* Begin Buttons */
 
 .buttons a,
-.buttons button { /* if no image in button add padding-left: 10px */
+.buttons button {/* if no image in button add padding-left: 10px */
 background-color: #f5f5f5;
 border: 1px solid #dedede;
 border-left: 1px solid #eee;
@@ -257,27 +257,27 @@ cursor: pointer;
 display: block;
 float: left;
 font-family: "lucida grande", tahoma, arial, verdana, sans-serif;
-font-size: 10pt; /* 100% */
+font-size: 10pt;/* 100% */
 font-weight: bold;
 line-height: 130%;
 margin: 0 7px 0 0;
-padding: 5px 10px 6px 7px; /* links */
+padding: 5px 10px 6px 7px;/* links */
 text-decoration: none;
 }
 
 .buttons button {
 overflow: visible;
-padding: 4px 10px 3px 7px; /* IE6 */
+padding: 4px 10px 3px 7px;/* IE6 */
 width: auto;
 }
 
 .buttons button[type] {
-line-height: 17px; /* Safari */
-padding: 5px 10px 5px 7px; /* Firefox */
+line-height: 17px;/* Safari */
+padding: 5px 10px 5px 7px;/* Firefox */
 }
 
 *:first-child+html button[type] {
-padding: 4px 10px 3px 7px; /* IE7 */
+padding: 4px 10px 3px 7px;/* IE7 */
 }
 
 .buttons a img,
@@ -398,7 +398,7 @@ top: 0px;
 width: 94%;
 }
 
-.shiny-button1:hover { /* red */
+.shiny-button1:hover {/* red */
 background-color: rgba(255,0,0,0.75);
 background-image: -moz-linear-gradient(top, bottom, from(rgba(128,64,64,0.75)), to(rgba(192,128,128,0.9)));
 background-image: -webkit-gradient(linear, 0% 0%, 0% 90%, from(rgba(128,64,64,0.75)), to(rgba(256,128,128,0.9)));
@@ -409,7 +409,7 @@ box-shadow: rgba(256,128,128,0.5) 0px 8px 24px;
 -webkit-box-shadow: rgba(256,128,128,0.5) 0px 8px 24px;
 }
 
-.shiny-button2:hover { /* green */
+.shiny-button2:hover {/* green */
 background-color: rgba(0,128,0,0.75);
 background-image: -moz-linear-gradient(top, bottom, from(rgba(64,128,64,0.75)), to(rgba(128,192,128,0.9)));
 background-image: -webkit-gradient(linear, 0% 0%, 0% 90%, from(rgba(64,128,64,0.75)), to(rgba(128,255,128,0.9)));
@@ -420,7 +420,7 @@ box-shadow: rgba(128,256,128,0.6) 0px 8px 24px;
 -webkit-box-shadow: rgba(128,256,128,0.6) 0px 8px 24px;
 }
 
-.shiny-button3:hover { /* blue */
+.shiny-button3:hover {/* blue */
 background-color: rgba(64,128,192,0.75);
 background-image: -moz-linear-gradient(top, bottom, from(rgba(16,96,192,0.75)), to(rgba(96,192,255,0.9)));
 background-image: -webkit-gradient(linear, 0% 0%, 0% 90%, from(rgba(16,96,192,0.75)), to(rgba(96,192,255,0.9)));
@@ -1324,7 +1324,7 @@ $bg = rand(0,3);
 
 div#login div.panel-mc {
 background-color: #fff;
-background-image: url('i/<?php echo $panel_bg[$bg]; ?>');
+background-image: url('i/<?php echo $panel_bg[$bg];?>');
 background-repeat: no-repeat;
 background-position: top center;
 border: 1px solid #99bbe8;
@@ -1845,7 +1845,7 @@ div#taskbar div#start td.start-left {
 background-position: 0 0;
 }
 
-div#taskbar div#start table:hover td.start-left { /* background-position: 0 -90px; - click: background-position: 0 -180px; */
+div#taskbar div#start table:hover td.start-left {/* background-position: 0 -90px;- click: background-position: 0 -180px;*/
 background-position: 0 -270px;
 }
 
@@ -1854,7 +1854,7 @@ background-repeat: repeat-x;
 background-position: 0 -60px;
 }
 
-div#taskbar div#start table:hover td.start-center { /* background-position: 0 -150px; - click: background-position: 0 -240px; */
+div#taskbar div#start table:hover td.start-center {/* background-position: 0 -150px;- click: background-position: 0 -240px;*/
 background-position: 0 -330px;
 }
 
@@ -1862,7 +1862,7 @@ div#taskbar div#start td.start-right {
 background-position: 0 -30px;
 }
 
-div#taskbar div#start table:hover td.start-right { /* background-position: 0 -120px; - click: background-position: 0 -210px; */
+div#taskbar div#start table:hover td.start-right {/* background-position: 0 -120px;- click: background-position: 0 -210px;*/
 background-position: 0 -300px;
 }
 
@@ -1956,7 +1956,7 @@ background-repeat: no-repeat;
 background-position: 0 0;
 }
 
-div#taskbar ul#taskbuttons-strip li:hover td.button-left { /* background-position: 0 -84px; - click: background-position: 0 -90px; */
+div#taskbar ul#taskbuttons-strip li:hover td.button-left {/* background-position: 0 -84px;- click: background-position: 0 -90px;*/
 background-position: 0 -252px;
 }
 
@@ -1965,7 +1965,7 @@ background-repeat: repeat-x;
 background-position: 0 -56px;
 }
 
-div#taskbar ul#taskbuttons-strip li:hover td.button-center { /* background-position: 0 -140px; - click: background-position: 0 -90px; */
+div#taskbar ul#taskbuttons-strip li:hover td.button-center {/* background-position: 0 -140px;- click: background-position: 0 -90px;*/
 background-position: 0 -308px;
 }
 
@@ -1973,7 +1973,7 @@ div#taskbar ul#taskbuttons-strip td.button-right {
 background-position: 0 -28px;
 }
 
-div#taskbar ul#taskbuttons-strip li:hover td.button-right { /* background-position: 0 -112px; - click: background-position: 0 -90px; */
+div#taskbar ul#taskbuttons-strip li:hover td.button-right {/* background-position: 0 -112px;- click: background-position: 0 -90px;*/
 background-position: 0 -280px;
 }
 
@@ -2293,43 +2293,6 @@ background-image: url('i/thumbs/music.png') !important;
 /* End Icons (Thumb) ***/
 /* End Icons **/
 /** Begin Apps */
-/*** Begin Wallpaper */
-
-div#wallpaper div.panel-mc {
-background-color: #ecffff;
-background-image: none;
-overflow-y: auto;
-}
-
-div#wallpaper div.panel-mc div.content {
-}
-
-div#wallpaper div.panel-mc div.content div.body {
-padding: 5px;
-}
-
-div#wallpaper div#slideshow {
-}
-
-div#wallpaper div#slideshow img.thumbnail {
-border: 2px solid #fff;
-border-radius: 2px;
--khtml-border-radius: 2px;
--moz-border-radius: 2px;
--webkit-border-radius: 2px;
-cursor: pointer;
-margin: 1px;
-}
-
-div#wallpaper div#slideshow img.thumbnail:hover {
-border: 2px solid #99bbe8;
-}
-
-div#wallpaper div#config {
-display: none;
-}
-
-/* End Wallpaper ***/
 /*** Begin Preferences */
 
 div#preferences {
@@ -2337,7 +2300,7 @@ div#preferences {
 
 div#preferences div.panel-mc {
 background-image: none;
-overflow-y: auto;
+overflow: none;
 }
 
 div#preferences div#splash {
@@ -2408,6 +2371,43 @@ div#preferences div#wallpaper {
 display: none;
 }
 
+/**** Begin Wallpaper */
+
+div#preferences div#wallpaper {
+background-color: #ecffff;
+background-image: none;
+height: 100%;
+overflow: none;
+margin: 10px;
+width: 100%;
+}
+
+div#preferences div#wallpaper div#slideshow {
+height: 100%;
+overflow-y: auto;
+padding: 5px;
+width: 100%;
+}
+
+div#preferences div#wallpaper div#slideshow img.thumbnail {
+border: 2px solid #fff;
+border-radius: 2px;
+-khtml-border-radius: 2px;
+-moz-border-radius: 2px;
+-webkit-border-radius: 2px;
+cursor: pointer;
+margin: 1px;
+}
+
+div#preferences div#wallpaper div#slideshow img.thumbnail:hover {
+border: 2px solid #99bbe8;
+}
+
+div#preferences div#wallpaper div#config {
+display: none;
+}
+
+/* End Wallpaper ****/
 /* End Preferences ***/
 /*** Begin Notepad */
 
@@ -2583,7 +2583,40 @@ z-index: 3;
 /* End Tic Tac Toe ***/
 /*** Begin Friends */
 
+div#friends div.panel-mc {
+overflow: auto;	
+}
 
+div#friends div.friendsection {
+background-color: #ffffff;
+border-radius: 6px;
+-khtml-border-radius: 6px;
+-moz-border-radius: 6px;
+-webkit-border-radius: 6px;
+clear: right;
+display: block;
+float: left;
+margin: 0 auto;
+margin: 5px;
+padding: 5px;
+text-align: center;
+width: 120px;
+}
+
+div#friends div.friendsection img.friend {
+border-radius: 6px;
+-khtml-border-radius: 6px;
+-moz-border-radius: 6px;
+-webkit-border-radius: 6px;
+border-width: 0;
+height: auto;
+margin-top: 4px;
+width: 100px;
+}
+
+div#friends div.friendsection div.name {
+margin-top: 4px;
+}
 
 /* End Friends ***/
 /*** Begin Radio */
