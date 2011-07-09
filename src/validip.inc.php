@@ -25,27 +25,13 @@ return false;
 }
  
 function getip() {
-if (validip($_SERVER["HTTP_CLIENT_IP"])) {
-return $_SERVER["HTTP_CLIENT_IP"];
-}
-
-foreach (explode(",",$_SERVER["HTTP_X_FORWARDED_FOR"]) as $ip) {
-if (validip(trim($ip))) {
-return $ip;
-}
-}
-
-if (validip($_SERVER["HTTP_X_FORWARDED"])) {
-return $_SERVER["HTTP_X_FORWARDED"];
-} elseif (validip($_SERVER["HTTP_FORWARDED_FOR"])) {
-return $_SERVER["HTTP_FORWARDED_FOR"];
-} elseif (validip($_SERVER["HTTP_FORWARDED"])) {
-return $_SERVER["HTTP_FORWARDED"];
-} elseif (validip($_SERVER["HTTP_X_FORWARDED"])) {
-return $_SERVER["HTTP_X_FORWARDED"];
-} else {
-return $_SERVER["REMOTE_ADDR"];
-}
+if (validip($_SERVER["HTTP_CLIENT_IP"])) return $_SERVER["HTTP_CLIENT_IP"];
+foreach (explode(",",$_SERVER["HTTP_X_FORWARDED_FOR"]) as $ip) if (validip(trim($ip))) return $ip;
+if (validip($_SERVER["HTTP_X_FORWARDED"])) return $_SERVER["HTTP_X_FORWARDED"];
+elseif (validip($_SERVER["HTTP_FORWARDED_FOR"])) return $_SERVER["HTTP_FORWARDED_FOR"];
+elseif (validip($_SERVER["HTTP_FORWARDED"])) return $_SERVER["HTTP_FORWARDED"];
+elseif (validip($_SERVER["HTTP_X_FORWARDED"])) return $_SERVER["HTTP_X_FORWARDED"];
+else return $_SERVER["REMOTE_ADDR"];
 }
 
 $ip = getip();

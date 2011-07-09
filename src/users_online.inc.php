@@ -1,25 +1,17 @@
 <?php
-include ("db.om.inc.php");
 include ("validip.inc.php");
 
 $t_stamp = time();
-$to_secs = 600; // time to reset IP address's value in seconds, default here is 120 (2 minutes)
-$timeout = ($t_stamp - $to_secs);
+$timeout = ($t_stamp - 600);
 $users_id = $_SESSION['user_id'];
 $username = $_SESSION['username'];
 
-if (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] != null) {
-$phpself = $_SERVER['PHP_SELF'] . "?" . $_SERVER['QUERY_STRING'];
-} else {
-$phpself = $_SERVER['PHP_SELF'];
-}
+if (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] != null) $phpself = $_SERVER['PHP_SELF'] . "?" . $_SERVER['QUERY_STRING'];
+else $phpself = $_SERVER['PHP_SELF'];
 
-if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) {
-mysql_db_query($om, "INSERT INTO users_online VALUES ('$t_stamp','$ip','$users_id','$username','$phpself')") or die("Database INSERT Error");
-} else {
-mysql_db_query($om, "INSERT INTO guests_online VALUES ('$t_stamp','$ip','guest','$phpself')") or die("Database INSERT Error");
-}
+if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) mysql_query("INSERT INTO users_online VALUES ('$t_stamp','$ip','$users_id','$username','$phpself')", $db);
+else mysql_query("INSERT INTO guests_online VALUES ('$t_stamp','$ip','guest','$phpself')", $db);
 
-mysql_db_query($om, "DELETE FROM users_online WHERE timestamp < $timeout") or die("Database DELETE Error");
-mysql_db_query($om, "DELETE FROM guests_online WHERE timestamp < $timeout") or die("Database DELETE Error");
+mysql_query("DELETE FROM users_online WHERE timestamp < $timeout", $db);
+mysql_query("DELETE FROM guests_online WHERE timestamp < $timeout", $db);
 ?>

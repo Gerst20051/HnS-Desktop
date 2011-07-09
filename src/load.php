@@ -20,11 +20,12 @@ include ("db.inc.php");
 /* --- app_names
 /* - tic_tac_toe
 /* - chat
-/* - notepad_save
 /* ---------------------------------------------------- */
 
 if (isset($_GET['id'])) {
 $id = trim($_GET['id']);
+$username = $_SESSION['username'];
+$userid = $_SESSION['user_id'];
 
 if (isset($_GET['action'])) $action = trim($_GET['action']);
 if (isset($_GET['data'])) $data = trim($_GET['data']);
@@ -33,10 +34,7 @@ if (isset($_GET['subdata'])) $subdata = trim($_GET['subdata']);
 switch ($id) {
 case 'user_info':
 
-$username = $data;
-
-$query = 'SELECT user_id FROM login WHERE ' .
-'username = "' . mysql_real_escape_string($username, $db) . '"';
+$query = 'SELECT user_id FROM login WHERE username = "' . mysql_real_escape_string($data, $db) . '"';
 $result = mysql_query($query, $db) or die(mysql_error($db));
 
 if (mysql_num_rows($result) == 1) {
@@ -53,6 +51,11 @@ case 'wallpaper_slideshow':
 
 $dirpath = "i/wallpapers/thumbnails/";
 $files = opendir($dirpath);
+$albums = array('abst','aabst','animal','ani','apo','arch','baw','car','celeb','cag','color','chr','fant','flower','fractal','hr','hrc','holiday','mac','misc','movie','nal','travel','tv','typo','win');
+
+foreach ($albums as $key => $album) {
+$album . $key = "<div id=\"" . $album . "\">\n";
+}
 
 echo "<div id=\"slideshow\">";
 
@@ -63,9 +66,19 @@ $nameArray = split("[/\\.]", $file);
 $p = count($nameArray);
 $filetype = $nameArray[($p - 1)];
 
-echo "<img src=\"$dirpath$file\" id=\"$file\" class=\"thumbnail\" alt=\"$nameArray[0]\" />\n";
+foreach ($albums as $key => $album) {
+if (preg_match("/^$album.*/", $nameArray[0])) {
+$album . $key .= "<img src=\"$dirpath$file\" id=\"$file\" class=\"thumbnail\" alt=\"$nameArray[0]\" />\n";
 }
 }
+
+}
+}
+}
+
+foreach ($albums as $key => $album) {
+$album . $key .= "</div>";
+echo $album . $key;
 }
 
 echo "</div>";
@@ -76,19 +89,13 @@ case 'update_hns_desktop':
 switch ($action) {
 case 'wallpaper_file':
 
-$query = 'UPDATE hns_desktop SET
-wallpaper_file = "' . mysql_real_escape_string($data) . '"
-WHERE
-user_id = ' . $_SESSION['user_id'];
+$query = 'UPDATE hns_desktop SET wallpaper_file = "' . mysql_real_escape_string($data) . '" WHERE user_id = ' . $userid;
 mysql_query($query, $db) or die(mysql_error());
 
 break;
 case 'notepad':
 
-$query = 'UPDATE hns_desktop SET
-notepad = "' . mysql_real_escape_string(htmlentities($data)) . '"
-WHERE
-user_id = ' . $_SESSION['user_id'];
+$query = 'UPDATE hns_desktop SET notepad = "' . mysql_real_escape_string(htmlentities($data)) . '" WHERE user_id = ' . $userid;
 mysql_query($query, $db) or die(mysql_error());
 
 break;
@@ -98,128 +105,119 @@ break;
 case 'update_apps':
 
 switch ($action) {
-case 'wallpaper':
+case 'documents':
 
-$query = 'UPDATE hns_desktop SET
-app_wallpaper = "' . mysql_real_escape_string($data) . '"
-WHERE
-user_id = ' . $_SESSION['user_id'];
-mysql_query($query, $db) or die(mysql_error());
-
-break;
-case 'notepad':
-
-$query = 'UPDATE hns_desktop SET
-app_notepad = "' . mysql_real_escape_string($data) . '"
-WHERE
-user_id = ' . $_SESSION['user_id'];
+$query = 'UPDATE hns_desktop SET app_documents = "' . mysql_real_escape_string($data) . '" WHERE user_id = ' . $userid;
 mysql_query($query, $db) or die(mysql_error());
 
 break;
 case 'preferences':
 
-$query = 'UPDATE hns_desktop SET
-app_preferences = "' . mysql_real_escape_string($data) . '"
-WHERE
-user_id = ' . $_SESSION['user_id'];
+$query = 'UPDATE hns_desktop SET app_preferences = "' . mysql_real_escape_string($data) . '" WHERE user_id = ' . $userid;
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'notepad':
+
+$query = 'UPDATE hns_desktop SET app_notepad = "' . mysql_real_escape_string($data) . '" WHERE user_id = ' . $userid;
 mysql_query($query, $db) or die(mysql_error());
 
 break;
 case 'flash_name':
 
-$query = 'UPDATE hns_desktop SET
-app_flash_name = "' . mysql_real_escape_string($data) . '"
-WHERE
-user_id = ' . $_SESSION['user_id'];
+$query = 'UPDATE hns_desktop SET app_flash_name = "' . mysql_real_escape_string($data) . '" WHERE user_id = ' . $userid;
 mysql_query($query, $db) or die(mysql_error());
-
-break;
-case 'piano':
-
-$query = 'UPDATE hns_desktop SET
-app_piano = "' . mysql_real_escape_string($data) . '"
-WHERE
-user_id = ' . $_SESSION['user_id'];
-mysql_query($query, $db) or die(mysql_error());
-
-break;
-case 'tic_tac_toe':
-
-$query = 'UPDATE hns_desktop SET
-app_tic_tac_toe = "' . mysql_real_escape_string($data) . '"
-WHERE
-user_id = ' . $_SESSION['user_id'];
-mysql_query($query, $db) or die(mysql_error());
-
-break;
-case 'friends':
-
-$query = 'UPDATE hns_desktop SET
-app_friends = "' . mysql_real_escape_string($data) . '"
-WHERE
-user_id = ' . $_SESSION['user_id'];
-mysql_query($query, $db) or die(mysql_error());
-
-break;
-case 'radio':
-
-$query = 'UPDATE hns_desktop SET
-app_radio = "' . mysql_real_escape_string($data) . '"
-WHERE
-user_id = ' . $_SESSION['user_id'];
-mysql_query($query, $db) or die(mysql_error());
-
-break;
-case 'search':
-
-$query = 'UPDATE hns_desktop SET
-app_search = "' . mysql_real_escape_string($data) . '"
-WHERE
-user_id = ' . $_SESSION['user_id'];
-mysql_query($query, $db) or die(mysql_error());
-
-break;
-case 'chat':
-
-$query = 'UPDATE hns_desktop SET
-app_chat = "' . mysql_real_escape_string($data) . '"
-WHERE
-user_id = ' . $_SESSION['user_id'];
-mysql_query($query, $db) or die(mysql_error());
-
-break;
-case 'music':
-
-$query = 'UPDATE hns_desktop SET
-app_music = "' . mysql_real_escape_string($data) . '"
-WHERE
-user_id = ' . $_SESSION['user_id'];
-mysql_query($query, $db) or die(mysql_error());
-
-break;
-}
 
 break;
 case 'ytinstant':
 
 if (isset($_GET['action']) && ($action == "add")) {
 if (isset($_GET['data'])) {
-$query = 'UPDATE hns_desktop SET
-yt_playlist = "' . mysql_real_escape_string($data) . '"
-WHERE
-user_id = ' . $_SESSION['user_id'];
+$query = 'UPDATE hns_desktop SET yt_playlist = "' . mysql_real_escape_string($data) . '" WHERE user_id = ' . $userid;
 mysql_query($query, $db) or die(mysql_error());
 }
 }
 
 if (isset($_GET['action']) && ($action == "remove")) {
 if (isset($_GET['data'])) {
-$query = 'UPDATE hns_desktop SET
-yt_playlist = "' . mysql_real_escape_string($data) . '"
-WHERE
-user_id = ' . $_SESSION['user_id'];
+$query = 'UPDATE hns_desktop SET yt_playlist = "' . mysql_real_escape_string($data) . '" WHERE user_id = ' . $userid;
 mysql_query($query, $db) or die(mysql_error());
 }
+}
+
+break;
+case 'piano':
+
+$query = 'UPDATE hns_desktop SET app_piano = "' . mysql_real_escape_string($data) . '" WHERE user_id = ' . $userid;
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'about_hnsdesktop':
+
+$query = 'UPDATE hns_desktop SET app_about_hnsdesktop = "' . mysql_real_escape_string($data) . '" WHERE user_id = ' . $userid;
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'feedback':
+
+$query = 'UPDATE hns_desktop SET app_feedback = "' . mysql_real_escape_string($data) . '" WHERE user_id = ' . $userid;
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'tic_tac_toe':
+
+$query = 'UPDATE hns_desktop SET app_tic_tac_toe = "' . mysql_real_escape_string($data) . '" WHERE user_id = ' . $userid;
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'friends':
+
+$query = 'UPDATE hns_desktop SET app_friends = "' . mysql_real_escape_string($data) . '" WHERE user_id = ' . $userid;
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'goom_radio':
+
+$query = 'UPDATE hns_desktop SET app_goom_radio = "' . mysql_real_escape_string($data) . '" WHERE user_id = ' . $userid;
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'search':
+
+$query = 'UPDATE hns_desktop SET app_search = "' . mysql_real_escape_string($data) . '" WHERE user_id = ' . $userid;
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'chat':
+
+$query = 'UPDATE hns_desktop SET app_chat = "' . mysql_real_escape_string($data) . '" WHERE user_id = ' . $userid;
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'music':
+
+$query = 'UPDATE hns_desktop SET app_music = "' . mysql_real_escape_string($data) . '" WHERE user_id = ' . $userid;
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'web_browser':
+
+$query = 'UPDATE hns_desktop SET app_web_browser = "' . mysql_real_escape_string($data) . '" WHERE user_id = ' . $userid;
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'torus':
+
+$query = 'UPDATE hns_desktop SET app_torus = "' . mysql_real_escape_string($data) . '" WHERE user_id = ' . $userid;
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'calendar':
+
+$query = 'UPDATE hns_desktop SET app_calendar = "' . mysql_real_escape_string($data) . '" WHERE user_id = ' . $userid;
+mysql_query($query, $db) or die(mysql_error());
+
+break;
 }
 
 break;
@@ -246,7 +244,7 @@ $message = $_GET['data'];
 $chatfile = $_SERVER['DOCUMENT_ROOT'] . "/chat_history.php";
 $fhandle = fopen($chatfile, "r") or exit("Unable to open file!");
 $content = fread($fhandle, filesize($chatfile));
-$message = '<div>(' . date("g:i A") . ') <b>' . $_SESSION['username'] . '</b>: ' . stripslashes(htmlspecialchars($message)) . '<br /></div>' . "\n";
+$message = '<div>(' . date("g:i A") . ') <b>' . $username . '</b>: ' . stripslashes(htmlspecialchars($message)) . '<br /></div>' . "\n";
 $content .= $message;
 $fhandle = fopen($chatfile, "w");
 fwrite($fhandle, $content);
@@ -285,37 +283,23 @@ if (strlen($content) > 60) {
 echo "<br />Last Message Was Sent ";
 
 if ($timediff < 60) {
-if ($timediff > 1) {
-echo $timediff . " Seconds Ago";
-} else {
-echo "1 Second Ago";
-}
+if ($timediff > 1) echo $timediff . " Seconds Ago";
+else echo "1 Second Ago";
 } else {
 $mtimediff = floor($timediff / 60);
 $stimediff = ($timediff % 60);
-
 echo $mtimediff;
 
 if ($stimediff == 0) {
-if ($mtimediff > 1) {
-echo " Minutes Ago";
+if ($mtimediff > 1) echo " Minutes Ago";
+else echo " Minute Ago";
 } else {
-echo " Minute Ago";
-}
-} else {
-if ($mtimediff > 1) {
-echo " Minutes & ";
-} else {
-echo " Minute & ";
-}
-
+if ($mtimediff > 1) echo " Minutes & ";
+else echo " Minute & ";
 echo $stimediff;
 
-if ($stimediff > 1) {
-echo " Seconds Ago";
-} else {
-echo " Second Ago";
-}
+if ($stimediff > 1) echo " Seconds Ago";
+else echo " Second Ago";
 }
 }
 }

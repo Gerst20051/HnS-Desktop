@@ -75,9 +75,7 @@ display();
 </div>
 </div>
 <!-- End page content -->
-<?php
-include ("tracking_scripts.inc.php");
-?>
+<?php include ("tracking_scripts.inc.php"); ?>
 </body>
 
 </html>

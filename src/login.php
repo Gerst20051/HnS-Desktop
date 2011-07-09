@@ -2,27 +2,18 @@
 session_start();
 
 include ("db.inc.php");
-include ("users_online.inc.php"); // include db.om.inc if this gets removed
+include ("users_online.inc.php");
 
-if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) { // user is logged in
+if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) {
 include ("auth.inc.php");
 include ("check_session.inc.php");
 }
 
 $username = (isset($_POST['username'])) ? trim($_POST['username']) : '';
-$password = (isset($_POST['password'])) ? $_POST['password'] : '';
+$password = (isset($_POST['password'])) ? trim($_POST['password']) : '';
 $time = time();
 
-$query = 'SELECT * FROM
-login u
-JOIN
-info i
-ON
-u.user_id = i.user_id
-WHERE ' .
-'username = "' . mysql_real_escape_string($username, $db) .
-'" AND ' .
-'password = PASSWORD("' . mysql_real_escape_string($password, $db) . '")';
+$query = 'SELECT * FROM login u JOIN info i ON u.user_id = i.user_id WHERE username = "' . mysql_real_escape_string($username, $db) . '" AND password = PASSWORD("' . mysql_real_escape_string($password, $db) . '")';
 $result = mysql_query($query, $db) or die(mysql_error($db));
 
 if (mysql_num_rows($result) > 0) {
@@ -62,19 +53,12 @@ $user_id = null;
 $username = null;
 
 $last_login = date('Y-m-d');
-$logins = ($logins + 1);
+$logins++;
 
-$query = 'UPDATE info SET
-logins = ' . $logins . '
-WHERE
-user_id = ' . $_SESSION['user_id'];
+$query = 'UPDATE info SET logins = ' . $logins . ' WHERE user_id = ' . $_SESSION['user_id'];
 mysql_query($query, $db) or die(mysql_error());
 
-$query = 'UPDATE login SET
-last_login = "' . $last_login . '",
-last_login_ip = "' . $ip . '"
-WHERE
-user_id = ' . $_SESSION['user_id'];
+$query = 'UPDATE login SET last_login = "' . $last_login . '", last_login_ip = "' . $ip . '" WHERE user_id = ' . $_SESSION['user_id'];
 mysql_query($query, $db) or die(mysql_error());
 
 echo "Success";

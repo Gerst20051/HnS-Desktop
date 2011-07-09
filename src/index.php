@@ -8,31 +8,35 @@ define('FACEBOOK_APP_ID', 'your application id');
 define('FACEBOOK_SECRET', 'your application secret');
 
 function get_facebook_cookie($app_id, $application_secret) {
-  $args = array();
-  parse_str(trim($_COOKIE['fbs_' . $app_id], '\\"'), $args);
-  ksort($args);
-  $payload = '';
-  foreach ($args as $key => $value) {
-    if ($key != 'sig') {
-      $payload .= $key . '=' . $value;
-    }
-  }
-  if (md5($payload . $application_secret) != $args['sig']) {
-    return null;
-  }
-  return $args;
+	$args = array();
+	parse_str(trim($_COOKIE['fbs_' . $app_id], '\\"'), $args);
+	ksort($args);
+	$payload = '';
+
+	foreach ($args as $key => $value) {
+		if ($key != 'sig') {
+			$payload .= $key . '=' . $value;
+		}
+	}
+
+	if (md5($payload . $application_secret) != $args['sig']) {
+		return null;
+	}
+
+	return $args;
 }
 
 $cookie = get_facebook_cookie(FACEBOOK_APP_ID, FACEBOOK_SECRET);
 ?>
-<!DOCTYPE html> 
-<html lang="en" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr" xmlns:fb="http://www.facebook.com/2008/fbml">
 
 <head>
 <title>Homenet Spaces OS | Welcome to HnS Desktop!</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-language" content="en" />
 <meta name="author" content="Homenet Spaces Andrew Gerst" />
-<meta name="copyright" content="© HnS Desktop" />
+<meta name="copyright" content="HnS Desktop" />
 <meta name="keywords" content="Homenet, Spaces, HnS, Desktop, OS, Web, WebOS, Webtop, Online, Operating, System, Applications, Application, Apps, App, Services, Internet, The, Place, To, Be, Creative, Andrew, Gerst, Free, Profile, Profiles" />
 <meta name="description" content="Welcome to Homenet Spaces OS | This is the place to be creative! Feel free to add yourself to our wonderful community by registering! HnS Desktop" />
 <meta property="og:title" content="HnS Desktop" />
@@ -41,6 +45,7 @@ $cookie = get_facebook_cookie(FACEBOOK_APP_ID, FACEBOOK_SECRET);
 <meta property="og:site_name" content="HnS Desktop" />
 <meta property="fb:admins" content="637458869" />
 <meta property="og:description" content="Welcome to Homenet Spaces OS | This is the place to be creative! Feel free to add yourself to our wonderful community by registering! HnS Desktop" />
+<noscript><meta http-equiv="X-Frame-Options" content="deny" /></noscript>
 <script type="text/javascript" src="jquery.js"></script>
 <!--[if lt IE 9]>
 <script type="text/javascript" src="js/min/html5.min.js"></script>
@@ -53,17 +58,13 @@ for (var i = 0; i < e.length; i++) document.createElement(e[i]);
 <base href="" target="_blank" />
 </head>
 
-<body id="main" scroll="no">
+<body id="main">
 <div class="noscript">
-We Are Sorry! HnS Desktop Requires A Browser That Supports jQuery & Javascript.
+We Are Sorry! HnS Desktop Requires A Browser That Supports HTML5, jQuery, and Javascript.
 </div>
 <canvas id="c_animation"></canvas>
-<?php
-include ("tracking_scripts.inc.php");
-?>
+<?php include ("tracking_scripts.inc.php"); ?>
 </body>
 
 </html>
-<?php
-mysql_close($db);
-?>
+<?php mysql_close($db); ?>

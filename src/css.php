@@ -2,11 +2,8 @@
 session_start();
 header("Content-Type: text/css");
 
-if (isset($_GET['id']) && ($_GET['id'] >= 1)) {
-$theme_id = $_GET['id'];
-} else {
-$theme_id = 1;
-}
+if (isset($_GET['id']) && ($_GET['id'] >= 1)) $theme_id = $_GET['id'];
+else $theme_id = 1;
 ?>
 /* ---------------------------------------------------- */
 /* ----------- >>>  Global Style Sheet  <<< ----------- */
@@ -244,7 +241,44 @@ p, fieldset, table {
 margin-bottom: 1em;/* so things don't run into each other */
 }
 
+/*
+pre {
+background: #eee;
+padding: 10px;
+border: 2px solid #c94a29;
+overflow: hidden;
+margin: 0 0 15px 0;
+width: 563px;
+font-family: Courier, Monospace;
+}
+*/
 /* End CSS Base */
+/* Begin HTML 5 */
+
+address, article, aside, footer, header, hgroup, nav, section, time {
+display: block;
+}
+
+address {
+margin: 0 0 0.2em 0;
+}
+
+time {
+margin: 0 0 1.5em 0;
+}
+
+/*
+article:after { clear: both; content: "."; display: block; height: 0; visibility: hidden; }
+aside:after { clear: both; content: "."; display: block; height: 0; visibility: hidden; }
+div:after { clear: both; content: "."; display: block; height: 0; visibility: hidden; }
+form:after { clear: both; content: "."; display: block; height: 0; visibility: hidden; }
+header:after { clear: both; content: "."; display: block; height: 0; visibility: hidden; }
+nav:after { clear: both; content: "."; display: block; height: 0; visibility: hidden; }
+section:after { clear: both; content: "."; display: block; height: 0; visibility: hidden; }
+ul:after { clear: both; content: "."; display: block; height: 0; visibility: hidden; }
+*/
+
+/* End HTML5 */
 /* Begin Buttons */
 
 .buttons a,
@@ -360,10 +394,10 @@ border-radius: 16px;
 -moz-border-radius: 16px;
 -opera-border-radius: 16px;
 -webkit-border-radius: 16px;
-box-shadow: rgba(192,192,192,0.75) 0px 8px 24px;
--khtml-box-shadow: rgba(192,192,192,0.75) 0px 8px 24px;
--moz-box-shadow: rgba(192,192,192,0.75) 0px 8px 24px;
--webkit-box-shadow: rgba(192,192,192,0.75) 0px 8px 24px;
+box-shadow: rgba(192,192,192,0.75) 0 8px 24px;
+-khtml-box-shadow: rgba(192,192,192,0.75) 0 8px 24px;
+-moz-box-shadow: rgba(192,192,192,0.75) 0 8px 24px;
+-webkit-box-shadow: rgba(192,192,192,0.75) 0 8px 24px;
 color: #fff;
 cursor: pointer;
 display: inline-block;
@@ -395,7 +429,7 @@ display: block;
 height: 50%;
 left: 3.5%;
 position: absolute;
-top: 0px;
+top: 0;
 width: 94%;
 }
 
@@ -404,10 +438,10 @@ background-color: rgba(255,0,0,0.75);
 background-image: -moz-linear-gradient(top, bottom, from(rgba(128,64,64,0.75)), to(rgba(192,128,128,0.9)));
 background-image: -webkit-gradient(linear, 0% 0%, 0% 90%, from(rgba(128,64,64,0.75)), to(rgba(256,128,128,0.9)));
 border-color: #aa7777;
-box-shadow: rgba(256,128,128,0.5) 0px 8px 24px;
--khtml-box-shadow: rgba(256,128,128,0.5) 0px 8px 24px;
--moz-box-shadow: rgba(256,128,128,0.5) 0px 8px 24px;
--webkit-box-shadow: rgba(256,128,128,0.5) 0px 8px 24px;
+box-shadow: rgba(256,128,128,0.5) 0 8px 24px;
+-khtml-box-shadow: rgba(256,128,128,0.5) 0 8px 24px;
+-moz-box-shadow: rgba(256,128,128,0.5) 0 8px 24px;
+-webkit-box-shadow: rgba(256,128,128,0.5) 0 8px 24px;
 }
 
 .shiny-button2:hover { /* green */
@@ -415,10 +449,10 @@ background-color: rgba(0,128,0,0.75);
 background-image: -moz-linear-gradient(top, bottom, from(rgba(64,128,64,0.75)), to(rgba(128,192,128,0.9)));
 background-image: -webkit-gradient(linear, 0% 0%, 0% 90%, from(rgba(64,128,64,0.75)), to(rgba(128,255,128,0.9)));
 border-color: #77cc77;
-box-shadow: rgba(128,256,128,0.6) 0px 8px 24px;
--khtml-box-shadow: rgba(128,256,128,0.6) 0px 8px 24px;
--moz-box-shadow: rgba(128,256,128,0.6) 0px 8px 24px;
--webkit-box-shadow: rgba(128,256,128,0.6) 0px 8px 24px;
+box-shadow: rgba(128,256,128,0.6) 0 8px 24px;
+-khtml-box-shadow: rgba(128,256,128,0.6) 0 8px 24px;
+-moz-box-shadow: rgba(128,256,128,0.6) 0 8px 24px;
+-webkit-box-shadow: rgba(128,256,128,0.6) 0 8px 24px;
 }
 
 .shiny-button3:hover { /* blue */
@@ -426,10 +460,10 @@ background-color: rgba(64,128,192,0.75);
 background-image: -moz-linear-gradient(top, bottom, from(rgba(16,96,192,0.75)), to(rgba(96,192,255,0.9)));
 background-image: -webkit-gradient(linear, 0% 0%, 0% 90%, from(rgba(16,96,192,0.75)), to(rgba(96,192,255,0.9)));
 border-color: #6699cc;
-box-shadow: rgba(128,192,255,0.75) 0px 8px 24px;
--khtml-box-shadow: rgba(128,192,255,0.75) 0px 8px 24px;
--moz-box-shadow: rgba(128,192,255,0.75) 0px 8px 24px;
--webkit-box-shadow: rgba(128,192,255,0.75) 0px 8px 24px;
+box-shadow: rgba(128,192,255,0.75) 0 8px 24px;
+-khtml-box-shadow: rgba(128,192,255,0.75) 0 8px 24px;
+-moz-box-shadow: rgba(128,192,255,0.75) 0 8px 24px;
+-webkit-box-shadow: rgba(128,192,255,0.75) 0 8px 24px;
 }
 
 /* End Shiny Buttons **/
@@ -571,6 +605,40 @@ float: left !important;
 float: right !important;
 }
 
+/** Begin Clear Fix */
+
+.clearfix:after {
+clear: both;
+content: " ";
+display: block;
+font-size: 0;
+height: 0;
+line-height: 0;
+visibility: hidden;
+width: 0;
+}
+
+.clearfix {
+display: inline-table;
+display: inline-block;
+}
+
+html[xmlns] .clearfix {
+display: block;
+}
+
+/* Begin Hide From IE-Mac \*/
+
+* html .clearfix {
+height: 1%;
+}
+
+.clearfix {
+display: block;
+}
+
+/* End Hide From IE-Mac */
+/* End Clear Fix **/
 /* End Floating & Clearing */
 /* Begin Drag/Resize */
 
@@ -672,8 +740,8 @@ z-index: 101;
 background: #eee;
 border: solid 1px #ccc;
 display: none;
-margin: 0px;
-padding: 0px;
+margin: 0;
+padding: 0;
 position: absolute;
 width: 120px;
 z-index: 99999;
@@ -681,8 +749,8 @@ z-index: 99999;
 
 .contextMenu li {
 list-style: none;
-margin: 0px;
-padding: 0px;
+margin: 0;
+padding: 0;
 }
 
 .contextMenu a {
@@ -877,7 +945,8 @@ background-position: -10px -36px;
 width: 44px;
 }
 
-div.panel-header div.tools div.close:hover {
+div.panel-header div.tools div.close:hover,
+div.panel-header div.tools div.close.on {
 background-position: -10px -54px;
 }
 
@@ -886,7 +955,8 @@ background-position: -9px 0 !important;
 width: 45px !important;
 }
 
-div.panel-header div.tools div.close_corners:hover {
+div.panel-header div.tools div.close_corners:hover,
+div.panel-header div.tools div.close_corners.on {
 background-position: -9px -18px !important;
 }
 
@@ -894,7 +964,8 @@ div.panel-header div.tools div.maximize {
 background-position: -4px -144px;
 }
 
-div.panel-header div.tools div.maximize:hover {
+div.panel-header div.tools div.maximize:hover,
+div.panel-header div.tools div.maximize.on {
 background-position: -29px -144px;
 }
 
@@ -903,7 +974,8 @@ background-position: -2px -127px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.maximize_end:hover {
+div.panel-header div.tools div.maximize_end:hover,
+div.panel-header div.tools div.maximize_end.on {
 background-position: -28px -127px !important;
 }
 
@@ -911,7 +983,8 @@ div.panel-header div.tools div.maximize_corners {
 background-position: -4px -162px !important;
 }
 
-div.panel-header div.tools div.maximize_corners:hover {
+div.panel-header div.tools div.maximize_corners:hover,
+div.panel-header div.tools div.maximize_corners.on {
 background-position: -29px -162px !important;
 }
 
@@ -919,7 +992,8 @@ div.panel-header div.tools div.restore {
 background-position: -4px -198px;
 }
 
-div.panel-header div.tools div.restore:hover {
+div.panel-header div.tools div.restore:hover,
+div.panel-header div.tools div.restore.on {
 background-position: -29px -198px;
 }
 
@@ -928,7 +1002,8 @@ background-position: -2px -180px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.restore_end:hover {
+div.panel-header div.tools div.restore_end:hover,
+div.panel-header div.tools div.restore_end.on {
 background-position: -28px -180px !important;
 }
 
@@ -936,7 +1011,8 @@ div.panel-header div.tools div.restore_corners {
 background-position: -4px -216px !important;
 }
 
-div.panel-header div.tools div.restore_corners:hover {
+div.panel-header div.tools div.restore_corners:hover,
+div.panel-header div.tools div.restore_corners.on {
 background-position: -29px -216px !important;
 }
 
@@ -954,7 +1030,8 @@ background-position: -4px -90px !important;
 width: 25px !important;
 }
 
-div.panel-header div.tools div.minimize_middle:hover {
+div.panel-header div.tools div.minimize_middle:hover,
+div.panel-header div.tools div.minimize_middle.on {
 background-position: -29px -90px !important;
 }
 
@@ -963,7 +1040,8 @@ background-position: -4px -108px !important;
 width: 25px !important;
 }
 
-div.panel-header div.tools div.minimize_corners:hover {
+div.panel-header div.tools div.minimize_corners:hover,
+div.panel-header div.tools div.minimize_corners.on {
 background-position: -29px -108px !important;
 }
 
@@ -971,7 +1049,8 @@ div.panel-header div.tools div.blank {
 background-position: -4px -288px;
 }
 
-div.panel-header div.tools div.blank:hover {
+div.panel-header div.tools div.blank:hover,
+div.panel-header div.tools div.blank.on {
 background-position: -29px -288px;
 }
 
@@ -979,7 +1058,8 @@ div.panel-header div.tools div.blank_middle {
 background-position: -4px -270px !important;
 }
 
-div.panel-header div.tools div.blank_middle:hover {
+div.panel-header div.tools div.blank_middle:hover,
+div.panel-header div.tools div.blank_middle.on {
 background-position: -29px -270px !important;
 }
 
@@ -988,7 +1068,8 @@ background-position: -2px -252px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.blank_end:hover {
+div.panel-header div.tools div.blank_end:hover,
+div.panel-header div.tools div.blank_end.on {
 background-position: -28px -252px !important;
 }
 
@@ -997,7 +1078,8 @@ background-position: -2px -234px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.blank_begin:hover {
+div.panel-header div.tools div.blank_begin:hover,
+div.panel-header div.tools div.blank_begin.on {
 background-position: -28px -234px !important;
 }
 
@@ -1005,7 +1087,8 @@ div.panel-header div.tools div.toggle {
 background-position: -4px -360px;
 }
 
-div.panel-header div.tools div.toggle:hover {
+div.panel-header div.tools div.toggle:hover,
+div.panel-header div.tools div.toggle.on {
 background-position: -29px -360px;
 }
 
@@ -1013,7 +1096,8 @@ div.panel-header div.tools div.toggle_middle {
 background-position: -4px -342px !important;
 }
 
-div.panel-header div.tools div.toggle_middle:hover {
+div.panel-header div.tools div.toggle_middle:hover,
+div.panel-header div.tools div.toggle_middle.on {
 background-position: -29px -342px !important;
 }
 
@@ -1022,7 +1106,8 @@ background-position: -2px -324px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.toggle_end:hover {
+div.panel-header div.tools div.toggle_end:hover,
+div.panel-header div.tools div.toggle_end.on {
 background-position: -28px -324px !important;
 }
 
@@ -1031,7 +1116,8 @@ background-position: -2px -306px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.toggle_begin:hover {
+div.panel-header div.tools div.toggle_begin:hover,
+div.panel-header div.tools div.toggle_begin.on {
 background-position: -28px -306px !important;
 }
 
@@ -1039,7 +1125,8 @@ div.panel-header div.tools div.toggledown {
 background-position: -4px -432px;
 }
 
-div.panel-header div.tools div.toggledown:hover {
+div.panel-header div.tools div.toggledown:hover,
+div.panel-header div.tools div.toggledown.on {
 background-position: -29px -432px;
 }
 
@@ -1047,7 +1134,8 @@ div.panel-header div.tools div.toggledown_middle {
 background-position: -4px -414px !important;
 }
 
-div.panel-header div.tools div.toggledown_middle:hover {
+div.panel-header div.tools div.toggledown_middle:hover,
+div.panel-header div.tools div.toggledown_middle.on {
 background-position: -29px -414px !important;
 }
 
@@ -1056,7 +1144,8 @@ background-position: -2px -396px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.toggledown_end:hover {
+div.panel-header div.tools div.toggledown_end:hover,
+div.panel-header div.tools div.toggledown_end.on {
 background-position: -28px -396px !important;
 }
 
@@ -1065,7 +1154,8 @@ background-position: -2px -378px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.toggledown_begin:hover {
+div.panel-header div.tools div.toggledown_begin:hover,
+div.panel-header div.tools div.toggledown_begin.on {
 background-position: -28px -378px !important;
 }
 
@@ -1073,7 +1163,8 @@ div.panel-header div.tools div.config {
 background-position: -4px -504px;
 }
 
-div.panel-header div.tools div.config:hover {
+div.panel-header div.tools div.config:hover,
+div.panel-header div.tools div.config.on {
 background-position: -29px -504px;
 }
 
@@ -1081,7 +1172,8 @@ div.panel-header div.tools div.config_middle {
 background-position: -4px -486px !important;
 }
 
-div.panel-header div.tools div.config_middle:hover {
+div.panel-header div.tools div.config_middle:hover,
+div.panel-header div.tools div.config_middle.on {
 background-position: -29px -486px !important;
 }
 
@@ -1090,7 +1182,8 @@ background-position: 0 -468px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.config_end:hover {
+div.panel-header div.tools div.config_end:hover,
+div.panel-header div.tools div.config_end.on {
 background-position: -27px -468px !important;
 }
 
@@ -1099,7 +1192,8 @@ background-position: -2px -450px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.config_begin:hover {
+div.panel-header div.tools div.config_begin:hover,
+div.panel-header div.tools div.config_begin.on {
 background-position: -28px -450px !important;
 }
 
@@ -1107,7 +1201,8 @@ div.panel-header div.tools div.arrowleft {
 background-position: -4px -576px;
 }
 
-div.panel-header div.tools div.arrowleft:hover {
+div.panel-header div.tools div.arrowleft:hover,
+div.panel-header div.tools div.arrowleft.on {
 background-position: -29px -576px;
 }
 
@@ -1115,7 +1210,8 @@ div.panel-header div.tools div.arrowleft_middle {
 background-position: -4px -558px !important;
 }
 
-div.panel-header div.tools div.arrowleft_middle:hover {
+div.panel-header div.tools div.arrowleft_middle:hover,
+div.panel-header div.tools div.arrowleft_middle.on {
 background-position: -29px -558px !important;
 }
 
@@ -1124,7 +1220,8 @@ background-position: 0 -540px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.arrowleft_end:hover {
+div.panel-header div.tools div.arrowleft_end:hover,
+div.panel-header div.tools div.arrowleft_end.on {
 background-position: -27px -540px !important;
 }
 
@@ -1133,7 +1230,8 @@ background-position: -2px -522px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.arrowleft_begin:hover {
+div.panel-header div.tools div.arrowleft_begin:hover,
+div.panel-header div.tools div.arrowleft_begin.on {
 background-position: -28px -522px !important;
 }
 
@@ -1141,7 +1239,8 @@ div.panel-header div.tools div.arrowright {
 background-position: -4px -648px;
 }
 
-div.panel-header div.tools div.arrowright:hover {
+div.panel-header div.tools div.arrowright:hover,
+div.panel-header div.tools div.arrowright.on {
 background-position: -29px -648px;
 }
 
@@ -1149,7 +1248,8 @@ div.panel-header div.tools div.arrowright_middle {
 background-position: -4px -630px !important;
 }
 
-div.panel-header div.tools div.arrowright_middle:hover {
+div.panel-header div.tools div.arrowright_middle:hover,
+div.panel-header div.tools div.arrowright_middle.on {
 background-position: -29px -630px !important;
 }
 
@@ -1158,7 +1258,8 @@ background-position: -2px -612px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.arrowright_end:hover {
+div.panel-header div.tools div.arrowright_end:hover,
+div.panel-header div.tools div.arrowright_end.on {
 background-position: -28px -612px !important;
 }
 
@@ -1167,7 +1268,8 @@ background-position: 0 -594px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.arrowright_begin:hover {
+div.panel-header div.tools div.arrowright_begin:hover,
+div.panel-header div.tools div.arrowright_begin.on {
 background-position: -27px -594px !important;
 }
 
@@ -1175,7 +1277,8 @@ div.panel-header div.tools div.pindown {
 background-position: -4px -720px;
 }
 
-div.panel-header div.tools div.pindown:hover {
+div.panel-header div.tools div.pindown:hover,
+div.panel-header div.tools div.pindown.on {
 background-position: -29px -720px;
 }
 
@@ -1183,7 +1286,8 @@ div.panel-header div.tools div.pindown_middle {
 background-position: -4px -702px !important;
 }
 
-div.panel-header div.tools div.pindown_middle:hover {
+div.panel-header div.tools div.pindown_middle:hover,
+div.panel-header div.tools div.pindown_middle.on {
 background-position: -29px -702px !important;
 }
 
@@ -1192,7 +1296,8 @@ background-position: 0 -684px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.pindown_end:hover {
+div.panel-header div.tools div.pindown_end:hover,
+div.panel-header div.tools div.pindown_end.on {
 background-position: -27px -684px !important;
 }
 
@@ -1201,7 +1306,8 @@ background-position: -2px -666px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.pindown_begin:hover {
+div.panel-header div.tools div.pindown_begin:hover,
+div.panel-header div.tools div.pindown_begin.on {
 background-position: -28px -666px !important;
 }
 
@@ -1209,7 +1315,8 @@ div.panel-header div.tools div.pinleft {
 background-position: -4px -792px;
 }
 
-div.panel-header div.tools div.pinleft:hover {
+div.panel-header div.tools div.pinleft:hover,
+div.panel-header div.tools div.pinleft.on {
 background-position: -29px -792px;
 }
 
@@ -1217,7 +1324,8 @@ div.panel-header div.tools div.pinleft_middle {
 background-position: -4px -774px !important;
 }
 
-div.panel-header div.tools div.pinleft_middle:hover {
+div.panel-header div.tools div.pinleft_middle:hover,
+div.panel-header div.tools div.pinleft_middle.on {
 background-position: -29px -774px !important;
 }
 
@@ -1226,7 +1334,8 @@ background-position: 0 -756px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.pinleft_end:hover {
+div.panel-header div.tools div.pinleft_end:hover,
+div.panel-header div.tools div.pinleft_end.on {
 background-position: -27px -756px !important;
 }
 
@@ -1235,7 +1344,8 @@ background-position: -2px -738px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.pinleft_begin:hover {
+div.panel-header div.tools div.pinleft_begin:hover,
+div.panel-header div.tools div.pinleft_begin.on {
 background-position: -28px -738px !important;
 }
 
@@ -1243,7 +1353,8 @@ div.panel-header div.tools div.dblarrowright {
 background-position: -4px -864px;
 }
 
-div.panel-header div.tools div.dblarrowright:hover {
+div.panel-header div.tools div.dblarrowright:hover,
+div.panel-header div.tools div.dblarrowright.on {
 background-position: -29px -864px;
 }
 
@@ -1251,7 +1362,8 @@ div.panel-header div.tools div.dblarrowright_middle {
 background-position: -4px -846px !important;
 }
 
-div.panel-header div.tools div.dblarrowright_middle:hover {
+div.panel-header div.tools div.dblarrowright_middle:hover,
+div.panel-header div.tools div.dblarrowright_middle.on {
 background-position: -29px -846px !important;
 }
 
@@ -1260,7 +1372,8 @@ background-position: 0 -828px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.dblarrowright_end:hover {
+div.panel-header div.tools div.dblarrowright_end:hover,
+div.panel-header div.tools div.dblarrowright_end.on {
 background-position: -27px -828px !important;
 }
 
@@ -1269,7 +1382,8 @@ background-position: -2px -810px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.dblarrowright_begin:hover {
+div.panel-header div.tools div.dblarrowright_begin:hover,
+div.panel-header div.tools div.dblarrowright_begin.on {
 background-position: -28px -810px !important;
 }
 
@@ -1277,7 +1391,8 @@ div.panel-header div.tools div.dblarrowleft {
 background-position: -4px -936px;
 }
 
-div.panel-header div.tools div.dblarrowleft:hover {
+div.panel-header div.tools div.dblarrowleft:hover,
+div.panel-header div.tools div.dblarrowleft.on {
 background-position: -29px -936px;
 }
 
@@ -1285,7 +1400,8 @@ div.panel-header div.tools div.dblarrowleft_middle {
 background-position: -4px -918px !important;
 }
 
-div.panel-header div.tools div.dblarrowleft_middle:hover {
+div.panel-header div.tools div.dblarrowleft_middle:hover,
+div.panel-header div.tools div.dblarrowleft_middle.on {
 background-position: -29px -918px !important;
 }
 
@@ -1294,7 +1410,8 @@ background-position: 0 -900px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.dblarrowleft_end:hover {
+div.panel-header div.tools div.dblarrowleft_end:hover,
+div.panel-header div.tools div.dblarrowleft_end.on {
 background-position: -27px -900px !important;
 }
 
@@ -1303,7 +1420,8 @@ background-position: -2px -882px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.dblarrowleft_begin:hover {
+div.panel-header div.tools div.dblarrowleft_begin:hover,
+div.panel-header div.tools div.dblarrowleft_begin.on {
 background-position: -28px -882px !important;
 }
 
@@ -1311,7 +1429,8 @@ div.panel-header div.tools div.dblarrowdown {
 background-position: -4px -1008px;
 }
 
-div.panel-header div.tools div.dblarrowdown:hover {
+div.panel-header div.tools div.dblarrowdown:hover,
+div.panel-header div.tools div.dblarrowdown.on {
 background-position: -29px -1008px;
 }
 
@@ -1319,7 +1438,8 @@ div.panel-header div.tools div.dblarrowdown_middle {
 background-position: -4px -990px !important;
 }
 
-div.panel-header div.tools div.dblarrowdown_middle:hover {
+div.panel-header div.tools div.dblarrowdown_middle:hover,
+div.panel-header div.tools div.dblarrowdown_middle.on {
 background-position: -29px -990px !important;
 }
 
@@ -1328,7 +1448,8 @@ background-position: 0 -972px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.dblarrowdown_end:hover {
+div.panel-header div.tools div.dblarrowdown_end:hover,
+div.panel-header div.tools div.dblarrowdown_end.on {
 background-position: -27px -972px !important;
 }
 
@@ -1337,7 +1458,8 @@ background-position: -2px -954px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.dblarrowdown_begin:hover {
+div.panel-header div.tools div.dblarrowdown_begin:hover,
+div.panel-header div.tools div.dblarrowdown_begin.on {
 background-position: -28px -954px !important;
 }
 
@@ -1345,7 +1467,8 @@ div.panel-header div.tools div.dblarrowup {
 background-position: -4px -1080px;
 }
 
-div.panel-header div.tools div.dblarrowup:hover {
+div.panel-header div.tools div.dblarrowup:hover,
+div.panel-header div.tools div.dblarrowup.on {
 background-position: -29px -1080px;
 }
 
@@ -1353,7 +1476,8 @@ div.panel-header div.tools div.dblarrowup_middle {
 background-position: -4px -1062px !important;
 }
 
-div.panel-header div.tools div.dblarrowup_middle:hover {
+div.panel-header div.tools div.dblarrowup_middle:hover,
+div.panel-header div.tools div.dblarrowup_middle.on {
 background-position: -29px -1062px !important;
 }
 
@@ -1362,7 +1486,8 @@ background-position: 0 -1044px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.dblarrowup_end:hover {
+div.panel-header div.tools div.dblarrowup_end:hover,
+div.panel-header div.tools div.dblarrowup_end.on {
 background-position: -27px -1044px !important;
 }
 
@@ -1371,7 +1496,8 @@ background-position: -2px -1026px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.dblarrowup_begin:hover {
+div.panel-header div.tools div.dblarrowup_begin:hover,
+div.panel-header div.tools div.dblarrowup_begin.on {
 background-position: -28px -1026px !important;
 }
 
@@ -1379,7 +1505,8 @@ div.panel-header div.tools div.refresh {
 background-position: -4px -1152px;
 }
 
-div.panel-header div.tools div.refresh:hover {
+div.panel-header div.tools div.refresh:hover,
+div.panel-header div.tools div.refresh.on {
 background-position: -29px -1152px;
 }
 
@@ -1387,7 +1514,8 @@ div.panel-header div.tools div.refresh_middle {
 background-position: -4px -1134px !important;
 }
 
-div.panel-header div.tools div.refresh_middle:hover {
+div.panel-header div.tools div.refresh_middle:hover,
+div.panel-header div.tools div.refresh_middle.on {
 background-position: -29px -1134px !important;
 }
 
@@ -1396,7 +1524,8 @@ background-position: 0 -1116px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.refresh_end:hover {
+div.panel-header div.tools div.refresh_end:hover,
+div.panel-header div.tools div.refresh_end.on {
 background-position: -27px -1116px !important;
 }
 
@@ -1405,7 +1534,8 @@ background-position: -2px -1098px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.refresh_begin:hover {
+div.panel-header div.tools div.refresh_begin:hover,
+div.panel-header div.tools div.refresh_begin.on {
 background-position: -28px -1098px !important;
 }
 
@@ -1413,7 +1543,8 @@ div.panel-header div.tools div.plus {
 background-position: -4px -1224px;
 }
 
-div.panel-header div.tools div.plus:hover {
+div.panel-header div.tools div.plus:hover,
+div.panel-header div.tools div.plus.on {
 background-position: -29px -1224px;
 }
 
@@ -1421,7 +1552,8 @@ div.panel-header div.tools div.plus_middle {
 background-position: -4px -1206px !important;
 }
 
-div.panel-header div.tools div.plus_middle:hover {
+div.panel-header div.tools div.plus_middle:hover,
+div.panel-header div.tools div.plus_middle.on {
 background-position: -29px -1206px !important;
 }
 
@@ -1430,7 +1562,8 @@ background-position: 0 -1188px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.plus_end:hover {
+div.panel-header div.tools div.plus_end:hover,
+div.panel-header div.tools div.plus_end.on {
 background-position: -27px -1188px !important;
 }
 
@@ -1439,7 +1572,8 @@ background-position: -2px -1170px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.plus_begin:hover {
+div.panel-header div.tools div.plus_begin:hover,
+div.panel-header div.tools div.plus_begin.on {
 background-position: -28px -1170px !important;
 }
 
@@ -1447,7 +1581,8 @@ div.panel-header div.tools div.minus {
 background-position: -4px -1296px;
 }
 
-div.panel-header div.tools div.minus:hover {
+div.panel-header div.tools div.minus:hover,
+div.panel-header div.tools div.minus.on {
 background-position: -29px -1296px;
 }
 
@@ -1455,7 +1590,8 @@ div.panel-header div.tools div.minus_middle {
 background-position: -4px -1278px !important;
 }
 
-div.panel-header div.tools div.minus_middle:hover {
+div.panel-header div.tools div.minus_middle:hover,
+div.panel-header div.tools div.minus_middle.on {
 background-position: -29px -1278px !important;
 }
 
@@ -1464,7 +1600,8 @@ background-position: 0 -1260px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.minus_end:hover {
+div.panel-header div.tools div.minus_end:hover,
+div.panel-header div.tools div.minus_end.on {
 background-position: -27px -1260px !important;
 }
 
@@ -1473,7 +1610,8 @@ background-position: -2px -1242px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.minus_begin:hover {
+div.panel-header div.tools div.minus_begin:hover,
+div.panel-header div.tools div.minus_begin.on {
 background-position: -28px -1242px !important;
 }
 
@@ -1481,7 +1619,8 @@ div.panel-header div.tools div.search {
 background-position: -4px -1368px;
 }
 
-div.panel-header div.tools div.search:hover {
+div.panel-header div.tools div.search:hover,
+div.panel-header div.tools div.search.on {
 background-position: -29px -1368px;
 }
 
@@ -1489,7 +1628,8 @@ div.panel-header div.tools div.search_middle {
 background-position: -4px -1350px !important;
 }
 
-div.panel-header div.tools div.search_middle:hover {
+div.panel-header div.tools div.search_middle:hover,
+div.panel-header div.tools div.search_middle.on {
 background-position: -29px -1350px !important;
 }
 
@@ -1498,7 +1638,8 @@ background-position: 0 -1332px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.search_end:hover {
+div.panel-header div.tools div.search_end:hover,
+div.panel-header div.tools div.search_end.on {
 background-position: -27px -1332px !important;
 }
 
@@ -1507,7 +1648,8 @@ background-position: -2px -1314px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.search_begin:hover {
+div.panel-header div.tools div.search_begin:hover,
+div.panel-header div.tools div.search_begin.on {
 background-position: -28px -1314px !important;
 }
 
@@ -1515,7 +1657,8 @@ div.panel-header div.tools div.save {
 background-position: -4px -1440px;
 }
 
-div.panel-header div.tools div.save:hover {
+div.panel-header div.tools div.save:hover,
+div.panel-header div.tools div.save.on {
 background-position: -29px -1440px;
 }
 
@@ -1523,7 +1666,8 @@ div.panel-header div.tools div.save_middle {
 background-position: -4px -1422px !important;
 }
 
-div.panel-header div.tools div.save_middle:hover {
+div.panel-header div.tools div.save_middle:hover,
+div.panel-header div.tools div.save_middle.on {
 background-position: -29px -1422px !important;
 }
 
@@ -1532,7 +1676,8 @@ background-position: 0 -1404px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.save_end:hover {
+div.panel-header div.tools div.save_end:hover,
+div.panel-header div.tools div.save_end.on {
 background-position: -27px -1404px !important;
 }
 
@@ -1541,7 +1686,8 @@ background-position: -2px -1386px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.save_begin:hover {
+div.panel-header div.tools div.save_begin:hover,
+div.panel-header div.tools div.save_begin.on {
 background-position: -28px -1386px !important;
 }
 
@@ -1549,7 +1695,8 @@ div.panel-header div.tools div.help {
 background-position: -4px -1512px;
 }
 
-div.panel-header div.tools div.help:hover {
+div.panel-header div.tools div.help:hover,
+div.panel-header div.tools div.help.on {
 background-position: -29px -1512px;
 }
 
@@ -1557,7 +1704,8 @@ div.panel-header div.tools div.help_middle {
 background-position: -4px -1494px !important;
 }
 
-div.panel-header div.tools div.help_middle:hover {
+div.panel-header div.tools div.help_middle:hover,
+div.panel-header div.tools div.help_middle.on {
 background-position: -29px -1494px !important;
 }
 
@@ -1566,7 +1714,8 @@ background-position: 0 -1476px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.help_end:hover {
+div.panel-header div.tools div.help_end:hover,
+div.panel-header div.tools div.help_end.on {
 background-position: -27px -1476px !important;
 }
 
@@ -1575,7 +1724,8 @@ background-position: -2px -1458px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.help_begin:hover {
+div.panel-header div.tools div.help_begin:hover,
+div.panel-header div.tools div.help_begin.on {
 background-position: -28px -1458px !important;
 }
 
@@ -1583,7 +1733,8 @@ div.panel-header div.tools div.print {
 background-position: -4px -1584px;
 }
 
-div.panel-header div.tools div.print:hover {
+div.panel-header div.tools div.print:hover,
+div.panel-header div.tools div.print.on {
 background-position: -29px -1584px;
 }
 
@@ -1591,7 +1742,8 @@ div.panel-header div.tools div.print_middle {
 background-position: -4px -1566px !important;
 }
 
-div.panel-header div.tools div.print_middle:hover {
+div.panel-header div.tools div.print_middle:hover,
+div.panel-header div.tools div.print_middle.on {
 background-position: -29px -1566px !important;
 }
 
@@ -1600,7 +1752,8 @@ background-position: 0 -1548px !important;
 width: 27px;
 }
 
-div.panel-header div.tools div.print_end:hover {
+div.panel-header div.tools div.print_end:hover,
+div.panel-header div.tools div.print_end.on {
 background-position: -27px -1548px !important;
 }
 
@@ -1609,7 +1762,8 @@ background-position: -2px -1530px !important;
 width: 26px;
 }
 
-div.panel-header div.tools div.print_begin:hover {
+div.panel-header div.tools div.print_begin:hover,
+div.panel-header div.tools div.print_begin.on {
 background-position: -28px -1530px !important;
 }
 
@@ -1638,7 +1792,7 @@ overflow: hidden;
 
 div.panel-mc div.content {
 height: 100%;
-margin: 0px;
+margin: 0;
 width: 100%;
 }
 
@@ -1751,6 +1905,7 @@ width: 100%;
 
 div#desktop div#desktop-view {
 left: 0;
+overflow: hidden;
 position: absolute;
 top: 0;
 width: 100%;
@@ -1758,6 +1913,8 @@ width: 100%;
 
 div#desktop div.desktop-body {
 left: 0;
+overflow-x: hidden;
+overflow-y: auto;
 position: absolute;
 top: 0;
 width: 100%;
@@ -1774,6 +1931,7 @@ border-radius: 8px;
 -webkit-border-radius: 8px;
 clear: right;
 cursor: pointer;
+display: none;
 float: left;
 margin: 6px;
 user-select: none;
@@ -2058,7 +2216,7 @@ margin-right: 5px;
 text-align: center;
 }
 
-div#register img#captcharefresh {
+div#register img.captcharefresh {
 border: 0;
 margin-left: 5px;
 margin-top: 7px;
@@ -2082,7 +2240,7 @@ box-shadow: rgba(153,187,232,1) 0 0 28px;
 -khtml-box-shadow: rgba(153,187,232,1) 0 0 28px;
 -moz-box-shadow: rgba(153,187,232,1) 0 0 28px;
 -webkit-box-shadow: rgba(153,187,232,1) 0 0 28px;
-display: block;
+display: none;
 left: 0;
 position: absolute;
 width: 340px;
@@ -2248,8 +2406,8 @@ div.startmenu-mc div.startmenu-body div.apps div.apps-menu {
 width: 177px;
 }
 
-div.startmenu-mc div.startmenu-body div.apps ul.apps-menu-list {
-
+div.startmenu-mc div.startmenu-body div.apps ul.apps-menu-list li.list-item {
+display: none;
 }
 
 div.startmenu-mc div.startmenu-body div.apps ul.apps-menu-list a.menu-item {
@@ -2281,7 +2439,8 @@ div.startmenu-mc div.startmenu-body div.tools a.menu-item:hover {
 background-color: #666;
 }
 
-div.startmenu-mc div.startmenu-body div.tools ul.tools-menu-list {
+div.startmenu-mc div.startmenu-body div.tools ul.tools-menu-list li.list-item {
+display: none;
 }
 
 div.startmenu-mc div.startmenu-body div.tools ul.tools-logout-list {
@@ -2352,7 +2511,7 @@ div#taskbar div#start {
 height: 100%;
 margin: 0;
 padding: 0;
-width: 110px;
+width: 90px;
 }
 
 div#taskbar div#start table {
@@ -2433,6 +2592,104 @@ left: 0;
 position: absolute;
 top: 0;
 width: 60px;
+}
+
+div#taskbar div.quickstart-strip-wrap {
+height: 100%;
+left: 0;
+position: absolute;
+top: 0;
+}
+
+div#taskbar ul#quickstart-strip {
+height: 100%;
+list-style: none;
+margin: 0;
+margin-left: 15px;
+padding: 0;
+}
+
+div#taskbar ul#quickstart-strip li {
+display: none;
+float: left;
+list-style: none;
+margin-left: 2px;
+}
+
+div#taskbar ul#quickstart-strip table {
+border-spacing: 0;
+border-width: 0;
+cursor: pointer;
+float: left;
+margin: 1px 0 0 1px;
+white-space: nowrap;
+}
+
+div#taskbar ul#quickstart-strip table td {
+background-image: url(i/ux/taskbar/quickstart-button.gif);
+border-width: 0;
+margin: 0;
+padding: 0;
+}
+
+div#taskbar ul#quickstart-strip td.button-left, 
+div#taskbar ul#quickstart-strip td.button-right {
+font-size: 1px;
+height: 28px;
+line-height: 1px;
+width: 4px;
+}
+
+div#taskbar ul#quickstart-strip td.button-left {
+background-repeat: no-repeat;
+background-position: 0 0;
+}
+
+div#taskbar ul#quickstart-strip li:hover td.button-left {/* background-position: 0 -84px;- click: background-position: 0 -90px;*/
+background-position: 0 -252px;
+}
+
+div#taskbar ul#quickstart-strip td.button-center {
+background-repeat: repeat-x;
+background-position: 0 -56px;
+}
+
+div#taskbar ul#quickstart-strip li:hover td.button-center {/* background-position: 0 -140px;- click: background-position: 0 -90px;*/
+background-position: 0 -308px;
+}
+
+div#taskbar ul#quickstart-strip td.button-right {
+background-position: 0 -28px;
+}
+
+div#taskbar ul#quickstart-strip li:hover td.button-right {/* background-position: 0 -112px;- click: background-position: 0 -90px;*/
+background-position: 0 -280px;
+}
+
+div#taskbar ul#quickstart-strip em {
+background-color: transparent;
+}
+
+div#taskbar ul#quickstart-strip button[type="button"].quick {
+background-color: transparent;
+background-image: url(i/apps/icons/application.png);
+background-position: 50% 50%;
+background-repeat: no-repeat;
+border: 0;
+color: #fff;
+cursor: pointer;
+float: left;
+font: normal normal bold 11px/normal tahoma, verdana, helvetica;
+height: 28px;
+line-height: 24px;
+margin: 0;
+margin-left: 2px;
+min-width: 20px;
+outline: 0;
+overflow: visible;
+padding: 0;
+text-align: left;
+width: auto;
 }
 
 /* End Quickstart ***/
@@ -2522,11 +2779,11 @@ div#taskbar ul#taskbuttons-strip em {
 background-color: transparent;
 }
 
-div#taskbar ul#taskbuttons-strip button[type="button"].taskbutton {
+div#taskbar ul#taskbuttons-strip button[type="button"].task {
 background-color: transparent;
 background-image: url(i/apps/icons/application.png);
-background-repeat: no-repeat;
 background-position: 2px 6px;
+background-repeat: no-repeat;
 border: 0;
 color: #fff;
 cursor: pointer;
@@ -2571,7 +2828,7 @@ float: left;
 margin-left: 2px;
 }
 
-div#taskbar div.tray-strip-wrap ul#tray-strip li .traybutton {
+div#taskbar div.tray-strip-wrap ul#tray-strip li .tray {
 border: 0;
 color: #fff;
 float: left;
@@ -2622,8 +2879,6 @@ width: 14px;
 /* End Tray ***/
 /* End Taskbar **/
 /** Begin Icons */
-/*** Begin Icons (Header) */
-/**** Begin Panels */
 
 div#login div.panel-header {
 background-image: url(i/icons/padlock.png);
@@ -2633,204 +2888,89 @@ div#register div.panel-header {
 background-image: url(i/apps/icons/friends.png);
 }
 
-/* End Panels ****/
-
-div#documents div.panel-header {
-background-image: url(i/icons/disk.png);
-}
-
-div#preferences div.panel-header {
-background-image: url(i/apps/icons/preferences.png);
-}
-
-div#notepad div.panel-header {
-background-image: url(i/apps/icons/notepad.png);
-}
-
-div#flash_name div.panel-header {
-background-image: url(i/apps/icons/flash_name.png);
-}
-
-div#ytinstant div.panel-header {
-background-image: url(i/apps/icons/ytinstant.png);
-}
-
-div#piano div.panel-header {
-background-image: url(i/apps/icons/piano.png);
-}
-
-div#about_hnsdesktop div.panel-header {
-background-image: url(i/apps/icons/info.png);
-}
-
-div#feedback div.panel-header {
-background-image: url(i/apps/icons/feedback.png);
-}
-
-div#tic_tac_toe div.panel-header {
-background-image: url(i/apps/icons/tic_tac_toe.png);
-}
-
-div#friends div.panel-header {
-background-image: url(i/apps/icons/friends.png);
-}
-
-div#goom_radio div.panel-header {
-background-image: url(i/apps/icons/goom_radio.png);
-}
-
-div#search div.panel-header {
-background-image: url(i/icons/zoom.png);
-}
-
-div#chat div.panel-header {
-background-image: url(i/apps/icons/chat.png);
-}
-
-div#music div.panel-header {
-background-image: url(i/apps/icons/music.png);
-}
-
-div#web_browser div.panel-header {
-background-image: url(i/apps/icons/web_browser.png);
-}
-
-/* End Icons (Header) ***/
-/*** Begin Icons (Class) */
-/**** Begin Panels */
-
 .icon-logout {
 background-image: url(i/icons/disconnect.png);
 }
 
-/* End Panels ****/
+/*** Begin Apps */
 
 .icon-documents {
-background-image: url(i/icons/disk.png);
-}
-
-.icon-preferences {
-background-image: url(i/apps/icons/preferences.png);
-}
-
-.icon-notepad {
-background-image: url(i/apps/icons/notepad.png);
-}
-
-.icon-piano {
-background-image: url(i/apps/icons/piano.png);
-}
-
-.icon-flash_name {
-background-image: url(i/apps/icons/flash_name.png);
-}
-
-.icon-ytinstant {
-background-image: url(i/apps/icons/ytinstant.png);
-}
-
-.icon-about_hnsdesktop {
-background-image: url(i/apps/icons/info.png);
-}
-
-.icon-feedback {
-background-image: url(i/apps/icons/feedback.png);
-}
-
-.icon-tic_tac_toe {
-background-image: url(i/apps/icons/tic_tac_toe.png);
-}
-
-.icon-friends {
-background-image: url(i/apps/icons/friends.png);
-}
-
-.icon-goom_radio {
-background-image: url(i/apps/icons/goom_radio.png);
-}
-
-.icon-search {
-background-image: url(i/icons/zoom.png);
-}
-
-.icon-chat {
-background-image: url(i/apps/icons/chat.png);
-}
-
-.icon-music {
-background-image: url(i/apps/icons/music.png);
-}
-
-.icon-web_browser {
-background-image: url(i/apps/icons/web_browser.png);
-}
-
-/* End Icons (Class) ***/
-/*** Begin Icons (Taskbutton) */
-
-
-div#taskbar button[type="button"]#taskbutton-documents {
 background-image: url(i/icons/disk.png) !important;
 }
 
-div#taskbar button[type="button"]#taskbutton-preferences {
+.icon-preferences {
 background-image: url(i/apps/icons/preferences.png) !important;
 }
 
-div#taskbar button[type="button"]#taskbutton-notepad {
+.icon-notepad {
 background-image: url(i/apps/icons/notepad.png) !important;
 }
 
-div#taskbar button[type="button"]#taskbutton-flash_name {
+.icon-flash_name {
 background-image: url(i/apps/icons/flash_name.png) !important;
 }
 
-div#taskbar button[type="button"]#taskbutton-ytinstant {
+.icon-ytinstant {
 background-image: url(i/apps/icons/ytinstant.png) !important;
 }
 
-div#taskbar button[type="button"]#taskbutton-piano {
+.icon-piano {
 background-image: url(i/apps/icons/piano.png) !important;
 }
 
-div#taskbar button[type="button"]#taskbutton-about_hnsdesktop {
+.icon-about_hnsdesktop {
 background-image: url(i/apps/icons/info.png) !important;
 }
 
-div#taskbar button[type="button"]#taskbutton-feedback {
+.icon-feedback {
 background-image: url(i/apps/icons/feedback.png) !important;
 }
 
-div#taskbar button[type="button"]#taskbutton-tic_tac_toe {
+.icon-tic_tac_toe {
 background-image: url(i/apps/icons/tic_tac_toe.png) !important;
 }
 
-div#taskbar button[type="button"]#taskbutton-friends {
+.icon-friends {
 background-image: url(i/apps/icons/friends.png) !important;
 }
 
-div#taskbar button[type="button"]#taskbutton-goom_radio {
+.icon-goom_radio {
 background-image: url(i/apps/icons/goom_radio.png) !important;
 }
 
-div#taskbar button[type="button"]#taskbutton-search {
+.icon-search {
 background-image: url(i/icons/zoom.png) !important;
 }
 
-div#taskbar button[type="button"]#taskbutton-chat {
+.icon-chat {
 background-image: url(i/apps/icons/chat.png) !important;
 }
 
-div#taskbar button[type="button"]#taskbutton-music {
+.icon-music {
 background-image: url(i/apps/icons/music.png) !important;
 }
 
-div#taskbar button[type="button"]#taskbutton-web_browser {
+.icon-web_browser {
 background-image: url(i/apps/icons/web_browser.png) !important;
 }
 
-/* End Icons (Taskbutton) ***/
-/*** Begin Icons (Thumb) */
+.icon-torus {
+background-image: url(i/apps/icons/torus.png) !important;
+}
+
+.icon-calendar {
+background-image: url(i/apps/icons/calendar.png) !important;
+}
+
+.icon-app_explorer {
+background-image: url(i/apps/icons/app_explorer.png) !important;
+}
+
+.icon-calculator {
+background-image: url(i/apps/icons/calculator.png) !important;
+}
+
+/**** Begin Thumbs */
 
 div#desktop div.desktop-body div#thumb-documents div.thumb-button img {
 background-image: url(i/apps/thumbs/documents.png) !important;
@@ -2892,7 +3032,24 @@ div#desktop div.desktop-body div#thumb-web_browser div.thumb-button img {
 background-image: url(i/apps/thumbs/web_browser.png) !important;
 }
 
-/* End Icons (Thumb) ***/
+div#desktop div.desktop-body div#thumb-torus div.thumb-button img {
+background-image: url(i/apps/thumbs/torus.png) !important;
+}
+
+div#desktop div.desktop-body div#thumb-calendar div.thumb-button img {
+background-image: url(i/apps/thumbs/calendar.png) !important;
+}
+
+div#desktop div.desktop-body div#thumb-app_explorer div.thumb-button img {
+background-image: url(i/apps/thumbs/app_explorer.png) !important;
+}
+
+div#desktop div.desktop-body div#thumb-calculator div.thumb-button img {
+background-image: url(i/apps/thumbs/calculator.png) !important;
+}
+
+/* End Thumbs ****/
+/* End Apps ***/
 /* End Icons **/
 /** Begin Apps */
 /*** Begin Documents */
@@ -2903,9 +3060,14 @@ background-image: url(i/apps/thumbs/web_browser.png) !important;
 div#preferences {
 }
 
+div#preferences div.tool.dblarrowleft,
+div#preferences div.tool.maximize {
+display: none;
+}
+
 div#preferences div.panel-mc {
 background-image: none;
-overflow: none;
+overflow: hidden;
 }
 
 div#preferences div#splash {
@@ -2976,24 +3138,67 @@ div#preferences div#wallpaper {
 display: none;
 }
 
+/**** Begin Thumbs */
+
+
+
+/* End Thumbs ****/
+/**** Begin Autorun */
+
+
+
+/* End Autorun ****/
+/**** Begin Quickstart */
+
+
+
+/* End Quickstart ****/
+/**** Begin Themes */
+
+
+
+/* End Themes ****/
 /**** Begin Wallpaper */
 
 div#preferences div#wallpaper {
 background-color: #ecffff;
 background-image: none;
 height: 100%;
-overflow: none;
+overflow: hidden;
 width: 100%;
 }
 
-div#preferences div#wallpaper div#slideshow {
+div#preferences div#wallpaper div.lc {
+background-color: #fff;
+display: block;
+float: left;
+height: 100%;
+width: 300px;
+}
+
+div#preferences div#wallpaper div.lc div.albums {
+display: block;
+overflow-y: auto;
+}
+
+div#preferences div#wallpaper div.lc div.config {
+display: block;
+height: 300px;
+}
+
+div#preferences div#wallpaper div.rc {
+display: block;
+float: right;
 height: 100%;
 overflow-y: auto;
-padding: 5px;
-width: 100%;
 }
 
-div#preferences div#wallpaper div#slideshow img.thumbnail {
+div#preferences div#wallpaper div.rc div#slideshow {
+height: 100%;
+overflow-y: auto;
+}
+
+div#preferences div#wallpaper div.rc div#slideshow img.thumbnail {
 border: 2px solid #fff;
 border-radius: 2px;
 -khtml-border-radius: 2px;
@@ -3005,12 +3210,8 @@ margin: 1px;
 padding: 1px;
 }
 
-div#preferences div#wallpaper div#slideshow img.thumbnail:hover {
+div#preferences div#wallpaper div.rc div#slideshow img.thumbnail:hover {
 border: 2px solid #99bbe8;
-}
-
-div#preferences div#wallpaper div#config {
-display: none;
 }
 
 /* End Wallpaper ****/
@@ -3042,11 +3243,12 @@ width: 100%;
 div#ytinstant {
 }
 
-div#ytinstant div.panel-header div.tools div.refresh {
-margin-right: 0 !important;
-}
-
-div#ytinstant div.panel-header div.tools div.plus {
+div#ytinstant div.tool.plus,
+div#ytinstant div.tool.refresh,
+div#ytinstant div.tool.dblarrowright,
+div#ytinstant div.tool.pindown,
+div#ytinstant div.tool.arrowleft,
+div#ytinstant div.tool.arrowright {
 margin-right: 0 !important;
 }
 
@@ -3364,6 +3566,19 @@ background-color: #88aadd;
 border: 1px solid #888;
 }
 
+div#ytinstant div#help {
+display: none;
+float: left;
+height: 405px;
+position: relative;
+vertical-align: top;
+width: 270px;
+}
+
+div#ytinstant div#help div#container {
+width: 255px;
+}
+
 /* End YTInstant ***/
 /*** Begin Piano */
 
@@ -3452,10 +3667,10 @@ z-index: 999;
 }
 
 div#tic_tac_toe #grid {
-box-shadow: 0px 2px 5px black;
--moz-box-shadow: 0px 2px 5px #000;
--o-box-shadow: 0px 2px 5px #000;
--webkit-box-shadow: 0px 2px 5px #000;
+box-shadow: 0 2px 5px black;
+-moz-box-shadow: 0 2px 5px #000;
+-o-box-shadow: 0 2px 5px #000;
+-webkit-box-shadow: 0 2px 5px #000;
 background: #222;
 border: none;
 color: #000;
@@ -3659,5 +3874,683 @@ width: 100%;
 }
 
 /* End Web Broswer ***/
+/*** Begin Torus */
+
+div#torus {
+
+}
+
+div#torus #content {
+height: 480px;
+}
+
+div#torus #container {
+visibility: hidden;
+/*
+position: absolute;
+top: 0;
+left: 170px;
+right: 170px;
+*/
+font-family: Arial;
+background-color: red;
+}
+
+div#torus #link {
+position: absolute;
+top: 470px;
+width: 100%;
+text-align: center;
+font-size: small;
+}
+
+div#torus #footer {
+display: block;
+padding-top: 500px;
+}
+
+div#torus canvas {
+position: absolute;
+top: 0;
+left: 0;
+}
+
+div#torus #paused {
+width: 110px;
+height: 30px;
+position: absolute;
+top: 346px;
+left: 48px;
+background-image: url(i/apps/torus/paused.png);
+display: none;
+}
+
+div#torus #but_resume {
+top: -150px;
+left: 7px;
+width: 86px;
+background-image: url(i/apps/torus/but_resume.png);
+}
+
+div#torus #but_restart {
+top: -110px;
+left: 7px;
+width: 86px;
+background-image: url(i/apps/torus/but_restart.png);
+}
+
+div#torus #but_quit {
+top: -70px;
+left: 7px;
+width: 86px;
+background-image: url(i/apps/torus/but_quit.png);
+}
+
+div#torus #score {
+position: absolute;
+top: 33px;
+left: 19px;
+font-size: 14pt;
+color: #666;
+font-family: Arial;
+font-weight: 700;
+}
+
+div#torus #time {
+position: absolute;
+top: 83px;
+left: 19px;
+font-size: 14pt;
+color: #666;
+font-family: Arial;
+font-weight: 700;
+}
+
+div#torus #playing {
+position: absolute;
+top: 0;
+left: 0;
+width: 200px;
+height: 450px;
+background-image: url(i/apps/torus/base0.png);
+background-repeat: no-repeat;
+background-position: 8px 320px;
+}
+
+div#torus #panel {
+display: none;
+position: absolute;
+top: 200px;
+left: 250px;
+width: 94px;
+height: 233px;
+background-image: url(i/apps/torus/panel.png);
+}
+
+div#torus #title1 {
+position: absolute;
+top: -74px;
+left: -17px;
+width: 125px;
+height: 126px;
+background-image: url(i/apps/torus/title_traditional.png);
+}
+
+div#torus #title2 {
+position: absolute;
+top: -76px;
+left: -29px;
+width: 150px;
+height: 108px;
+background-image: url(i/apps/torus/title_time.png);
+}
+
+div#torus #title3 {
+position: absolute;
+top: -83px;
+left: -8px;
+width: 112px;
+height: 97px;
+background-image: url(i/apps/torus/title_garbage.png);
+}
+
+div#torus #gameover {
+display: none;
+position: absolute;
+top: 175px;
+left: 200px;
+width: 253px;
+height: 221px;
+background-image: url(i/apps/torus/game_over.png);
+font-size: 10pt;
+color: #333;
+}
+
+div#torus #winner {
+position: absolute;
+top: 50px;
+left: 19px;
+padding-left: 11px;
+width: 205px;
+height: 200px;
+background-image: url(i/apps/torus/coins.png);
+background-repeat: no-repeat;
+background-position: 0 64px;
+}
+
+div#torus #winner form {
+margin: 0;
+padding: 0;
+}
+
+div#torus #but_main4 {
+top: 167px;
+left: 150px;
+width: 86px;
+background-image: url(i/apps/torus/but_main.png);
+}
+
+div#torus #but_restart2 {
+top: 127px;
+left: 150px;
+width: 86px;
+background-image: url(i/apps/torus/but_restart.png);
+}
+
+div#torus #sorryText {
+position: absolute;
+top: 45px;
+left: 30px;
+width: 205px;
+}
+
+div#torus #skull {
+position: absolute;
+top: 90px;
+left: -35px;
+width: 120px;
+height: 150px;
+background-image: url(i/apps/torus/skull.png);
+}
+
+div#torus #but_pause {
+top: 180px;
+left: 15px;
+width: 64px;
+background-image: url(i/apps/torus/but_pause.png);
+}
+
+div#torus #next {
+position: absolute;
+top: 127px;
+left: 7px;
+width: 80px;
+height: 50px;
+background-image: url(i/apps/torus/blocks.png);
+}
+
+div#torus #menu {
+position: absolute;
+top: 234px;
+left: 0px;
+width: 450px;
+height: 220px;
+background-image: url(i/apps/torus/menu.png);
+background-repeat: no-repeat;
+background-position: 92px 0px;
+}
+
+div#torus #menu_area {
+position: absolute;
+top: 39px;
+left: 111px;
+width: 321px;
+height: 157px;
+overflow: hidden;
+}
+
+div#torus .nonstick {
+-apple-dashboard-region: dashboard-region(control rectangle 0 0 0 0);
+}
+
+div#torus .but {
+-apple-dashboard-region: dashboard-region(control rectangle 0 0 0 0);
+position: absolute;
+cursor: pointer;
+height: 36px;
+}
+
+div#torus .but:hover {
+background-position: 0 -36px;
+}
+
+div#torus .but:active {
+background-position: 0 -72px;
+}
+
+div#torus #screen0 {
+position: absolute;
+left: 321px;
+top: 0;
+width: 321px;
+height: 157px;
+background-image: url(i/apps/torus/title_help.png);
+background-repeat: no-repeat;
+background-position: 30px 4px;
+}
+
+div#torus #copy {
+position: absolute;
+top: 125px;
+left: 90px;
+font-size: 10pt;
+color: #444;
+}
+
+div#torus #helpBox {
+display: none;
+position: absolute;
+top: 8px;
+left: 90px;
+width: 220px;
+height: 100px;
+overflow: auto;
+font-size: 9pt;
+}
+
+div#torus #but_main0 {
+top: 117px;
+left: 229px;
+width: 86px;
+background-image: url(i/apps/torus/but_main.png);
+}
+
+div#torus #screen1 {
+position: absolute;
+left:0;
+top: 157px;
+width: 321px;
+height: 157px;
+background-image: url(i/apps/torus/modes.png);
+background-position: 45px 7px;
+background-repeat: no-repeat;
+}
+
+div#torus #go1,
+div#torus #go2,
+div#torus #go3 {
+position: absolute;
+width: 40px;
+height: 36px;
+background-image: url(i/apps/torus/but_go.png);
+cursor: pointer;
+}
+
+div#torus #go1 {
+top: 110px;
+left: 75px;
+}
+
+div#torus #go2 {
+top: 110px;
+left: 152px;
+}
+
+div#torus #go2:hover {
+background-position: 0 -108px;
+}
+
+div#torus #go2:active {
+background-position: 0 -144px;
+}
+
+div#torus #go3 {
+top: 68px;
+left: 229px;
+}
+
+div#torus #go3:hover {
+background-position: 0 -180px;
+}
+
+div#torus #go3:active {
+background-position: 0 -216px;
+}
+
+div#torus #but_main1 {
+top: 117px;
+left: 229px;
+width: 86px;
+background-image: url(i/apps/torus/but_main.png);
+}
+
+div#torus #screen2 {
+position: absolute;
+left:321px;
+top: 157px;
+width: 321px;
+height: 157px;
+}
+
+div#torus #quote {
+position: absolute;
+top: 7px;
+left: 62px;
+width: 250px;
+font-family: Arial;
+color: #fff;
+font-weight: 700;
+font-size: 10pt;
+font-style: italic;
+}
+
+div#torus #quote b {
+color: #000;
+}
+
+div#torus #quote span {
+font-style: normal;
+padding-left: 50px;
+}
+
+div#torus #but_play {
+top: 115px;
+left: 71px;
+width: 62px;
+background-image: url(i/apps/torus/but_play.png);
+}
+
+div#torus #but_settings {
+top: 115px;
+left: 137px;
+width: 75px;
+background-image: url(i/apps/torus/but_settings.png);
+}
+
+div#torus #but_help {
+top: 76px;
+left: 256px;
+width: 60px;
+background-image: url(i/apps/torus/but_help.png);
+}
+
+div#torus #but_high {
+position: absolute;
+top: 115px;
+left: 216px;
+width: 98px;
+background-image: url(i/apps/torus/but_high.png);
+}
+
+div#torus #screen3 {
+position: absolute;
+left:642px;
+top: 157px;
+width: 321px;
+height: 157px;
+background-image: url(i/apps/torus/title_high.png);
+background-repeat: no-repeat;
+background-position: 32px 5px;
+font-size: 9pt;
+font-family: Arial;
+}
+
+div#torus #bestType {
+position: absolute;
+top: 10px;
+left: 200px;
+width: 110px;
+}
+
+div#torus #best1,
+div#torus #best2,
+div#torus #best3 {
+display: none;
+position: absolute;
+top: 40px;
+left: 90px;
+}
+
+div#torus #best1 {
+display:block;
+}
+
+div#torus #but_main2 {
+top: 115px;
+left: 228px;
+width: 86px;
+background-image: url(i/apps/torus/but_main.png);
+}
+
+div#torus #screen4 {
+position: absolute;
+left:321px;
+top:314px;
+height: 157px;
+width: 321px;
+background-image: url(i/apps/torus/title_settings.png);
+background-repeat: no-repeat;
+background-position: 32px 5px;
+font-family: Arial;
+font-size: 10pt;
+}
+
+div#torus #screen4 select {
+width: 90px;
+}
+
+div#torus #div_base {
+position: absolute;
+top: 10px;
+left: 150px;
+width: 160px;
+text-align: right;
+}
+
+div#torus #div_blocks {
+position: absolute;
+top: 35px;
+left: 150px;
+width: 160px;
+text-align: right;
+}
+
+div#torus #div_ghost {
+position: absolute;
+top: 40px;
+left: 217px;
+width: 160px;
+}
+
+div#torus #but_main3 {
+top: 115px;
+left: 228px;
+width: 86px;
+background-image: url(i/apps/torus/but_main.png);
+}
+
+div#torus #close {
+position: absolute;
+width: 20px;
+height: 20px;
+background-image: url(i/apps/torus/close.png);
+display: none;
+}
+
+div#torus #close:hover {
+background-position: 0 20px;
+}
+
+div#torus #close:active {
+background-position: 0 40px;
+}
+
+/* End Torus ***/
+/*** Begin Calendar */
+
+div#calendar {
+}
+
+div#calendar table.maintable {
+border-collapse: collapse;
+border-color: #111;
+border-spacing: 0;
+padding: 0;
+}
+
+div#calendar table.maintable td {
+border-color: #000;
+border-bottom-style: none;
+border-bottom-width: medium;
+border-left-style: none;
+border-left-width: medium;
+border-right-style: solid;
+border-right-width: 1;
+border-top: 1px solid #000000;
+}
+
+div#calendar table.maintable table#evtcal {
+border-collapse: collapse;
+border-spacing: 0;
+padding: 0;
+text-align: center;
+}
+
+div#calendar table.maintable table#evtcal td {
+background-color: #adf;
+padding: 3px;
+text-align: center;
+vertical-align: top;
+width: 314px;
+}
+
+div#calendar #evtcal a:link {
+color: #004400;
+font: normal 12pt "Arial", "Helvetica", "Sans Serif";
+text-decoration: none;
+}
+
+div#calendar #evtcal a:visited {
+color: #004400;
+font: normal 12pt "Arial", "Helvetica", "Sans Serif";
+text-decoration: none;
+}
+
+div#calendar #evtcal a:hover {
+color: #004400;
+font: normal 12pt "Arial", "Helvetica", "Sans Serif";
+text-decoration: underline;
+}
+
+div#calendar #evtcal a:active {
+color: #004400;
+font: normal 12pt "Arial", "Helvetica", "Sans Serif";
+text-decoration: none;
+}
+
+div#calendar #calendararea {
+}
+
+div#calendar #eventform {
+}
+
+/* End Calendar ***/
+/*** Begin App Explorer */
+
+/* End App Explorer ***/
+/*** Begin Calculator */
+
+div#calculator div.tool.help {
+margin-right: 0 !important;
+}
+
+div#calculator div#out {
+cursor: default;
+padding: 12px 0 0 0;
+}
+
+div#calculator div#out-scroll {
+max-height: 550px;
+overflow: auto;
+}
+
+div#calculator div#out-inner {
+line-height: 25px;
+margin-left: 60px;
+margin-right: 20px;
+}
+
+div#calculator div.left {
+float: left;
+width: 56px;
+margin-left: -60px;
+text-align: right;
+color: #888;
+}
+
+div#calculator span.echo {
+color: #888;
+}
+
+div#calculator div#in {
+background-color: #ffffd4;
+margin-bottom: 20px;
+margin-top: 8px;
+}
+
+div#calculator div#in div.left {
+margin-left: 0;
+width: 58px;
+margin-right: 1px;
+}
+
+div#calculator div#in input {
+border: none;
+background-color: transparent;
+margin: 0;
+padding: 0;
+outline: none;
+width: 610px;
+}
+
+div#calculator span.result {
+color: black;
+}
+
+div#calculator span.result.final {
+color: green;
+}
+
+div#calculator span.op,
+div#calculator span.var {
+cursor: pointer;
+}
+
+div#calculator span.var {
+color: black;
+}
+
+div#calculator span.var.new, b {
+font-weight: 600;
+}
+
+div#calculator div.content ::-moz-selection {
+background-color: #cfcfcf;
+}
+
+div#calculator div.content ::selection {
+background-color: #cfcfce;
+}
+
+div#calculator div.content ::-webkit-selection {
+background-color: #cfcecf;
+}
+
+div#calculator span.f,
+div#calculator span.m {
+display: none;
+}
+
+/* End Calculator ***/
 /* End Apps **/
 /* End User Interface */

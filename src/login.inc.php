@@ -2,7 +2,7 @@
 session_start();
 
 include ("db.inc.php");
-include ("users_online.inc.php"); // include db.om.inc if this gets removed
+include ("users_online.inc.php");
 
 if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) {
 include ("auth.inc.php");
@@ -21,16 +21,7 @@ if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1 || 0)) {
 $username = $_COOKIE['hnsrememberme']['username'];
 $password = $_COOKIE['hnsrememberme']['password'];
 
-$query = 'SELECT * FROM
-login u
-JOIN
-info i
-ON
-u.user_id = i.user_id
-WHERE ' .
-'username = "' . mysql_real_escape_string($username, $db) .
-'" AND ' .
-'password = "' . mysql_real_escape_string($password, $db) . '"';
+$query = 'SELECT * FROM login u JOIN info i ON u.user_id = i.user_id WHERE username = "' . mysql_real_escape_string($username, $db) . '" AND password = "' . mysql_real_escape_string($password, $db) . '"';
 $result = mysql_query($query, $db) or die(mysql_error($db));
 
 if (mysql_num_rows($result) > 0) {
@@ -65,15 +56,11 @@ $user_id = null;
 $username = null;
 
 $last_login = date('Y-m-d');
-$logins = ($logins + 1);
+$logins++;
 
-$query = 'UPDATE info SET
-logins = ' . $logins . '
-WHERE
-user_id = ' . $_SESSION['user_id'];
+$query = 'UPDATE info SET logins = ' . $logins . ' WHERE user_id = ' . $_SESSION['user_id'];
 mysql_query($query, $db) or die(mysql_error());
 
-// needs validip.inc.php from usersonline.inc to get ip
 $query = 'UPDATE login SET
 last_login = "' . $last_login . '",
 last_login_ip = "' . $ip . '"
@@ -86,7 +73,6 @@ $time = time();
 setcookie("hnsrememberme[username]", null, ($time - 3600));
 setcookie("hnsrememberme[password]", null, ($time - 3600));
 
-// set these explicitly just to make sure
 $_SESSION['logged'] = null;
 $_SESSION['username'] = null;
 $_SESSION['access_level'] = null;
