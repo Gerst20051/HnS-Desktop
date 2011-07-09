@@ -69,5 +69,7 @@ user_id = ' . $_SESSION['user_id'];
 mysql_query($query, $db) or die(mysql_error());
 
 echo "Success";
+} else {
+header('refresh: 0; url=index.php');
 }
 ?>
