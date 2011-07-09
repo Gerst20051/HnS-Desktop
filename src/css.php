@@ -18,6 +18,7 @@ header("Content-Type: text/css");
 /* ---------------------------------------------------- */
 /* CSS Reset
 /* CCS Base
+/* Buttons
 /* Main
 /* Transparency
 /* Floating & Clearing
@@ -205,6 +206,107 @@ margin-bottom: 1em; /* so things don't run into each other */
 }
 
 /* End CSS Base */
+/* Begin Buttons */
+
+.buttons a,
+.buttons button {
+display: block;
+float: left;
+margin: 0 7px 0 0;
+background-color: #f5f5f5;
+border: 1px solid #dedede;
+border-top: 1px solid #eee;
+border-left: 1px solid #eee;
+font-family: "Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+font-size: 10pt; /* 100% */
+line-height: 130%;
+text-decoration: none;
+font-weight: bold;
+color: #565656;
+cursor: pointer;
+padding: 5px 10px 6px 7px; /* Links */
+}
+
+.buttons button {
+width: auto;
+overflow: visible;
+padding: 4px 10px 3px 7px; /* IE6 */
+}
+
+.buttons button[type] {
+padding: 5px 10px 5px 7px; /* Firefox */
+line-height: 17px; /* Safari */
+}
+
+*:first-child+html button[type] {
+padding: 4px 10px 3px 7px; /* IE7 */
+}
+
+.buttons button img,
+.buttons a img {
+margin: 0 3px -3px 0 !important;
+padding: 0;
+border: none;
+width: 16px;
+height: 16px;
+}
+
+/* STANDARD */
+
+button:hover,
+.buttons a:hover {
+background-color: #dff4ff;
+border: 1px solid #c2e1ef;
+color: #336699;
+}
+
+.buttons a:active {
+background-color: #6299c5;
+border: 1px solid #6299c5;
+color: #fff;
+}
+
+/* POSITIVE */
+
+button.positive,
+.buttons a.positive {
+color:#529214;
+}
+
+.buttons a.positive:hover,
+button.positive:hover {
+background-color: #e6efc2;
+border: 1px solid #c6d880;
+color: #529214;
+}
+
+.buttons a.positive:active {
+background-color: #529214;
+border: 1px solid #529214;
+color: #fff;
+}
+
+/* NEGATIVE */
+
+.buttons a.negative,
+button.negative {
+color: #d12f19;
+}
+
+.buttons a.negative:hover,
+button.negative:hover {
+background: #fbe3e4;
+border: 1px solid #fbc2c4;
+color: #d12f19;
+}
+
+.buttons a.negative:active {
+background-color: #d12f19;
+border: 1px solid #d12f19;
+color: #fff;
+}
+
+/* End Buttons */
 
 /* ----------------------------------------------------- */
 /* -------------- >>>  Global Layout  <<< -------------- */
@@ -327,15 +429,15 @@ opacity: 1 !important;
 /* Begin Floating & Clearing */
 
 .clear {
-clear: both;
+clear: both !important;
 }
 
 .right {
-float: right;
+float: right !important;
 }
 
 .left {
-float: left;
+float: left !important;
 }
 
 /* End Floating & Clearing */
@@ -827,33 +929,9 @@ float: left;
 height: 35px;
 }
 
-div#login div.panel-ml div.panel-mr div.panel-mc div.content div.body span {
+div#login div.panel-ml div.panel-mr div.panel-mc div.content div.body div {
 float: right;
 margin-top: 4px;
-}
-
-div#login div.panel-ml div.panel-mr div.panel-mc div.content div.body span input[type="submit"] {
-cursor: pointer;
-font-size: 10pt;
-height: 33px;
-letter-spacing: 2px;
-line-height: 26px;
-}
-
-div#login div.panel-ml div.panel-mr div.panel-mc div.content div.body span input[type="reset"] {
-cursor: pointer;
-font-size: 10pt;
-height: 33px;
-letter-spacing: 2px;
-line-height: 26px;
-}
-
-div#login div.panel-ml div.panel-mr div.panel-mc div.content div.body span input[type="button"] {
-cursor: pointer;
-font-size: 10pt;
-height: 33px;
-letter-spacing: 2px;
-line-height: 26px;
 }
 
 /* End Login ***/
@@ -1092,7 +1170,7 @@ div#taskbar div#taskbuttons-panel div.taskbuttons-strip-wrap ul#taskbuttons-stri
 background-position: 0 -252px;
 }
 
-div#taskbar div#taskbuttons-panel div.taskbuttons-strip-wrap ul#taskbuttons-strip  td.button-center {
+div#taskbar div#taskbuttons-panel div.taskbuttons-strip-wrap ul#taskbuttons-strip td.button-center {
 background-repeat: repeat-x;
 background-position: 0 -56px;
 }
@@ -1101,7 +1179,7 @@ div#taskbar div#taskbuttons-panel div.taskbuttons-strip-wrap ul#taskbuttons-stri
 background-position: 0 -308px;
 }
 
-div#taskbar div#taskbuttons-panel div.taskbuttons-strip-wrap ul#taskbuttons-strip  td.button-right {
+div#taskbar div#taskbuttons-panel div.taskbuttons-strip-wrap ul#taskbuttons-strip td.button-right {
 background-position: 0 -28px;
 }
 
@@ -1109,11 +1187,11 @@ div#taskbar div#taskbuttons-panel div.taskbuttons-strip-wrap ul#taskbuttons-stri
 background-position: 0 -280px;
 }
 
-div#taskbar div#taskbuttons-panel div.taskbuttons-strip-wrap ul#taskbuttons-strip  em {
+div#taskbar div#taskbuttons-panel div.taskbuttons-strip-wrap ul#taskbuttons-strip em {
 background-color: transparent;
 }
 
-div#taskbar div#taskbuttons-panel div.taskbuttons-strip-wrap ul#taskbuttons-strip  button[type="button"].taskbutton {
+div#taskbar div#taskbuttons-panel div.taskbuttons-strip-wrap ul#taskbuttons-strip button[type="button"].taskbutton {
 background-color: transparent;
 background-image: url('i/bogus.png');
 background-repeat: no-repeat;
@@ -1137,15 +1215,15 @@ width: auto;
 
 /**** Begin Taskbutton Icons */
 
-div#taskbar div#taskbuttons-panel div.taskbuttons-strip-wrap ul#taskbuttons-strip  button[type="button"]#taskbutton-logout {
+div#taskbar div#taskbuttons-panel div.taskbuttons-strip-wrap ul#taskbuttons-strip button[type="button"]#taskbutton-logout {
 background-image: url('i/logout2.png') !important;
 }
 
-div#taskbar div#taskbuttons-panel div.taskbuttons-strip-wrap ul#taskbuttons-strip  button[type="button"]#taskbutton-notepad {
+div#taskbar div#taskbuttons-panel div.taskbuttons-strip-wrap ul#taskbuttons-strip button[type="button"]#taskbutton-notepad {
 background-image: url('i/notepad.png') !important;
 }
 
-div#taskbar div#taskbuttons-panel div.taskbuttons-strip-wrap ul#taskbuttons-strip  button[type="button"]#taskbutton-preferences {
+div#taskbar div#taskbuttons-panel div.taskbuttons-strip-wrap ul#taskbuttons-strip button[type="button"]#taskbutton-preferences {
 background-image: url('i/preferences.png') !important;
 }
 

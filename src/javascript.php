@@ -21,8 +21,91 @@ header("Content-Type: application/x-javascript");
 /* - Styles
 /* - Desktop
 /* - Taskbar
-/* - Luanchers
-/* 
+/* - Launchers
+/* Stylesheet
+/* Screen Dimensions
+/* Black / White Out Variables
+/* Misc Functions
+/* - In Array
+/* - Get The Date
+/* -- Get Date
+/* - Update Captcha Image
+/* - Div Selection
+/* Panel Content (Logged In)
+/* - Logout
+/* - Preferences
+/* - Notepad
+/* - Flash Name
+/* - Piano
+/* Panel Variables (Logged In)
+/* - (Dialog) Loading
+/* - User Desktop
+/* - Logout
+/* - Preferences
+/* - Notepad
+/* - Flash Name
+/* - Piano
+/* Panel Content (Logged Out)
+/* - Login
+/* - Register
+/* Panel Variables (Logged Out)
+/* - Login
+/* - Register
+/* - (Dialog) Try Again
+/* Document Ready Functions (Logged Out)
+/* - Display Functions
+/* -- Login
+/* -- Register
+/* - Input (Text) Username (Focus)
+/* - Input (Submit) Signin (Click)
+/* - Input (Button) Signup (Click)
+/* - Input (Submit) Register (Click)
+/* Document Ready Functions (Logged In)
+/* - Initiate Desktop
+/* -- Display Functions
+/* --- (Dialog) Loading
+/* --- User Desktop
+/* - Set Desktop Config
+/* -- Desktop Config
+/* -- Taskbar Config
+/* - Autorun Functions
+/* -- Logout
+/* -- Notepad
+/* -- Preferences
+/* -- Flash-Name
+/* -- Piano
+/* - Input (Submit) Logout (Click)
+/* - Flash-Name (Load)
+/* Window Load Functions
+/* - Window Drag Effect
+/* -- Header (Mouse Down)
+/* -- Header Text (Mouse Down)
+/* -- Header (Mouse Up)
+/* -- Header Text (Mouse Up)
+/* - Window Tool
+/* -- Close (Click)
+/* -- Maximize (Toggle)
+/* -- (If) BWrap (Is) Hidden
+/* -- Minimize (Click)
+/* -- Toggle (Click)
+/* -- Toggle (Toggle)
+/* Window Load Functions (Logged In)
+/* - Desktop
+/* -- Body (Click)
+/* -- Desktop Thumb (Click)
+/* -- Document Element (Key Down)
+/* -- Taskbar Transparency (Toggle)
+/* - Taskbar
+/* -- Taskbutton (Click)
+/* -- (If) TButton (Is) Hidden
+/* -- Quickstart Splitbar (Mouse Down)
+/* -- Quickstart Splitbar (Bind - Mouse Move)
+/* -- Tray Splitbar (Mouse Down)
+/* -- Tray Splitbar (Bind - Mouse Move)
+/* -- Splitbar (Mouse Leave)
+/* -- Splitbar (Mouse Up)
+/* -- Tray Toggle (Toggle)
+/* Drag Resize
 /* ---------------------------------------------------- */
 
 /* begin desktop config variable arrays */
@@ -61,7 +144,7 @@ var dConfig = {
 "tray_width":110,
 "tray_minwidth":100,
 "tray_maxwidth":300,
-"currentinfo_width": 75
+"currentinfo_width":75
 },
 
 "launchers":{
@@ -72,7 +155,7 @@ var dConfig = {
 "contextmenu":["preferences","feedback","about-hnsdesktop"],
 "shortcut":["notepad","preferences","feedback"],
 "tray":["notepad","preferences","feedback"],
-"autorun":["logout","preferences","notepad","flash-name","piano"]
+"autorun":["logout","preferences","notepad","piano"]
 }
 }
 
@@ -82,13 +165,13 @@ var stylesheet = '<link rel="stylesheet" type="text/css" href="css.php?id=' + dC
 $('head').append(stylesheet);
 
 var myHeight = 0, myWidth = 0;
-if (typeof(window.innerWidth) == 'number') {// Non-IE
+if (typeof(window.innerWidth) == 'number') { // Non-IE
 myHeight = window.innerHeight;
 myWidth = window.innerWidth;
-} else if (document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight)) {// IE 6+ in 'standards compliant mode'
+} else if (document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight)) { // IE 6+ in 'standards compliant mode'
 myHeight = document.documentElement.clientHeight;
 myWidth = document.documentElement.clientWidth;
-} else if (document.body && (document.body.clientWidth || document.body.clientHeight)) {// IE 4 compatible
+} else if (document.body && (document.body.clientWidth || document.body.clientHeight)) { // IE 4 compatible
 myHeight = document.body.clientHeight;
 myWidth = document.body.clientWidth;
 }
@@ -98,6 +181,8 @@ blackout.setAttribute('id','blackout');
 
 var whiteout = document.createElement('div');
 whiteout.setAttribute('id','whiteout');
+
+/* begin misc functions */
 
 function in_array(string, array) {
 for (i = 0; i < array.length; i++) if (array[i] == string) return true;
@@ -153,6 +238,10 @@ getthedate();
 }
 }
 
+function updatecaptchaimg() {
+document.captchaimg.src = document.captchaimg.src + '?';
+}
+
 function div_selection(e, eq) {
 this.e = e;
 this.eq = eq;
@@ -171,12 +260,14 @@ this.selection = $(this.event).parents().eq(this.eq).attr('id');
 this.target_class = function() { return [$(this.event).attr('class')].join(''); }
 this.target_id = function() { return [$(this.event).attr('id')].join(''); }
 this.main = function() { return [this.selection].join(''); }
-this.div_main = function() { return ['#', this.selection].join(''); }
-this.div_panel = function() { return ['#', this.selection, ' div.panel'].join(''); }
-this.div_panel_tl = function() { return ['#', this.selection, ' div.panel-tl'].join(''); }
-this.div_panel_bwrap = function() { return ['#', this.selection, ' div.panel-bwrap'].join(''); }
-this.div_panel_tool = function() { return ['#', this.selection, ' div.tool'].join(''); }
+this.div_main = function() { return ['div#', this.selection].join(''); }
+this.div_panel = function() { return ['div#', this.selection, ' div.panel'].join(''); }
+this.div_panel_tl = function() { return ['div#', this.selection, ' div.panel-tl'].join(''); }
+this.div_panel_bwrap = function() { return ['div#', this.selection, ' div.panel-bwrap'].join(''); }
+this.div_panel_tool = function() { return ['div#', this.selection, ' div.tool'].join(''); }
 }
+
+/* end misc functions */
 
 createTaskButton = function(task_title, task_id) {
 return [
@@ -209,7 +300,7 @@ this.id = b;
 this.closeable = c;
 this.draggable = d;
 this.resizable = e;
-this.visible = f;
+this.minimized = f;
 this.minHeight = g;
 this.height = h;
 this.minWidth = i;
@@ -335,7 +426,7 @@ var bwrapdiv = 'div#' + this.id + ' div.panel-bwrap';
 var ptdiv = 'div#' + this.id + ' div.panel-tc';
 $(ptdiv).append(this.addHeader(this.title));
 $(bwrapdiv).height(($(maindiv).height() - 30));
-if (this.visible == "none") {
+if (this.minimized == true) {
 $(maindiv).css('display','none');
 }
 }
@@ -415,7 +506,7 @@ this.assemble = function() {
 this.html = this.createDialog(this.content);
 this.div.innerHTML = this.html;
 var maindiv = 'div#' + this.id;
-if (this.visible == "none") {
+if (this.visible == false) {
 $(maindiv).css('display','none');
 }
 }
@@ -424,11 +515,14 @@ $(maindiv).css('display','none');
 function display(app) {
 var apps = $(app).attr('id');
 var app_name = "div#" + apps;
+var app_tbutton = "ul#taskbuttons-strip li#taskbutton-" + apps;
 var found = $("div#desktop").children(app_name);
 if (found.length == 0) {
 app.display();
+} else {
+$(app_name).show();
+$(app_tbutton).show();
 }
-reapply_functions();
 }
 
 <?php
@@ -537,6 +631,9 @@ var taskbar_start_content = [
 ].join('');
 
 var taskbar_quickstart_content = ['<div></div>'].join('');
+
+/* begin panel content */
+
 var logout_content = [
 '<div class="content">',
 '<div class="heading">Homenet Spaces OS</div>',
@@ -560,7 +657,13 @@ var preferences_content = [
 var notepad_content = [
 '<div class="content">',
 '<div class="body">',
-'<textarea></textarea>',
+'<textarea>Hello <?php echo $_SESSION['first_name'] . " " . $_SESSION['last_name'] . "!"; ?></textarea>',
+'<div class="buttons">',
+'<a href="#" class="positive">',
+'<img src="i/icons/tick.png" alt="" />',
+'Save',
+'</a>',
+'</div>',
 '</div></div>'
 ].join('');
 
@@ -578,31 +681,38 @@ var piano_content = [
 '</object>'
 ].join('');
 
-var dialog_loading = new dialog('Loading','loading',false,false,false,'block',50,50,100,168,'absolute',0,0,'l','t',true,'Loading...');
+/* end panel content */
+/* begin panel variables */
+
+var dialog_loading = new dialog('Loading','loading',false,false,false,true,50,50,100,168,'absolute',0,0,'l','t',true,'Loading...');
 var user_desktop = new desktop(taskbar_start_content, taskbar_quickstart_content);
-var logout = new panel('Logout','logout',false,true,false,'block',200,260,400,450,'absolute',0,0,'r','t',false,logout_content);
-var preferences = new panel('Preferences','preferences',false,true,false,'block',200,200,400,400,'absolute',0,0,'r','b',false,preferences_content);
-var notepad = new panel('Notepad','notepad',false,true,false,'block',200,200,400,400,'absolute',0,0,'l','b',false,notepad_content);
-var flash_name = new panel('Flash Name','flash-name',false,true,false,'block',270,270,470,470,'absolute',215,80,'l','t',false,flash_name_content);
-var piano = new panel('Piano','piano',false,true,false,'none',200,560,400,1200,'absolute',0,0,'r','t',true,piano_content);
+var logout = new panel('Logout','logout',false,true,false,false,200,260,400,450,'absolute',0,0,'r','t',false,logout_content);
+var preferences = new panel('Preferences','preferences',false,true,false,false,200,200,400,400,'absolute',0,0,'r','b',false,preferences_content);
+var notepad = new panel('Notepad','notepad',false,true,false,false,200,200,400,400,'absolute',0,0,'l','b',false,notepad_content);
+var flash_name = new panel('Flash Name','flash-name',false,true,false,false,270,270,470,470,'absolute',215,80,'l','t',false,flash_name_content);
+var piano = new panel('Piano','piano',false,true,false,true,200,560,400,1200,'absolute',0,0,'r','t',true,piano_content);
+
+/* end panel variables */
 
 <?php
 } else {
 ?>
+
+/* begin panel content */
 
 var login_content = [
 '<div class="content">',
 '<div class="heading">Homenet Spaces OS</div>',
 '<div class="body">',
 '<form action="javascript: return false" name="login" id="login">',
-'<table style="margin : 0 auto; margin-bottom : 10px; margin-top : 10px; ">',
+'<table style="margin : 0 auto; margin-bottom : 10px; margin-top : 10px; width: 95%; ">',
 '<tbody>',
 '<tr>',
 '<td class="label">',
 '<label for="username">Username: </label>',
 '</td>',
 '<td class="input">',
-'<input type="text" name="username" id="username" size="28" maxlength="20" accesskey="u" tabindex="1" value="" />',
+'<input type="text" name="username" id="username" size="33" maxlength="20" accesskey="u" tabindex="1" value="" />',
 '</td>',
 '</tr>',
 '<tr>',
@@ -610,7 +720,7 @@ var login_content = [
 '<label for="password">Password: </label>',
 '</td>',
 '<td class="input">',
-'<input type="password" name="password" id="password" size="28" maxlength="20" accesskey="p" tabindex="2" value="" />',
+'<input type="password" name="password" id="password" size="33" maxlength="20" accesskey="p" tabindex="2" value="" />',
 '</td>',
 '</tr>',
 '<tr>',
@@ -619,11 +729,20 @@ var login_content = [
 '</td>',
 '<td class="input">',
 '<input type="checkbox" name="remember" accesskey="m" tabindex="3" value="remember" />',
-'<span>',
-'<input type="submit" name="signin" id="signin" accesskey="l" tabindex="4" value="Login!" />',
-'<input type="reset" name="reset" id="reset" accesskey="c" tabindex="5" value="Clear" />',
-'<input type="button" name="register" id="register" accesskey="r" tabindex="6" value="Register" />',
-'</span>',
+'<div class="buttons right">',
+'<button type="submit" name="signin" id="signin" class="positive" accesskey="l" tabindex="4">',
+'<img src="i/icons/tick.png" alt="" />',
+'Login!',
+'</button>',
+'<button type="reset" name="reset" id="reset" accesskey="c" tabindex="5">',
+'<img src="i/icons/textfield_key.png" alt="" />',
+'Clear',
+'</button>',
+'<button type="button" name="register" id="signup" class="negative" accesskey="r" tabindex="6">',
+'<img src="i/icons/cross.png" alt="" />',
+'Register',
+'</button>',
+'</div>',
 '</td>',
 '</tr>',
 '</tbody>',
@@ -632,9 +751,219 @@ var login_content = [
 '</div></div>'
 ].join('');
 
-var login = new panel('Login','login',false,true,true,'block',200,250,400,450,'absolute',0,0,'l','t',true,login_content);
-var register = new panel('Register','register',false,true,false,'block',200,250,400,450,'absolute',0,0,'l','t',true,'Please Register');
-var dialog_tryagain = new dialog('Try Again','notice',false,false,false,'block',50,50,100,200,'absolute',0,0,'l','t',true,'Please Try Again!');
+var register_content = [
+'<div class="content">',
+'<div class="heading">Register</div>',
+'<div class="body">',
+'<form action="javascript: return false" name="register" id="register">',
+'<fieldset style="margin : 0 auto; width : 75%; ">',
+'<legend>Login Credentials&nbsp;</legend>',
+'<table style="margin-bottom : 10px; margin-top : 10px; ">',
+'<tr>',
+'<td class="label"><label for="username_reg">Username:</label></td>',
+'<td class="input"><input type="text" name="username_reg" id="username_reg" size="26" maxlength="20" value="<?php echo $username_reg; ?>" />',
+'<small class="formreminder">( You can\'t change your username after you signup )</small></td>',
+'</tr>',
+'<tr>',
+'<td class="label"><label for="password_reg">Password:</label></td>',
+'<td class="input"><input type="password" name="password_reg" id="password_reg" size="26" maxlength="20" value="" /></td>',
+'</tr>',
+'<tr>',
+'<td class="label"><label for="password_ver_reg">Confirm Password:</label></td>',
+'<td class="input"><input type="password" name="password_ver_reg" id="password_ver_reg" size="26" maxlength="20" value="" />',
+'</td>',
+'</tr>',
+'</table>',
+'</fieldset>',
+'<br /><br />',
+'<fieldset style="margin : 0 auto; width : 75%; ">',
+'<legend>Personal Information&nbsp;</legend>',
+'<table style="margin-bottom : 10px; margin-top : 10px; ">',
+'<tr>',
+'<td class="label"><label for="first_name">First Name:</label></td>',
+'<td class="input"><input type="text" name="first_name" id="first_name" size="26" maxlength="20" value="<?php echo $first_name ?>" /></td>',
+'</tr>',
+'<tr>',
+'<td class="label"><label for="last_name">Last Name:</label></td>',
+'<td class="input"><input type="text" name="last_name" id="last_name" size="26" maxlength="20" value="<?php echo $last_name ?>" /></td>',
+'</tr>',
+'<tr>',
+'<td class="label"><label for="email">Email:</label></td>',
+'<td class="input"><input type="text" name="email" id="email" size="26" maxlength="50" value="<?php echo $email ?>" /></td>',
+'</tr>',
+'<tr>',
+'<td class="label"><label for="gender">Gender:</label></td>',
+'<td class="input">',
+'<input type="radio" name="gender" id="gender" value="Male" <?php if ($gender == "Male") { echo 'checked="checked"'; } ?> /><span class="radio">Male</span>',
+'<input type="radio" name="gender" id="gender" value="Female" <?php if ($gender == "Female") { echo 'checked="checked"'; } ?> /><span class="radio">Female</span>',
+'</td>',
+'</tr>',
+'<tr>',
+'<td class="label">Birth Date:</td>',
+'<td class="input">',
+'<select name="birth_month" id="birth_month">',
+'<option value="0" <?php if ($birth_month == 0 || null) { echo 'selected="selected"'; } ?>></option>',
+'<option value="1" <?php if ($birth_month == 1) { echo 'selected="selected"'; } ?>>&nbsp;January</option>',
+'<option value="2" <?php if ($birth_month == 2) { echo 'selected="selected"'; } ?>>&nbsp;February</option>',
+'<option value="3" <?php if ($birth_month == 3) { echo 'selected="selected"'; } ?>>&nbsp;March</option>',
+'<option value="4" <?php if ($birth_month == 4) { echo 'selected="selected"'; } ?>>&nbsp;April</option>',
+'<option value="5" <?php if ($birth_month == 5) { echo 'selected="selected"'; } ?>>&nbsp;May</option>',
+'<option value="6" <?php if ($birth_month == 6) { echo 'selected="selected"'; } ?>>&nbsp;June</option>',
+'<option value="7" <?php if ($birth_month == 7) { echo 'selected="selected"'; } ?>>&nbsp;July</option>',
+'<option value="8" <?php if ($birth_month == 8) { echo 'selected="selected"'; } ?>>&nbsp;August</option>',
+'<option value="9" <?php if ($birth_month == 9) { echo 'selected="selected"'; } ?>>&nbsp;September</option>',
+'<option value="10" <?php if ($birth_month == 10) { echo 'selected="selected"'; } ?>>&nbsp;October</option>',
+'<option value="11" <?php if ($birth_month == 11) { echo 'selected="selected"'; } ?>>&nbsp;November</option>',
+'<option value="12" <?php if ($birth_month == 12) { echo 'selected="selected"'; } ?>>&nbsp;December</option>',
+'</select>',
+'<select name="birth_day" id="birth_day">',
+'<option value="0" <?php if ($birth_day == 0 || null) { echo 'selected="selected"'; } ?>></option>',
+<?php
+for ($i = 1; $i <= 31; $i++) {
+echo "'<option value=\"$i\""; if ($birth_day == $i) { echo "selected=\"selected\""; } echo ">&nbsp;$i</option>',\n";
+}
+?>
+'</select>',
+'<select name="birth_year" id="birth_year">',
+'<option value="0" <?php if ($birth_year == 0 || null) { echo 'selected="selected"'; } ?>></option>',
+<?php
+for ($i = 2010; $i >= 1902; $i--) {
+echo "'<option value=\"$i\""; if ($birth_year == $i) { echo "selected=\"selected\""; } echo ">&nbsp;$i</option>',\n";
+}
+?>
+'</select>',
+'</td>',
+'</tr>',
+'<tr>',
+'<td class="label"><label for="hometown">Hometown:</label></td>',
+'<td class="input"><input type="text" name="hometown" id="hometown" size="26" maxlength="50" value="<?php echo $hometown ?>" /></td>',
+'</tr>',
+'<tr>',
+'<td class="label"><label for="community">Community:</label></td>',
+'<td class="input"><input type="text" name="community" id="community" size="26" maxlength="50" value="<?php echo $community ?>" />',
+'<small class="formreminder">( Current Location, School, Business, or Group )</small></td>',
+'</tr>',
+'<tr>',
+'<td class="label"><label for="hobbies">Hobbies / Interests:</label></td>',
+'<td class="input">',
+'<select name="hobbies[]" id="hobbies" size="10" multiple="multiple">',
+<?php
+$hobbies_list = array('Biking', 'Computers', 'Cooking', 'Dancing', 'Exercise', 'Flying', 'Gaming', 'Golfing', 'Hiking', 'Hunting', 'Internet', 'Reading', 'Running', 'School', 'Singing', 'Skiing', 'Swimming', 'Traveling', 'Other than listed', 'Websites');
+$hobbies = array();
+
+foreach ($hobbies_list as $hobby) {
+if (in_array($hobby, $hobbies)) {
+echo "'<option value=\"" . $hobby . "\" selected=\"selected\">" . $hobby . "</option>',\n";
+} else {
+echo "'<option value=\"" . $hobby . "\">" . $hobby . "</option>',\n";
+}
+}
+?>
+'</select>',
+'<small class="formreminder">( Hold Ctrl to select more than one )</small></td>',
+'</tr>',
+'</table>',
+'<br /><br />',
+'</fieldset>',
+'<br /><br />',
+'<fieldset style="margin : 0 auto; width : 75%; ">',
+'<legend>Security Questions&nbsp;</legend>',
+'<div style="margin : 0 auto; margin-bottom : 10px; margin-top : 10px; ">',
+'<fieldset style="margin : 0 auto; width : 90%; ">',
+'<legend>Question 1&nbsp;</legend>',
+'<table style="margin : 0 auto; margin-bottom : 10px; margin-top : 10px; ">',
+'<tr>',
+'<td class="label"><label for="security_question1">Question:</label></td>',
+'<td class="input">',
+'<select name="security_question1" id="security_question1">',
+'<option value="0" <?php if ($security_question1 == 0 || null) { echo 'selected="selected"'; } ?>>&nbsp;</option>',
+'<option value="1" <?php if ($security_question1 == 1) { echo 'selected="selected"'; } ?>>&nbsp;What was your childhood nickname?</option>',
+'<option value="2" <?php if ($security_question1 == 2) { echo 'selected="selected"'; } ?>>&nbsp;What was your dream job as a child?</option>',
+'<option value="3" <?php if ($security_question1 == 3) { echo 'selected="selected"'; } ?>>&nbsp;What street did you live on in third grade?</option>',
+'<option value="4" <?php if ($security_question1 == 4) { echo 'selected="selected"'; } ?>>&nbsp;What was the name of your first stuffed animal?</option>',
+'<option value="5" <?php if ($security_question1 == 5) { echo 'selected="selected"'; } ?>>&nbsp;In what city or town did your mother and father meet?</option>',
+'<option value="6" <?php if ($security_question1 == 6) { echo 'selected="selected"'; } ?>>&nbsp;What is the last name of your third grade teacher?</option>',
+'<option value="7" <?php if ($security_question1 == 7) { echo 'selected="selected"'; } ?>>&nbsp;What is the middle name of your oldest child?</option>',
+'<option value="8" <?php if ($security_question1 == 8) { echo 'selected="selected"'; } ?>>&nbsp;What school did you attend for sixth grade?</option>',
+'<option value="9" <?php if ($security_question1 == 9) { echo 'selected="selected"'; } ?>>&nbsp;In what city did you meet your spouce/significant other?</option>',
+'<option value="10" <?php if ($security_question1 == 10) { echo 'selected="selected"'; } ?>>&nbsp;What was your childhood phone number including area code? (e.g. 000-000-000)</option>',
+'<option value="11" <?php if ($security_question1 == 11) { echo 'selected="selected"'; } ?>>&nbsp;What is the first name of the boy or girl you first kissed?</option>',
+'<option value="12" <?php if ($security_question1 == 12) { echo 'selected="selected"'; } ?>>&nbsp;What is the name of your favorite childhood friend?</option>',
+'</select>',
+'</td>',
+'</tr>',
+'<tr>',
+'<td class="label"><label for="security_answer1">Answer:</label></td>',
+'<td class="input"><input type="text" name="security_answer1" id="security_answer1" size="35" maxlength="50" value="<?php echo $security_answer1; ?>" /></td>',
+'</tr>',
+'</table>',
+'</fieldset>',
+'<br />',
+'<fieldset style="margin : 0 auto; width : 90%; ">',
+'<legend>Question 2&nbsp;</legend>',
+'<table style="margin : 0 auto; margin-bottom : 10px; margin-top : 10px; ">',
+'<tr>',
+'<td class="label"><label for="security_question2">Question:</label></td>',
+'<td class="input">',
+'<select name="security_question2" id="security_question2">',
+'<option value="0" <?php if ($security_question2 == 0 || null) { echo 'selected="selected"'; } ?>>&nbsp;</option>',
+'<option value="1" <?php if ($security_question2 == 1) { echo 'selected="selected"'; } ?>>&nbsp;What was your childhood nickname?</option>',
+'<option value="2" <?php if ($security_question2 == 2) { echo 'selected="selected"'; } ?>>&nbsp;What was your dream job as a child?</option>',
+'<option value="3" <?php if ($security_question2 == 3) { echo 'selected="selected"'; } ?>>&nbsp;What street did you live on in third grade?</option>',
+'<option value="4" <?php if ($security_question2 == 4) { echo 'selected="selected"'; } ?>>&nbsp;What was the name of your first stuffed animal?</option>',
+'<option value="5" <?php if ($security_question2 == 5) { echo 'selected="selected"'; } ?>>&nbsp;In what city or town did your mother and father meet?</option>',
+'<option value="6" <?php if ($security_question2 == 6) { echo 'selected="selected"'; } ?>>&nbsp;What is the last name of your third grade teacher?</option>',
+'<option value="7" <?php if ($security_question2 == 7) { echo 'selected="selected"'; } ?>>&nbsp;What is the middle name of your oldest child?</option>',
+'<option value="8" <?php if ($security_question2 == 8) { echo 'selected="selected"'; } ?>>&nbsp;What school did you attend for sixth grade?</option>',
+'<option value="9" <?php if ($security_question2 == 9) { echo 'selected="selected"'; } ?>>&nbsp;In what city did you meet your spouce/significant other?</option>',
+'<option value="10" <?php if ($security_question2 == 10) { echo 'selected="selected"'; } ?>>&nbsp;What was your childhood phone number including area code? (e.g. 000-000-000)</option>',
+'<option value="11" <?php if ($security_question2 == 11) { echo 'selected="selected"'; } ?>>&nbsp;What is the first name of the boy or girl you first kissed?</option>',
+'<option value="12" <?php if ($security_question2 == 12) { echo 'selected="selected"'; } ?>>&nbsp;What is the name of your favorite childhood friend?</option>',
+'</select>',
+'</td>',
+'</tr>',
+'<tr>',
+'<td class="label"><label for="security_answer2">Answer:</label></td>',
+'<td class="input"><input type="text" name="security_answer2" id="security_answer2" size="35" maxlength="50" value="<?php echo $security_answer2; ?>" /></td>',
+'</tr>',
+'</table>',
+'</fieldset>',
+'</div>',
+'<div style="margin-bottom : 10px; ">',
+'<small class="formreminder">( If you ever forget your password you will need to answer these questions to get it reset )</small>',
+'</div>',
+'</fieldset>',
+'<br /><br />',
+'<fieldset style="margin : 0 auto; width : 75%; ">',
+'<legend>Security Code&nbsp;</legend>',
+'<table style="margin : 0 auto; margin-bottom : 10px; margin-top : 10px; ">',
+'<tr>',
+'<td><input type="text" name="txtsecuritycode" size="14" maxlength="7" value="" style="font-size : 18pt; height : 30px; letter-spacing : 2px; line-height : 30px; margin-right : 5px; text-align : center; " /></td>',
+'<td><img name="captchaimg" alt="Security Code" src="captcha_securityimage.php" /></td>',
+'<td><a onclick="javascript:updatecaptchaimg();"><img src="i/captcha/arrow_refresh.png" alt="Refresh Code" style="border-width : 0px; margin-left : 5px; margin-top : 7px; " /></a></td>',
+'</tr>',
+'</table>',
+'<br />',
+'<div>',
+'<input type="submit" name="register" id="register" value="Register" />',
+'</div>',
+'<br />',
+'</fieldset>',
+'</form>',
+'<script type="text/javascript">',
+'document.register.username.focus();',
+'</script>',
+'</div></div>'
+].join('');
+
+/* end panel content */
+/* begin panel variables */
+
+var login = new panel('Login','login',false,true,true,false,200,250,400,450,'absolute',0,0,'l','t',true,login_content);
+var register = new panel('Register','register',false,true,false,true,200,250,400,450,'absolute',0,0,'l','t',true,register_content);
+var dialog_tryagain = new dialog('Try Again','notice',false,false,false,false,50,50,100,200,'absolute',0,0,'l','t',true,'Please Try Again!');
+
+/* end panel variables */
 
 <?php
 }
@@ -647,8 +976,10 @@ if (!isset($_SESSION['logged']) || (!$_SESSION['logged'] == 1)) {
 ?>
 
 login.display();
+register.display();
+
 $("input[type='text']#username").focus();
-$("input[type='submit']#signin").click(function() {
+$("button[type='submit']#signin").click(function() {
 if (($("input[type='text']#username").val() != "") && ($("input[type='password']#password").val() != "")) {
 $("div#login").hide();
 var str = $("form#login").serialize();
@@ -666,10 +997,30 @@ $("input[type='text']#username").focus();
 }
 });
 
-$("input[type='button']#register").click(function() {
+$(document.documentElement).keydown(function(event) {
+if (event.keyCode == 13) {
+if (($("input[type='text']#username").val() != "") && ($("input[type='password']#password").val() != "")) {
 $("div#login").hide();
-register.display();
-$("div#register div.panel-mc").load("register.php");
+var str = $("form#login").serialize();
+$.post("login.php", str, function(data) {
+if (data == "Success") {
+location.reload();
+} else {
+$("div#notice").css('opacity',1)
+dialog_tryagain.display();
+$("div#login").css('opacity',0).show().animate({opacity:0}, 1500).animate({opacity:1}, 1500);
+$("div#notice").animate({opacity:1}, 1000).animate({opacity:0}, 1000)
+$("input[type='text']#username").focus();
+}
+});
+}
+}
+});
+
+$("button[type='button']#signup").click(function() {
+$("div#login").hide();
+$("div#register").show();
+/* $("div#register div.panel-mc").load("register.php"); */
 $("div#register").addClass("fullscreen");
 $("div#register").height(myHeight);
 $("div#register div.panel").height(myHeight);
@@ -677,6 +1028,31 @@ $("div#register div.panel-bwrap").css('height',myHeight - 30);
 $("div#register div.panel-header div.tools div.maximize").addClass("restore");
 $("div#register div.panel-header div.tools div.toggle").hide();
 $("div#register div.panel-header div.tools div.toggle").removeClass("toggledown");
+});
+
+$("input[type='submit']#register").click(function() {
+if (($("input[type='text']#username_reg").val() != "")
+&& ($("input[type='password']#password_reg").val() != "")
+&& ($("input[type='password']#password_ver_reg").val() != "")
+&& ($("input[type='password']#password_reg").val() == $("input[type='password']#password_ver_reg").val())) {
+var str = $("form#register").serialize();
+$.post("register.php", str, function(data) {
+$("div#register").html(data);
+if (data == "Success") {
+$("div#register").hide();
+location.reload();
+} else {
+/*
+$("div#notice").css('opacity',1);
+dialog_tryagain.display();
+$("div#login").css('opacity',0).show().animate({opacity:0}, 1500).animate({opacity:1}, 1500);
+$("div#notice").animate({opacity:1}, 1000).animate({opacity:0}, 1000);
+*/
+}
+});
+} else {
+alert("complete forms");
+}
 });
 
 <?php
@@ -828,9 +1204,19 @@ $(mup.div_panel_bwrap()).show();
 
 $("div.panel-header div.tools div.close").click(function(e) {
 var close = new div_selection(e, 6);
+$(close.div_main()).hide();
+
+<?php
+if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) {
+?>
+
 var tbutton = "ul#taskbuttons-strip li#taskbutton-" + close.main();
-$(close.div_main()).remove();
-$(tbutton).remove();
+$(tbutton).hide();
+
+<?php
+}
+?>
+
 });
 
 $("div.panel-header div.tools div.maximize").toggle(function(e) {
@@ -877,8 +1263,7 @@ $(restore1.div_panel()).removeClass("fullscreen");
 $(restore2).removeClass("restore");
 $(restore3).show();
 $(restore1.div_panel_bwrap()).height(($(restore1.div_panel()).height() - 30));
-}
-);
+});
 
 $("div.panel-header div.tools div.minimize").click(function(e) {
 var minimize = new div_selection(e, 6);
@@ -909,6 +1294,11 @@ $(this).removeClass("toggledown");
 });
 
 /* end window tool functions */
+
+<?php
+if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) {
+?>
+
 /* begin desktop functions */
 
 $("div.desktop-body").click(function(e) {
@@ -1079,9 +1469,15 @@ $("div.panel-tl").css({
 });
 $("div.panel-bwrap").show();
 });
-});
 
 /* end taskbar functions */
+
+<?php
+}
+?>
+
+});
+
 /* begin dragresize functions */
 
 if (typeof addEvent != 'function') {
@@ -1352,6 +1748,4 @@ dragresize.ondragblur = function() { };
 
 dragresize.apply(document);
 
-function reapply_functions() {
-dragresize.apply(document.body);
-}
+/* end dragresize functions */
