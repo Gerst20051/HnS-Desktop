@@ -1,10 +1,22 @@
 <?php
 session_start();
 
-include ("db.member.inc.php");
+include ("db.inc.php");
+include ("users_online.inc.php"); // include db.om.inc if this gets removed
+
+if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) {
+include ("auth.inc.php");
+include ("check_session.inc.php");
+
+/* used to temporary change a users access level
+if ($_SESSION['username'] == null) {
+$_SESSION['access_level'] = 2;
+}
+*/
+}
 
 if (isset($_COOKIE['hnsrememberme'])) {
-if (isset($_SESSION['logged']) && $_SESSION['logged'] == 1 || 0) {
+if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1 || 0)) {
 } else {
 $username = $_COOKIE['hnsrememberme']['username'];
 $password = $_COOKIE['hnsrememberme']['password'];
@@ -36,6 +48,7 @@ $_SESSION['last_name'] = $row['last_name'];
 $_SESSION['email'] = $row['email'];
 $_SESSION['status'] = $row['status'];
 $_SESSION['mood'] = $row['mood'];
+$_SESSION['alarm'] = $row['alarm'];
 $_SESSION['default_image'] = $row['default_image'];
 $_SESSION['pref_song_astart'] = $row['pref_song_astart'];
 $_SESSION['pref_psong_astart'] = $row['pref_psong_astart'];
@@ -58,7 +71,7 @@ WHERE
 user_id = ' . $_SESSION['user_id'];
 mysql_query($query, $db) or die(mysql_error());
 
-// needs validip.inc.php from header to get ip
+// needs validip.inc.php from usersonline.inc to get ip
 $query = 'UPDATE login SET
 last_login = "' . $last_login . '",
 last_login_ip = "' . $ip . '"
@@ -68,8 +81,8 @@ mysql_query($query, $db) or die(mysql_error());
 } else {
 $time = time();
 
-setcookie("hnsrememberme[username]", null, $time - 3600);
-setcookie("hnsrememberme[password]", null, $time - 3600);
+setcookie("hnsrememberme[username]", null, ($time - 3600));
+setcookie("hnsrememberme[password]", null, ($time - 3600));
 
 // set these explicitly just to make sure
 $_SESSION['logged'] = null;

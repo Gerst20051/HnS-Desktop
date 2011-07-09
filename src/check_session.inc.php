@@ -1,6 +1,6 @@
 <?php
-// check to make sure the session variables are registered
-if (!isset($_SESSION['logged'])) {
+// destroy session if a session variable is registered without authorization
+if (!isset($_SESSION['logged']) || ($_SESSION['logged'] != 1)) {
 if (session_is_registered('logged')) {
 session_unset();
 session_destroy();

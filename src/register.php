@@ -1,15 +1,14 @@
 <?php
 session_start();
 
-include ("db.member.inc.php");
-include ("login.inc.php");
+include ("db.inc.php");
 
-if (isset($_POST['register']) && ($_POST['register'] == 'Register')) {
+if (isset($_POST['register'])) {
 // filter incoming values
 $username_reg = (isset($_POST['username_reg'])) ? trim($_POST['username_reg']) : '';
 $user_id = (isset($_POST['user_id'])) ? $_POST['user_id'] : '';
-$password = (isset($_POST['password'])) ? $_POST['password'] : '';
-$password_ver = (isset($_POST['password_ver'])) ? $_POST['password_ver'] : '';
+$password_reg = (isset($_POST['password_reg'])) ? $_POST['password_reg'] : '';
+$password_ver_reg = (isset($_POST['password_ver_reg'])) ? $_POST['password_ver_reg'] : '';
 $first_name = (isset($_POST['first_name'])) ? trim($_POST['first_name']) : '';
 $last_name = (isset($_POST['last_name'])) ? trim($_POST['last_name']) : '';
 $email = (isset($_POST['email'])) ? trim($_POST['email']) : '';
@@ -188,6 +187,11 @@ VALUES
 '"' . mysql_real_escape_string($security_answer2, $db)  . '") ';
 mysql_query($query, $db) or die(mysql_error());
 
+$query = 'INSERT INTO hns_desktop (user_id)
+VALUES
+(' . $user_id . ')';
+mysql_query($query, $db) or die(mysql_error());
+
 $query = 'CREATE TABLE ' . $username_reg . ' (
 message_id INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
 type VARCHAR(20) NOT NULL DEFAULT 0,
@@ -234,7 +238,7 @@ $row = mysql_fetch_array($result);
 extract($row);
 mysql_free_result($result);
 
-// clear misc session variables if registering user was logged in
+// clear misc session variables
 $_SESSION['last_login'] = null;
 $_SESSION['last_login_ip'] = null;
 $_SESSION['status'] = null;
@@ -268,7 +272,7 @@ WHERE
 user_id = ' . $_SESSION['user_id'];
 mysql_query($query, $db) or die(mysql_error());
 
-header('refresh: 8; url=user_personal.php?login=1');
+header('refresh: 8; url=index.php?login=1');
 ?>
 <?php
 $query = 'UPDATE login SET

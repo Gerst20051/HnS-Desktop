@@ -1,7 +1,13 @@
 <?php
 session_start();
 
-include ("db.member.inc.php");
+include ("db.inc.php");
+include ("users_online.inc.php"); // include db.om.inc if this gets removed
+
+if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) { // user is logged in
+include ("auth.inc.php");
+include ("check_session.inc.php");
+}
 
 $username = (isset($_POST['username'])) ? trim($_POST['username']) : '';
 $password = (isset($_POST['password'])) ? $_POST['password'] : '';
@@ -25,8 +31,8 @@ extract($row);
 mysql_free_result($result);
 
 if (isset($_POST['remember'])) {
-setcookie("hnsrememberme[username]", $row['username'], $time + 604800);
-setcookie("hnsrememberme[password]", $row['password'], $time + 604800);
+setcookie("hnsrememberme[username]", $row['username'], ($time + 604800));
+setcookie("hnsrememberme[password]", $row['password'], ($time + 604800));
 }
 
 $_SESSION['logged'] = 1;
@@ -39,6 +45,7 @@ $_SESSION['last_name'] = $row['last_name'];
 $_SESSION['email'] = $row['email'];
 $_SESSION['status'] = $row['status'];
 $_SESSION['mood'] = $row['mood'];
+$_SESSION['alarm'] = $row['alarm'];
 $_SESSION['default_image'] = $row['default_image'];
 $_SESSION['pref_song_astart'] = $row['pref_song_astart'];
 $_SESSION['pref_psong_astart'] = $row['pref_psong_astart'];
