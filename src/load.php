@@ -9,19 +9,26 @@ include ("db.inc.php");
 /* GET  ID
 /* GET  ACTION
 /* GET  DATA
+/* GET SUBDATA
 /* SWITCH  ID
 /* - wallpaper_slideshow
 /* - update_hns_desktop
 /* -- SWITCH  ACTION
 /* --- wallpaper_file
+/* - update_apps
+/* -- SWITCH ACTION
+/* --- app_names
 /* - tic_tac_toe
 /* - notepad_save
 /* ---------------------------------------------------- */
 
 if (isset($_GET['id'])) {
 $id = trim($_GET['id']);
+
 if (isset($_GET['action'])) $action = trim($_GET['action']);
 if (isset($_GET['data'])) $data = trim($_GET['data']);
+if (isset($_GET['subdata'])) $subdata = trim($_GET['subdata']);
+
 switch ($id) {
 case 'wallpaper_slideshow':
 
@@ -61,6 +68,111 @@ case 'notepad':
 
 $query = 'UPDATE hns_desktop SET
 notepad = "' . $data . '"
+WHERE
+user_id = ' . $_SESSION['user_id'];
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+}
+
+break;
+case 'update_apps':
+
+switch ($action) {
+case 'wallpaper':
+
+$query = 'UPDATE hns_desktop SET
+app_wallpaper = "' . $data . '"
+WHERE
+user_id = ' . $_SESSION['user_id'];
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'notepad':
+
+$query = 'UPDATE hns_desktop SET
+app_notepad = "' . $data . '"
+WHERE
+user_id = ' . $_SESSION['user_id'];
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'preferences':
+
+$query = 'UPDATE hns_desktop SET
+app_preferences = "' . $data . '"
+WHERE
+user_id = ' . $_SESSION['user_id'];
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'flash_name':
+
+$query = 'UPDATE hns_desktop SET
+app_flash_name = "' . $data . '"
+WHERE
+user_id = ' . $_SESSION['user_id'];
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'piano':
+
+$query = 'UPDATE hns_desktop SET
+app_piano = "' . $data . '"
+WHERE
+user_id = ' . $_SESSION['user_id'];
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'tic_tac_toe':
+
+$query = 'UPDATE hns_desktop SET
+app_tic_tac_toe = "' . $data . '"
+WHERE
+user_id = ' . $_SESSION['user_id'];
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'friends':
+
+$query = 'UPDATE hns_desktop SET
+app_friends = "' . $data . '"
+WHERE
+user_id = ' . $_SESSION['user_id'];
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'radio':
+
+$query = 'UPDATE hns_desktop SET
+app_radio = "' . $data . '"
+WHERE
+user_id = ' . $_SESSION['user_id'];
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'search':
+
+$query = 'UPDATE hns_desktop SET
+app_search = "' . $data . '"
+WHERE
+user_id = ' . $_SESSION['user_id'];
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'chat':
+
+$query = 'UPDATE hns_desktop SET
+app_chat = "' . $data . '"
+WHERE
+user_id = ' . $_SESSION['user_id'];
+mysql_query($query, $db) or die(mysql_error());
+
+break;
+case 'music':
+
+$query = 'UPDATE hns_desktop SET
+app_music = "' . $data . '"
 WHERE
 user_id = ' . $_SESSION['user_id'];
 mysql_query($query, $db) or die(mysql_error());

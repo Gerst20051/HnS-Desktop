@@ -9,8 +9,7 @@ $username_reg = (isset($_POST['username_reg'])) ? trim($_POST['username_reg']) :
 $user_id = (isset($_POST['user_id'])) ? $_POST['user_id'] : '';
 $password_reg = (isset($_POST['password_reg'])) ? $_POST['password_reg'] : '';
 $password_ver_reg = (isset($_POST['password_ver_reg'])) ? $_POST['password_ver_reg'] : '';
-$first_name = (isset($_POST['first_name'])) ? trim(ucwords($_POST['first_name'])) : '';
-$last_name = (isset($_POST['last_name'])) ? trim(ucwords($_POST['last_name'])) : '';
+$fullname = (isset($_POST['fullname'])) ? trim(ucwords($_POST['fullname'])) : '';
 $email = (isset($_POST['email'])) ? trim($_POST['email']) : '';
 $gender = (isset($_POST['gender'])) ? trim($_POST['gender']) : '';
 $birth_month = (isset($_POST['birth_month'])) ? trim($_POST['birth_month']) : '';
@@ -82,12 +81,8 @@ $registererrors[] = 'Username & Password Cannot Be The Same.';
 }
 }
 
-if (empty($first_name)) {
-$registererrors[] = 'First Name cannot be blank.';
-}
-
-if (empty($last_name)) {
-$registererrors[] = 'Last Name cannot be blank.';
+if (empty($fullname)) {
+$registererrors[] = 'Full Name cannot be blank.';
 }
 
 if (empty($email)) {
@@ -160,6 +155,12 @@ $last_login = date('Y-m-d');
 $date_joined = date('Y-m-d');
 $access_level = 1;
 
+list($firstname, $middlename, $lastname) = split(' ', $fullname);
+if (!$lastname) {
+$lastname = $middlename;
+unset($middlename);
+}
+
 $query = 'INSERT INTO login (user_id, username, password, access_level, last_login, date_joined)
 VALUES
 (NULL, "' . mysql_real_escape_string($username_reg, $db)  . '", ' .
@@ -168,11 +169,12 @@ mysql_query($query, $db) or die(mysql_error());
 
 $user_id = mysql_insert_id($db);
 
-$query = 'INSERT INTO info (user_id, first_name, last_name, email, gender, birth_month, birth_day, birth_year, hometown, community, hobbies, security_question1, security_answer1, security_question2, security_answer2)
+$query = 'INSERT INTO info (user_id, firstname, middlename, lastname, email, gender, birth_month, birth_day, birth_year, hometown, community, hobbies, security_question1, security_answer1, security_question2, security_answer2)
 VALUES
 (' . $user_id . ', ' .
-'"' . mysql_real_escape_string($first_name, $db)  . '", ' .
-'"' . mysql_real_escape_string($last_name, $db)  . '", ' .
+'"' . mysql_real_escape_string($firstname, $db)  . '", ' .
+'"' . mysql_real_escape_string($middlename, $db)  . '", ' .
+'"' . mysql_real_escape_string($lastname, $db)  . '", ' .
 '"' . mysql_real_escape_string($email, $db)  . '", ' .
 '"' . mysql_real_escape_string($gender, $db)  . '", ' .
 '"' . mysql_real_escape_string($birth_month, $db)  . '", ' .
@@ -257,8 +259,10 @@ $_SESSION['setting_language'] = null;
 $_SESSION['logged'] = 1;
 $_SESSION['username'] = $row['username'];
 $_SESSION['admin_level'] = 1;
-$_SESSION['first_name'] = $row['first_name'];
-$_SESSION['last_name'] = $row['last_name'];
+$_SESSION['fullname'] = $row['fullname'];
+$_SESSION['firstname'] = $row['firstname'];
+$_SESSION['middlename'] = $row['middlename'];
+$_SESSION['lastname'] = $row['lastname'];
 $_SESSION['email'] = $row['email'];
 $_SESSION['user_id'] = $row['user_id'];
 $user_id = null;

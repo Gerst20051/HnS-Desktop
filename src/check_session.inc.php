@@ -16,10 +16,16 @@ session_destroy();
 } elseif (session_is_registered('last_login_ip')) {
 session_unset();
 session_destroy();
-} elseif (session_is_registered('first_name')) {
+} elseif (session_is_registered('fullname')) {
 session_unset();
 session_destroy();
-} elseif (session_is_registered('last_name')) {
+} elseif (session_is_registered('firstname')) {
+session_unset();
+session_destroy();
+} elseif (session_is_registered('middlename')) {
+session_unset();
+session_destroy();
+} elseif (session_is_registered('lastname')) {
 session_unset();
 session_destroy();
 } elseif (session_is_registered('email')) {

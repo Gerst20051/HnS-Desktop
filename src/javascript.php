@@ -11,12 +11,13 @@ header("Content-Type: application/x-javascript");
 /* Site Creator: Andrew Gerst
 /* Site Created: Wed, 24 Mar 2010 21:22:05 -0400
 /* Last Updated: <?php echo date(r, filemtime('javascript.php')) . "\n"; ?>
-<?php if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) { ?>/* Current User: <?php echo $_SESSION['first_name'] . " " . $_SESSION['last_name'] . "\n"; } ?>
+<?php if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) { ?>/* Current User: <?php echo $_SESSION['fullname'] . "\n"; } ?>
 /* ---------------------------------------------------- */
 
 /* ---------------------------------------------------- */
 /* ------------ >>>  Table of Contents  <<< ----------- */
 /* ---------------------------------------------------- */
+/* Check Support
 /* dConfig Variable Arrays
 /* - User
 /* -- Styles
@@ -40,6 +41,12 @@ header("Content-Type: application/x-javascript");
 /* -- Get Date
 /* - Update Captcha Image
 /* - Div Selection
+/* - Max Window
+/* - Frames Killer
+/* - Set Cookie
+/* - Get Cookie
+/* - Delete Cookie
+/* Cookie Functions
 /* Create Task Button
 /* Panel Content (Logged In)
 /* - Logout
@@ -116,10 +123,18 @@ header("Content-Type: application/x-javascript");
 /* -- Splitbar (Mouse Leave)
 /* -- Splitbar (Mouse Up)
 /* -- Tray Toggle (Toggle)
+/* Window Load Functions (Logged Out)
+/* - Location Hashes
 /* Drag Resize
 /* XHR
 /* ---------------------------------------------------- */
 
+// begin check support
+function s(test) {
+	if (test) return true;
+	return false;
+}
+// end check support
 <?php
 // begin dConfig database query
 if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) {
@@ -206,7 +221,8 @@ var bConfig = {
 
 var dConfig = {
 "settings":{
-"title":"Homenet Spaces OS | Welcome to HnS Desktop!"
+"title":"Homenet Spaces OS | Welcome to HnS Desktop!",
+"zindexint":10
 },
 <?php
 if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) {
@@ -217,8 +233,10 @@ if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) {
 "id":<?php echo $_SESSION['user_id']; ?>,
 "username":"<?php echo $_SESSION['username']; ?>",
 "access_level": <?php echo $_SESSION['access_level']; ?>,
-"first_name":"<?php echo $_SESSION['first_name']; ?>",
-"last_name":"<?php echo $_SESSION['last_name']; ?>",
+"fullname":"<?php echo $_SESSION['fullname']; ?>",
+"firstname":"<?php echo $_SESSION['firstname']; ?>",
+"middlename":"<?php echo $_SESSION['middlename']; ?>",
+"lastname":"<?php echo $_SESSION['lastname']; ?>",
 "alarm":aConfig.user.alarm.split(", "),
 
 "styles":{
@@ -523,7 +541,7 @@ if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) {
 },
 
 "preferences":{
-"h":200,
+"h":302,
 "w":400,
 "x":0,
 "y":0,
@@ -587,7 +605,7 @@ if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) {
 "yPos":'t',
 "minimized":1,
 "maximized":0,
-"centered":0,
+"centered":1,
 "opened":0,
 "tools":[1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 },
@@ -607,90 +625,320 @@ if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) {
 },
 
 "tic_tac_toe":{
-"h":0,
-"w":0,
+"h":599,
+"w":540,
 "x":0,
 "y":0,
 "xPos":'l',
 "yPos":'t',
 "minimized":1,
 "maximized":0,
-"centered":0,
+"centered":1,
 "opened":0,
 "tools":[1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 },
 
 "friends":{
-"h":0,
-"w":0,
+"h":599,
+"w":538,
 "x":0,
 "y":0,
 "xPos":'l',
 "yPos":'t',
 "minimized":1,
 "maximized":0,
-"centered":0,
+"centered":1,
 "opened":0,
 "tools":[1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 },
 
 "radio":{
-"h":0,
-"w":0,
+"h":230,
+"w":230,
 "x":0,
 "y":0,
 "xPos":'l',
 "yPos":'t',
 "minimized":1,
 "maximized":0,
-"centered":0,
+"centered":1,
 "opened":0,
-"tools":[1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+"tools":[1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 },
 
 "search":{
-"h":0,
-"w":0,
+"h":599,
+"w":538,
 "x":0,
 "y":0,
 "xPos":'l',
 "yPos":'t',
 "minimized":1,
 "maximized":0,
-"centered":0,
+"centered":1,
 "opened":0,
 "tools":[1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 },
 
 "chat":{
-"h":0,
-"w":0,
+"h":599,
+"w":538,
 "x":0,
 "y":0,
 "xPos":'l',
 "yPos":'t',
 "minimized":1,
 "maximized":0,
-"centered":0,
+"centered":1,
 "opened":0,
 "tools":[1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 },
 
 "music":{
-"h":0,
-"w":0,
+"h":64,
+"w":316,
 "x":0,
 "y":0,
 "xPos":'l',
 "yPos":'t',
 "minimized":1,
 "maximized":0,
-"centered":0,
+"centered":1,
 "opened":0,
 "tools":[1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 }
 }
 }
+
+<?php
+if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) {
+?>
+for (var i = 0; i < 10; i++) {
+	if (dConfig.user.apps.documents[i] == undefined) {
+		if (i == 4) {
+			dConfig.user.apps.documents[i] = "l";
+		} else if (i == 5) {
+			dConfig.user.apps.documents[i] = "t";
+		} else if (i == 6) {
+			dConfig.user.apps.documents[i] = "1";
+		} else if (i == 8) {
+			dConfig.user.apps.documents[i] = "1";
+		} else {
+			dConfig.user.apps.documents[i] = "0";
+		}
+	}
+}
+
+for (var i = 0; i < 10; i++) {
+	if (dConfig.user.apps.wallpaper[i] == undefined) {
+		if (i == 4) {
+			dConfig.user.apps.wallpaper[i] = "l";
+		} else if (i == 5) {
+			dConfig.user.apps.wallpaper[i] = "t";
+		} else if (i == 6) {
+			dConfig.user.apps.wallpaper[i] = "1";
+		} else if (i == 8) {
+			dConfig.user.apps.wallpaper[i] = "1";
+		} else {
+			dConfig.user.apps.wallpaper[i] = "0";
+		}
+	}
+}
+
+for (var i = 0; i < 10; i++) {
+	if (dConfig.user.apps.preferences[i] == undefined) {
+		if (i == 4) {
+			dConfig.user.apps.preferences[i] = "l";
+		} else if (i == 5) {
+			dConfig.user.apps.preferences[i] = "t";
+		} else if (i == 6) {
+			dConfig.user.apps.preferences[i] = "1";
+		} else if (i == 8) {
+			dConfig.user.apps.preferences[i] = "1";
+		} else {
+			dConfig.user.apps.preferences[i] = "0";
+		}
+	}
+}
+
+for (var i = 0; i < 10; i++) {
+	if (dConfig.user.apps.notepad[i] == undefined) {
+		if (i == 4) {
+			dConfig.user.apps.notepad[i] = "l";
+		} else if (i == 5) {
+			dConfig.user.apps.notepad[i] = "t";
+		} else if (i == 6) {
+			dConfig.user.apps.notepad[i] = "1";
+		} else if (i == 8) {
+			dConfig.user.apps.notepad[i] = "1";
+		} else {
+			dConfig.user.apps.notepad[i] = "0";
+		}
+	}
+}
+
+for (var i = 0; i < 10; i++) {
+	if (dConfig.user.apps.flash_name[i] == undefined) {
+		if (i == 4) {
+			dConfig.user.apps.flash_name[i] = "l";
+		} else if (i == 5) {
+			dConfig.user.apps.flash_name[i] = "t";
+		} else if (i == 6) {
+			dConfig.user.apps.flash_name[i] = "1";
+		} else if (i == 8) {
+			dConfig.user.apps.flash_name[i] = "1";
+		} else {
+			dConfig.user.apps.flash_name[i] = "0";
+		}
+	}
+}
+
+for (var i = 0; i < 10; i++) {
+	if (dConfig.user.apps.piano[i] == undefined) {
+		if (i == 4) {
+			dConfig.user.apps.piano[i] = "l";
+		} else if (i == 5) {
+			dConfig.user.apps.piano[i] = "t";
+		} else if (i == 6) {
+			dConfig.user.apps.piano[i] = "1";
+		} else if (i == 8) {
+			dConfig.user.apps.piano[i] = "1";
+		} else {
+			dConfig.user.apps.piano[i] = "0";
+		}
+	}
+}
+
+for (var i = 0; i < 10; i++) {
+	if (dConfig.user.apps.about_hnsdesktop[i] == undefined) {
+		if (i == 4) {
+			dConfig.user.apps.about_hnsdesktop[i] = "l";
+		} else if (i == 5) {
+			dConfig.user.apps.about_hnsdesktop[i] = "t";
+		} else if (i == 6) {
+			dConfig.user.apps.about_hnsdesktop[i] = "1";
+		} else if (i == 8) {
+			dConfig.user.apps.about_hnsdesktop[i] = "1";
+		} else {
+			dConfig.user.apps.about_hnsdesktop[i] = "0";
+		}
+	}
+}
+
+for (var i = 0; i < 10; i++) {
+	if (dConfig.user.apps.feedback[i] == undefined) {
+		if (i == 4) {
+			dConfig.user.apps.feedback[i] = "l";
+		} else if (i == 5) {
+			dConfig.user.apps.feedback[i] = "t";
+		} else if (i == 6) {
+			dConfig.user.apps.feedback[i] = "1";
+		} else if (i == 8) {
+			dConfig.user.apps.feedback[i] = "1";
+		} else {
+			dConfig.user.apps.feedback[i] = "0";
+		}
+	}
+}
+
+for (var i = 0; i < 10; i++) {
+	if (dConfig.user.apps.tic_tac_toe[i] == undefined) {
+		if (i == 4) {
+			dConfig.user.apps.tic_tac_toe[i] = "l";
+		} else if (i == 5) {
+			dConfig.user.apps.tic_tac_toe[i] = "t";
+		} else if (i == 6) {
+			dConfig.user.apps.tic_tac_toe[i] = "1";
+		} else if (i == 8) {
+			dConfig.user.apps.tic_tac_toe[i] = "1";
+		} else {
+			dConfig.user.apps.tic_tac_toe[i] = "0";
+		}
+	}
+}
+
+for (var i = 0; i < 10; i++) {
+	if (dConfig.user.apps.friends[i] == undefined) {
+		if (i == 4) {
+			dConfig.user.apps.friends[i] = "l";
+		} else if (i == 5) {
+			dConfig.user.apps.friends[i] = "t";
+		} else if (i == 6) {
+			dConfig.user.apps.friends[i] = "1";
+		} else if (i == 8) {
+			dConfig.user.apps.friends[i] = "1";
+		} else {
+			dConfig.user.apps.friends[i] = "0";
+		}
+	}
+}
+
+for (var i = 0; i < 10; i++) {
+	if (dConfig.user.apps.radio[i] == undefined) {
+		if (i == 4) {
+			dConfig.user.apps.radio[i] = "l";
+		} else if (i == 5) {
+			dConfig.user.apps.radio[i] = "t";
+		} else if (i == 6) {
+			dConfig.user.apps.radio[i] = "1";
+		} else if (i == 8) {
+			dConfig.user.apps.radio[i] = "1";
+		} else {
+			dConfig.user.apps.radio[i] = "0";
+		}
+	}
+}
+
+for (var i = 0; i < 10; i++) {
+	if (dConfig.user.apps.search[i] == undefined) {
+		if (i == 4) {
+			dConfig.user.apps.search[i] = "l";
+		} else if (i == 5) {
+			dConfig.user.apps.search[i] = "t";
+		} else if (i == 6) {
+			dConfig.user.apps.search[i] = "1";
+		} else if (i == 8) {
+			dConfig.user.apps.search[i] = "1";
+		} else {
+			dConfig.user.apps.search[i] = "0";
+		}
+	}
+}
+
+for (var i = 0; i < 10; i++) {
+	if (dConfig.user.apps.chat[i] == undefined) {
+		if (i == 4) {
+			dConfig.user.apps.chat[i] = "l";
+		} else if (i == 5) {
+			dConfig.user.apps.chat[i] = "t";
+		} else if (i == 6) {
+			dConfig.user.apps.chat[i] = "1";
+		} else if (i == 8) {
+			dConfig.user.apps.chat[i] = "1";
+		} else {
+			dConfig.user.apps.chat[i] = "0";
+		}
+	}
+}
+
+for (var i = 0; i < 10; i++) {
+	if (dConfig.user.apps.music[i] == undefined) {
+		if (i == 4) {
+			dConfig.user.apps.music[i] = "l";
+		} else if (i == 5) {
+			dConfig.user.apps.music[i] = "t";
+		} else if (i == 6) {
+			dConfig.user.apps.music[i] = "1";
+		} else if (i == 8) {
+			dConfig.user.apps.music[i] = "1";
+		} else {
+			dConfig.user.apps.music[i] = "0";
+		}
+	}
+}
+<?php
+}
+?>
 
 /* end desktop config variable arrays */
 
@@ -710,7 +958,11 @@ var stylesheet = '<link rel="stylesheet" type="text/css" href="css.php?id=' + dC
 <?php
 }
 ?>
+if (s($())) {
 $('head').append(stylesheet);
+} else {
+alert("We Are Sorry! HnS Desktop Requires A Browser That Supports jQuery.");
+}
 
 <?php
 if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) {
@@ -865,38 +1117,126 @@ function div_selection(e, eq) {
 /* Frames Killer
 
 if (top.location != self.location) {
-	top.location = self.location
+	top.location = self.location;
 }
 
-function CNN_extractHost(url) {
-    var returnArry = /^(?:[^:\/?#]+):\/\/([^\/?#]+)(?::\d+)?(?:[^?#]*)\//i.exec(url);
-    if(returnArry && typeof returnArry === "object") {
-        return returnArry[1];
-    } else {
-        return "";
-    }
+function extractHost(url) {
+	var returnArry = /^(?:[^:\/?#]+):\/\/([^\/?#]+)(?::\d+)?(?:[^?#]*)\//i.exec(url);
+
+	if (returnArry && typeof returnArry === "object") {
+		return returnArry[1];
+	} else {
+		return "";
+	}
 }
 
-function CNN_bustFrame(){
-   var blacklist = ['digg.com'];
-   if (top.location!=window.location) {
-      var topURL = CNN_extractHost(document.referrer);
-      if (topURL) {
-         for (var i=0; i < blacklist.length; i++) {
-            if (topURL.indexOf( blacklist[i] ) != -1) { 
-        top.location.replace(window.location);
-                return;
-            }
-         }
-      }
-   }
+function bustFrame() {
+	var blacklist = ['digg.com'];
+
+	if (top.location!=window.location) {
+		var topURL = extractHost(document.referrer);
+		if (topURL) {
+			for (var i=0; i < blacklist.length; i++) {
+				if (topURL.indexOf( blacklist[i] ) != -1) {
+					top.location.replace(window.location);
+					return;
+				}
+			}
+		}
+	}
 }
 
-CNN_bustFrame();
+bustFrame();
 
 */
 
+function setCookie(name, value, expires, path, domain, secure) {
+	// set time, it's in milliseconds
+	var today = new Date();
+	today.setTime(today.getTime());
+
+	if (expires) { // x number of days
+		expires = (expires * 1000 * 60 * 60 * 24);
+	}
+
+	var expires_date = new Date(today.getTime() + (expires));
+
+	document.cookie = name + "=" +escape(value) +
+	((expires) ? ";expires=" + expires_date.toGMTString() : "") +
+	((path) ? ";path=" + path : "") +
+	((domain) ? ";domain=" + domain : "") +
+	((secure) ? ";secure" : "");
+}
+
+// this fixes an issue with the old method, ambiguous values
+// with this test document.cookie.indexOf(name + "=");
+function getCookie(check_name) {
+	// first we'll split this cookie up into name/value pairs
+	// note: document.cookie only returns name=value, not the other components
+	var a_all_cookies = document.cookie.split(';');
+	var a_temp_cookie = '';
+	var cookie_name = '';
+	var cookie_value = '';
+	var b_cookie_found = false; // set boolean t/f default f
+
+	for (i = 0; i < a_all_cookies.length; i++) {
+		// now we'll split apart each name=value pair
+		a_temp_cookie = a_all_cookies[i].split('=');
+
+		// and trim left/right whitespace while we're at it
+		cookie_name = a_temp_cookie[0].replace(/^\s+|\s+$/g, '');
+
+		// if the extracted name matches passed check_name
+		if (cookie_name == check_name) {
+			b_cookie_found = true;
+
+			// we need to handle case where cookie has no value but exists (no = sign, that is):
+			if (a_temp_cookie.length > 1) {
+				cookie_value = unescape(a_temp_cookie[1].replace(/^\s+|\s+$/g, ''));
+			}
+
+			// note that in cases where cookie is initialized but no value, null is returned
+			return cookie_value;
+			break;
+		}
+
+		a_temp_cookie = null;
+		cookie_name = '';
+	}
+
+	if (!b_cookie_found) {
+		return null;
+	}
+}
+
+function deleteCookie(name, path, domain) {
+	if (getCookie(name)) document.cookie = name + "=" +
+	((path) ? ";path=" + path : "") +
+	((domain) ? ";domain=" + domain : "") +
+	";expires=Thu, 01-Jan-1970 00:00:01 GMT";
+}
+
+/*
+// remember, these are the possible parameters for setCookie:
+// name, value, expires, path, domain, secure
+setCookie('test', 'it works', '', '/', '', '');
+if (getCookie('test')) alert(getCookie('test'));
+// and these are the parameters for deleteCookie:
+// name, path, domain
+// make sure you use the same parameters in Set and Delete Cookie.
+
+deleteCookie('test', '/', '');
+(getCookie('test')) ? alert(getCookie('test')) :
+alert( 'it is gone');
+*/
+
 /* end misc functions */
+/* begin cookie functions */
+
+setCookie('hnsmaintheme', 1, 365, '/');
+setCookie('hnslanguage', 'en', 365, '/');
+
+/* end cookie functions*/
 
 createTaskButton = function(task_title, task_id) {
 	return [
@@ -1265,7 +1605,7 @@ function display(app) {
 		zmax = (cur > zmax) ? cur : zmax;
 	});
 	
-	$(app_name).css('z-index', ++zmax);
+	$(app_name).css('z-index', (zmax + dConfig.settings.zindexint));
 	$(app_name).show();
 	$(app_tbutton).css('display','block');
 }
@@ -1417,8 +1757,6 @@ var taskbar_quickstart_content = ['<div></div>'].join('');
 
 var wallpaper_content = [
 '<div class="content"><div class="body">',
-'<div id="slideshow"></div>',
-'<div id="config"></div>',
 '</div></div>'
 ].join('');
 
@@ -1473,7 +1811,7 @@ var preferences_content = [
 
 var notepad_content = [
 '<div class="content"><div class="body">',
-'<textarea><?php if ($row['notepad'] == null) { echo "Hello ',dConfig.user.first_name,' ',dConfig.user.last_name,'!"; } else { echo $row['notepad']; } ?></textarea>',
+'<textarea><?php if ($row['notepad'] == null) { echo "Hello ',dConfig.user.firstname,' ',dConfig.user.lastname,'!"; } else { echo $row['notepad']; } ?></textarea>',
 '</div></div>'
 ].join('');
 
@@ -1533,11 +1871,11 @@ $order = "username";
 break;
 
 case 2:
-$order = "first_name";
+$order = "firstname";
 break;
 
 case 3:
-$order = "last_name";
+$order = "lastname";
 break;
 }
 
@@ -1553,7 +1891,7 @@ $range = 18;
 $limit1 = mt_rand(0, ($members - $range));
 $count = 0;
 
-$query = "SELECT u.user_id, username, first_name, last_name, default_image FROM
+$query = "SELECT u.user_id, username, firstname, lastname, default_image FROM
 login u
 JOIN
 info i
@@ -1597,11 +1935,11 @@ $fcount = 1;
 
 if ($numfriends > 0) {
 foreach ($friends as $friend) {
-$friend_query = "SELECT u.user_id, u.username, i.first_name, i.last_name, i.default_image FROM login u JOIN info i ON u.user_id = i.user_id WHERE u.username = '" . $friend . "'";
+$friend_query = "SELECT u.user_id, u.username, i.firstname, i.lastname, i.default_image FROM login u JOIN info i ON u.user_id = i.user_id WHERE u.username = '" . $friend . "'";
 $friend_result = mysql_query($friend_query, $db) or die(mysql_error($db));
 $friend_row = mysql_fetch_array($friend_result);
 
-echo "'<!-- Begin " . addslashes($friend_row['first_name']) . " " . addslashes($friend_row['last_name']) . "\'s section -->',\n";
+echo "'<!-- Begin " . addslashes($friend_row['firstname']) . " " . addslashes($friend_row['lastname']) . "\'s section -->',\n";
 echo "'<a href=\"/user_profile.php?id=" . $friend_row['user_id'] . "\" title=\"View " . addslashes($friend) . "\'s Profile\">',\n";
 echo "'<div class=\"friendsection\">',\n";
 
@@ -1611,11 +1949,11 @@ echo "'<img src=\"/uploads/" . addslashes($friend_row['username']) . "/images/th
 echo "'<img src=\"/i/mem/default.jpg\" class=\"friend\" /><br />',\n";
 }
 
-echo "'<div class=\"name\">" . addslashes($friend_row['first_name']) . " " . addslashes($friend_row['last_name']) . "</div>',\n";
+echo "'<div class=\"name\">" . addslashes($friend_row['firstname']) . " " . addslashes($friend_row['lastname']) . "</div>',\n";
 
 echo "'</div>',\n";
 echo "'</a>',\n";
-echo "'<!-- End " . addslashes($friend_row['first_name']) . " " . addslashes($friend_row['last_name']) . "\'s section -->',\n";
+echo "'<!-- End " . addslashes($friend_row['firstname']) . " " . addslashes($friend_row['lastname']) . "\'s section -->',\n";
 
 $break = "'<div style=\"clear: both; width: 100%;\"> </div>',\n";
 
@@ -1671,14 +2009,14 @@ var user_desktop = new desktop(taskbar_start_content, taskbar_quickstart_content
 
 /** begin app variables */
 
-var wallpaper = new panel('Wallpaper','wallpaper',true,true,true,true,true,200,270,400,511,'absolute',0,0,'l','t',true,wallpaper_content);
+var wallpaper = new panel('Wallpaper','wallpaper',true,true,true,true,true,500,610,900,1100,'absolute',0,0,'l','t',true,wallpaper_content);
 var preferences = new panel('Preferences','preferences',true,false,true,false,false,300,302,400,400,'absolute',0,0,'r','b',true,preferences_content);
 var notepad = new panel('Notepad','notepad',true,false,true,false,false,200,200,400,400,'absolute',0,0,'l','b',false,notepad_content);
 var flash_name = new panel('Flash Name','flash_name',true,false,true,false,false,270,270,470,470,'absolute',215,80,'l','t',false,flash_name_content);
 var piano = new panel('Piano','piano',true,false,true,false,true,570,570,770,1200,'absolute',0,0,'l','t',true,piano_content);
 var tic_tac_toe = new panel('Tic Tac Toe','tic_tac_toe',true,false,true,false,true,550,599,534,540,'absolute',0,0,'l','t',true,tic_tac_toe_content);
 var friends  = new panel('Friends','friends',true,false,true,false,true,550,599,534,538,'absolute',0,0,'l','t',true,friends_content);
-var radio  = new panel('Radio','radio',true,false,true,false,true,300,300,300,300,'absolute',0,0,'l','t',true,radio_content);
+var radio  = new panel('Radio','radio',true,false,true,false,true,242,242,231,231,'absolute',0,0,'l','t',true,radio_content);
 var search = new panel('Search','search',true,false,true,false,true,550,599,534,538,'absolute',0,0,'l','t',true,search_content);
 var chat = new panel('Chat','chat',true,false,true,false,true,550,599,534,538,'absolute',0,0,'l','t',true,chat_content);
 var music = new panel('Music','music',true,false,true,false,true,64,64,316,316,'absolute',0,0,'l','t',true,music_content);
@@ -1750,17 +2088,13 @@ var register_content = [
 '<fieldset>',
 '<legend>Personal Information</legend>',
 '<table>',
-'<tr class="first_name">',
-'<td class="label"><label for="first_name">First Name:</label></td>',
-'<td class="input"><input type="text" name="first_name" id="first_name" size="26" maxlength="20" value="<?php echo $first_name ?>" /></td>',
-'</tr>',
-'<tr class="last_name">',
-'<td class="label"><label for="last_name">Last Name:</label></td>',
-'<td class="input"><input type="text" name="last_name" id="last_name" size="26" maxlength="20" value="<?php echo $last_name ?>" /></td>',
+'<tr class="fullname">',
+'<td class="label"><label for="fullname">Full Name:</label></td>',
+'<td class="input"><input type="text" name="fullname" id="fullname" size="26" maxlength="40" value="<?php echo $fullname; ?>" /></td>',
 '</tr>',
 '<tr class="email">',
 '<td class="label"><label for="email">Email:</label></td>',
-'<td class="input"><input type="email" name="email" id="email" size="26" maxlength="50" value="<?php echo $email ?>" /></td>',
+'<td class="input"><input type="email" name="email" id="email" size="26" maxlength="50" value="<?php echo $email; ?>" /></td>',
 '</tr>',
 '<tr class="gender">',
 '<td class="label"><label for="gender">Gender:</label></td>',
@@ -1813,11 +2147,11 @@ for ($i = 2010; $i >= 1902; $i--) {
 '</tr>',
 '<tr class="hometown">',
 '<td class="label"><label for="hometown">Hometown:</label></td>',
-'<td class="input"><input type="text" name="hometown" id="hometown" size="26" maxlength="50" value="<?php echo $hometown ?>" /></td>',
+'<td class="input"><input type="text" name="hometown" id="hometown" size="26" maxlength="50" value="<?php echo $hometown; ?>" /></td>',
 '</tr>',
 '<tr class="community">',
 '<td class="label"><label for="community">Community:</label></td>',
-'<td class="input"><input type="text" name="community" id="community" size="26" maxlength="50" value="<?php echo $community ?>" />',
+'<td class="input"><input type="text" name="community" id="community" size="26" maxlength="50" value="<?php echo $community; ?>" />',
 '<small class="formreminder">( Current Location, School, Business, or Group )</small></td>',
 '</tr>',
 '<tr class="hobbies">',
@@ -1946,9 +2280,11 @@ var dialog_tryagain = new dialog('Try Again','notice',false,false,false,false,50
 <?php
 }
 ?>
-
 $(document).ready(function() {
 
+if (s($())) {
+	$(".noscript").remove();
+}
 <?php
 if (!isset($_SESSION['logged']) || (!$_SESSION['logged'] == 1)) {
 ?>
@@ -1967,10 +2303,11 @@ $("button[type='submit']#signin").click(function() {
 			if (data == "Success") {
 				location.reload();
 			} else {
+				$("input[type='password']#password").val('');
 				$("input").blur();
 				dialog_tryagain.display();
 				$("div#login").css('opacity', 0).show().animate({opacity:0}, 1500).animate({opacity:1}, 1500);
-				$("div#notice").css('opacity', 0).show().animate({opacity:1}, 1000).animate({opacity:0}, 1000, function() { $("div#notice").hide(); $("input[type='text']#username").focus(); });
+				$("div#notice").css('opacity', 0).show().animate({opacity:1}, 1000).animate({opacity:0}, 1000, function() { $("div#notice").hide(); $("input[type='password']#password").focus(); });
 			}
 		});
 	}
@@ -1980,19 +2317,34 @@ $(document.documentElement).keydown(function(event) { // IF ENTER IS PRESSED TWI
 	if (event.keyCode == 13) {
 		if ($("div#register").is(":hidden")) {
 			if (($("input[type='text']#username").val() != "") && ($("input[type='password']#password").val() != "")) {
-				$("div#login").hide();
-				var str = $("form#login").serialize();
+				if ($("div#login").is(":visible") && $("div#notice").is(":hidden")) {
+					$("div#login").hide();
+					var str = $("form#login").serialize();
 
-				$.post("login.php", str, function(data) {
-					if (data == "Success") {
-						location.reload();
-					} else {
-						$("input").blur();
-						dialog_tryagain.display();
-						$("div#login").css('opacity', 0).show().animate({opacity:0}, 1500).animate({opacity:1}, 1500);
-						$("div#notice").css('opacity', 0).show().animate({opacity:1}, 1000).animate({opacity:0}, 1000, function() { $("div#notice").hide(); $("input[type='text']#username").focus(); });
+					$.post("login.php", str, function(data) {
+						if (data == "Success") {
+							location.reload();
+						} else {
+							$("input[type='password']#password").val('');
+							$("input").blur();
+							dialog_tryagain.display();
+							$("div#login").css('opacity', 0).show().animate({opacity:0}, 1500).animate({opacity:1}, 1500);
+							$("div#notice").css('opacity', 0).show().animate({opacity:1}, 1000).animate({opacity:0}, 1000, function() { $("div#notice").hide(); $("input[type='password']#password").focus(); });
+						}
+					});
+				} else {
+					if (($("div#login").queue().length != 0) && ($("div#notice").queue().length != 0)) {
+						$("div#login").dequeue();
+						$("div#notice").dequeue();
 					}
-				});
+				}
+			} else {
+				if ($("div#login").not(":visible") && $("div#notice").not(":hidden")) {
+					if (($("div#login").queue().length != 0) && ($("div#notice").queue().length != 0)) {
+						$("div#login").dequeue();
+						$("div#notice").dequeue();
+					}
+				}
 			}
 		} else {
 			alert("register is visible");
@@ -2000,9 +2352,8 @@ $(document.documentElement).keydown(function(event) { // IF ENTER IS PRESSED TWI
 	}
 });
 
-$("button[type='button']#signup").click(function() {
+$("button[type='button']#signup").click(function() { // AJAX REGISTER CONTENT
 	display(register);
-	// $("div#register div.panel-mc").load("register.php");
 	$("div#register").addClass("fullscreen");
 	$("div#register").height(myHeight);
 	$("div#register div.panel").height(myHeight);
@@ -2072,11 +2423,11 @@ $registererrors[] = 'Username & Password Cannot Be The Same.';
 }
 }
 
-if (empty($first_name)) {
+if (empty($firstname)) {
 $registererrors[] = 'First Name cannot be blank.';
 }
 
-if (empty($last_name)) {
+if (empty($lastname)) {
 $registererrors[] = 'Last Name cannot be blank.';
 }
 
@@ -2149,16 +2500,56 @@ $("div#register-button").click(function() {
 
 	var hasError = false;
 	var reg = /^./;
+	var usernameReg = /[.\/:*?'"<>|]/;
+	var nameReg =["-", "'", "Mc"];
+	var nameReg2 = /[.\/:*?"<>|]/;
 	var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 	var emailReg2 = /^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}?$/i;
 	var errorImage = '<img src="i/icons/cancel.png" alt="" class="error" />';
+
+	String.prototype.capitalize = function() {
+		return this.replace(/(^|\s)([a-z])/g, function(m, p1, p2) { return p1 + p2.toUpperCase(); });
+	};
+
+	String.prototype.split = function(delimiter) { // array.splice(index, howmany, element)
+		tempArray = new Array(1);
+		var count = 0;
+		var tempString = new String(this);
+		
+		while (tempString.indexOf(delimiter) > 0) { // start, length
+			tempArray[count] = tempString.substr(0, tempString.indexOf(delimiter));
+			tempString = tempString.substr(tempString.indexOf(delimiter) + 1, (tempString.length - (tempString.indexOf(delimiter) + 1)));
+			count = count + 1
+		}
+
+		tempArray[count] = tempString;
+		return tempArray;
+	};
+
+	function ucname(string) {
+		string = string.toLowerCase().capitalize();
+
+		$(nameReg).each(function(i, delimiter) {
+			if (string.indexOf(delimiter) !== false) {
+				// string = implode(delimiter, array_map('ucfirst', explode(delimiter, string)).join();
+				string = string.toString().split(delimiter);
+				// string = string.capitalize().join(delimiter)
+			}
+		});
+
+		return string;
+	}
+	
+	alert(ucname("mr k'leigh FDFDF"));
+	
+	// trim(ucname(post));
 
 	var usernamereg_val = $("input[type='text']#username_reg").val();
 	if (usernamereg_val == '') {
 		$("input[type='text']#username_reg").parent().append(errorImage + '<span class="error">You forgot to enter a username.</span>');
 		$("tr.username_reg").addClass("error");
 		hasError = true;
-	} else if (!reg.test(usernamereg_val)) {
+	} else if (usernameReg.test(usernamereg_val)) {
 		$("input[type='text']#username_reg").after('<span class="error">Enter a valid username.</span>');
 		$("tr.username_reg").addClass("error");
 		hasError = true;
@@ -2192,26 +2583,22 @@ $("div#register-button").click(function() {
 		hasError = true;
 	}
 
-	var firstname_val = $("input[type='text']#first_name").val();
-	if (firstname_val == '') {
-		$("input[type='text']#first_name").after(errorImage + '<span class="error">You forgot to enter your first name.</span>');
-		$("tr.first_name").addClass("error");
+	var fullname_val = $("input[type='text']#fullname").val();
+	if (fullname_val == '') {
+		$("input[type='text']#fullname").after(errorImage + '<span class="error">You forgot to enter your full name.</span>');
+		$("tr.fullname").addClass("error");
 		hasError = true;
-	} else if (!reg.test(firstname_val)) {
-		$("input[type='text']#first_name").after('<span class="error">Enter a valid first name.</span>');
-		$("tr.first_name").addClass("error");
+	} else if (!nameReg2.test(fullname_val)) {
+		$("input[type='text']#fullname").after(errorImage + '<span class="error">Enter a valid full name.</span>');
+		$("tr.fullname").addClass("error");
+		hasError = true;
+	} else {
+	var name_array = fullname_val.split(' ');
+	if (!name_array[1] || !name_array[2]) {
+		$("input[type='text']#fullname").after(errorImage + '<span class="error">Enter a valid full name.</span>');
+		$("tr.fullname").addClass("error");
 		hasError = true;
 	}
-
-	var lastname_val = $("input[type='text']#last_name").val();
-	if (lastname_val == '') {
-		$("input[type='text']#last_name").after(errorImage + '<span class="error">You forgot to enter your last name.</span>');
-		$("tr.last_name").addClass("error");
-		hasError = true;
-	} else if (!reg.test(lastname_val)) {
-		$("input[type='text']#last_name").after('<span class="error">Enter a valid last name.</span>');
-		$("tr.last_name").addClass("error");
-		hasError = true;
 	}
 
 	var email_val = $("input[type='email']#email").val();
@@ -2393,10 +2780,10 @@ $("div.desktop-thumb").css({'height':'auto','min-height':dConfig.desktop.thumb_h
 /** begin taskbar config */
 
 $("div#taskbar div#panel-wrap").width(myWidth - dConfig.taskbar.start_width);
-$("div#taskbar div#panel-wrap div#taskbuttons-panel").width(myWidth - (dConfig.taskbar.start_width + dConfig.taskbar.quickstart_width));
-$("div#taskbar div#panel-wrap div#taskbuttons-panel div.taskbuttons-strip-wrap").width(myWidth - (dConfig.taskbar.start_width + dConfig.taskbar.quickstart_width + dConfig.taskbar.tray_width));
-$("div#taskbar div#panel-wrap div#taskbuttons-panel div.taskbuttons-strip-wrap ul#tray-strip").width(myWidth - (dConfig.taskbar.start_width + dConfig.taskbar.quickstart_width + dConfig.taskbar.tray_width));
-$("div#taskbar div#panel-wrap div#tray-panel").width(dConfig.taskbar.tray_width);
+$("div#taskbar div#taskbuttons-panel").width(myWidth - (dConfig.taskbar.start_width + dConfig.taskbar.quickstart_width));
+$("div#taskbar div.taskbuttons-strip-wrap").width(myWidth - (dConfig.taskbar.start_width + dConfig.taskbar.quickstart_width + dConfig.taskbar.tray_width));
+$("div#taskbar ul#tray-strip").width(myWidth - (dConfig.taskbar.start_width + dConfig.taskbar.quickstart_width + dConfig.taskbar.tray_width));
+$("div#taskbar div#tray-panel").width(dConfig.taskbar.tray_width);
 
 /* end taskbar config **/
 /** begin user styles */
@@ -2726,7 +3113,7 @@ $("div.desktop-thumb").dblclick(function(e) {
 		zmax = (cur > zmax) ? cur : zmax;
 	});
 	
-	$("div#" + tthumb).css('z-index', ++zmax);
+	$("div#" + tthumb).css('z-index', (zmax + dConfig.settings.zindexint));
 
 	if (tthumb == "wallpaper") display(wallpaper);
 	if (tthumb == "notepad") display(notepad);
@@ -2807,11 +3194,11 @@ $("div#startmenu li.list-item").click(function(e) {
 	});
 
 	if ($(titem).is(":hidden")) {
-		$(titem).css('z-index', ++zmax);
+		$(titem).css('z-index', (zmax + dConfig.settings.zindexint));
 		$(titem).show();
 	} else {
 		if ($(titem).css('z-index') < zmax) {
-			$(titem).css('z-index', ++zmax);
+			$(titem).css('z-index', (zmax + dConfig.settings.zindexint));
 		}
 	}
 
@@ -2875,11 +3262,11 @@ $("div#taskbar li.taskbutton").click(function(e) {
 	});
 
 	if ($(tbutton).is(":hidden")) {
-		$(tbutton).css('z-index', ++zmax);
+		$(tbutton).css('z-index', (zmax + dConfig.settings.zindexint));
 		$(tbutton).show();
 	} else {
 		if ($(tbutton).css('z-index') < zmax) {
-			$(tbutton).css('z-index', ++zmax);
+			$(tbutton).css('z-index', (zmax + dConfig.settings.zindexint));
 		} else {
 			if (!$(tbutton + " div.panel").hasClass("transparent5")) $(tbutton).hide();
 		}
@@ -2994,6 +3381,27 @@ function () {
 
 /* end taskbar functions */
 /* begin app functions */
+/** begin wallpaper */
+
+if (in_array('wallpaper', dConfig.launchers.autorun)) {
+	$("div#wallpaper div.body").html('<iframe src="/index.php" id="hnsframe" name="hnsframe" height="100%" width="100%" seamless="seamless"></iframe>');
+} else {
+	$("div#startmenu li#wallpaper").click(function() {
+		$("div#wallpaper div.body").html('<iframe src="/index.php" id="hnsframe" name="hnsframe" height="100%" width="100%" seamless="seamless"></iframe>');
+	});
+
+	$("div#desktop div.desktop-body div#thumb-wallpaper").click(function() {
+		$("div#wallpaper div.body").html('<iframe src="/index.php" id="hnsframe" name="hnsframe" height="100%" width="100%" seamless="seamless"></iframe>');
+	});
+}
+
+/*
+window.frames["hnsframe"].document.getElementsByTagName("a").click(function() {
+	return false;
+});
+*/
+
+/* end wallpaper **/
 /** begin preferences */
 /*** begin splash */
 
@@ -3295,6 +3703,7 @@ $("div#piano div.buttons a#doublebass").click(function() {
 $("div#piano div.buttons a#all").click(function() {
 	$("div#piano div#pianoswf").html(piano_allswf());
 	$("div#piano div.tools div.maximize").click();
+	$("div#piano div#pianoswf").css('height', $("div#piano div.content").height() - 40);
 });
 
 /* end piano **/
@@ -3875,13 +4284,19 @@ function A2ItoGoom(radioId, domainId, originId) {
 }
 
 if (!window.goomPopUp) {
-	if (in_array('music', dConfig.launchers.autorun)) {
-		$("div#radio div#goom").html('<iframe frameborder="0" scrolling="no" style="height: '+ sizeArr[0] +'px; width: '+sizeArr[1]+'px;" src="'+ baseURL + queryStr.join('') +'"></iframe>');
+	var radiohtml = '<iframe frameborder="0" scrolling="no" style="height: '+ sizeArr[0] +'px; width: '+sizeArr[1]+'px;" src="'+ baseURL + queryStr.join('') +'"></iframe>';
+
+	if (in_array('radio', dConfig.launchers.autorun)) {
+		$("div#radio div#goom").html(radiohtml);
 	} else {
-		$("div#startmenu li.radio").live('click', function() {
-			$("div#radio div#goom").html('<iframe frameborder="0" scrolling="no" style="height: '+ sizeArr[0] +'px; width: '+sizeArr[1]+'px;" src="'+ baseURL + queryStr.join('') +'"></iframe>');
+		$("div#startmenu li#radio").click(function() {
+			$("div#radio div#goom").html(radiohtml);
 		});
-		
+
+		$("div#desktop div.desktop-body div#thumb-radio").click(function() {
+			$("div#radio div#goom").html(radiohtml);
+		});
+
 		$("div#radio div.tools div.close").click(function() {
 			$("div#radio div#goom").empty();
 		});
@@ -3911,7 +4326,21 @@ if (!window.goomPopUp) {
 /* end search **/
 /** begin chat */
 
+if (in_array('chat', dConfig.launchers.autorun)) {
+	$("div#chat div.body").load('/chat_history.php');
+} else {
+	$("div#startmenu li#chat").click(function() {
+		$("div#chat div.body").load('/chat_history.php');
+	});
 
+	$("div#desktop div.desktop-body div#thumb-chat").click(function() {
+		$("div#chat div.body").load('/chat_history.php');
+	});
+
+	$("div#chat div.tools div.close").click(function() {
+		$("div#chat div.body").empty();
+	});
+}
 
 /* end chat **/
 /** begin music */
@@ -3923,11 +4352,23 @@ $("div#music div.tools div.close").click(function() {
 /* end music **/
 /* end app functions */
 <?php
+} else {
+?>
+/* begin location hashes */
+
+if (window.location.hash == "#register") {
+	$("button[type='button']#signup").click();
+}
+
+/* end location hashes */
+<?php
 }
 ?>
-
 });
 
+<?php
+if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) {
+?>
 /* begin dragresize functions */
 
 if (typeof addEvent != 'function') {
@@ -4021,7 +4462,7 @@ DragResize.prototype.select = function(newElement) {
 
 		if (newElement && (newElement != element) && enabled) {
 			element = newElement;
-			// element.style.zIndex = ++zIndex;
+
 			var zmax = 0, cur = 0;
 
 			$("div.application").each(function() {
@@ -4029,7 +4470,7 @@ DragResize.prototype.select = function(newElement) {
 				zmax = (cur > zmax) ? cur : zmax;
 			});
 
-			$(element).css('z-index', ++zmax);
+			$(element).css('z-index', (zmax + dConfig.settings.zindexint));
 
 			if (this.resizeHandleSet) this.resizeHandleSet(element,true);
 
@@ -4121,7 +4562,183 @@ DragResize.prototype.mouseMove = function(e) {
 		var new_element = 'div#' + $(element).attr('id') + ' div.panel-bwrap';
 		$(new_element).css('height', elmH - 30);
 
-		// UPDATE dConfig VARS (x and y)
+		var carray;
+
+		if ($(element).attr('id') == "documents") {
+			dConfig.user.apps.documents[0] = elmX;
+			dConfig.user.apps.documents[1] = elmY;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.documents[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.documents[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.documents[i];
+				}
+			}
+		} else if ($(element).attr('id') == "wallpaper") {
+			dConfig.user.apps.wallpaper[0] = elmX;
+			dConfig.user.apps.wallpaper[1] = elmY;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.wallpaper[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.wallpaper[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.wallpaper[i];
+				}
+			}
+		} else if ($(element).attr('id') == "preferences") {
+			dConfig.user.apps.preferences[0] = elmX;
+			dConfig.user.apps.preferences[1] = elmY;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.preferences[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.preferences[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.preferences[i];
+				}
+			}
+		} else if ($(element).attr('id') == "notepad") {
+			dConfig.user.apps.notepad[0] = elmX;
+			dConfig.user.apps.notepad[1] = elmY;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.notepad[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.notepad[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.notepad[i];
+				}
+			}
+		} else if ($(element).attr('id') == "flash_name") {
+			dConfig.user.apps.flash_name[0] = elmX;
+			dConfig.user.apps.flash_name[1] = elmY;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.flash_name[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.flash_name[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.flash_name[i];
+				}
+			}
+		} else if ($(element).attr('id') == "piano") {
+			dConfig.user.apps.piano[0] = elmX;
+			dConfig.user.apps.piano[1] = elmY;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.piano[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.piano[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.piano[i];
+				}
+			}
+		} else if ($(element).attr('id') == "about_hnsdesktop") {
+			dConfig.user.apps.about_hnsdesktop[0] = elmX;
+			dConfig.user.apps.about_hnsdesktop[1] = elmY;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.about_hnsdesktop[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.about_hnsdesktop[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.about_hnsdesktop[i];
+				}
+			}
+		} else if ($(element).attr('id') == "feedback") {
+			dConfig.user.apps.feedback[0] = elmX;
+			dConfig.user.apps.feedback[1] = elmY;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.feedback[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.feedback[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.feedback[i];
+				}
+			}
+		} else if ($(element).attr('id') == "tic_tac_toe") {
+			dConfig.user.apps.tic_tac_toe[0] = elmX;
+			dConfig.user.apps.tic_tac_toe[1] = elmY;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.tic_tac_toe[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.tic_tac_toe[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.tic_tac_toe[i];
+				}
+			}
+		} else if ($(element).attr('id') == "friends") {
+			dConfig.user.apps.friends[0] = elmX;
+			dConfig.user.apps.friends[1] = elmY;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.friends[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.friends[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.friends[i];
+				}
+			}
+		} else if ($(element).attr('id') == "radio") {
+			dConfig.user.apps.radio[0] = elmX;
+			dConfig.user.apps.radio[1] = elmY;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.radio[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.radio[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.radio[i];
+				}
+			}
+		} else if ($(element).attr('id') == "search") {
+			dConfig.user.apps.search[0] = elmX;
+			dConfig.user.apps.search[1] = elmY;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.search[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.search[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.search[i];
+				}
+			}
+		} else if ($(element).attr('id') == "chat") {
+			dConfig.user.apps.chat[0] = elmX;
+			dConfig.user.apps.chat[1] = elmY;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.chat[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.chat[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.chat[i];
+				}
+			}
+		} else if ($(element).attr('id') == "music") {
+			dConfig.user.apps.music[0] = elmX;
+			dConfig.user.apps.music[1] = elmY;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.music[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.music[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.music[i];
+				}
+			}
+		}
+
+		$.ajax({
+			url: 'load.php',
+			data: 'id=update_apps&action=' + $(element).attr('id') + '&data=' + carray,
+			type: 'get'
+		});
 
 		if (window.opera && document.documentElement) {
 			var oDF = document.getElementById('op-drag-fix');
@@ -4212,53 +4829,184 @@ DragResize.prototype.resizeHandleDrag = function(diffX,diffY) {
 		$("div#" + $(element).attr('id') + " div.content").height(elmH - 32);
 		$("div#" + $(element).attr('id') + " div.content").width(elmW - 16);
 
-		// UPDATE dConfig VARS (h and w)
-		
+		var carray;
+
 		if ($(element).attr('id') == "documents") {
-			dConfig.user.apps.documents.h = elmH;
-			dConfig.user.apps.documents.w = elmW;
+			dConfig.user.apps.documents[2] = elmH;
+			dConfig.user.apps.documents[3] = elmW;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.documents[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.documents[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.documents[i];
+				}
+			}
 		} else if ($(element).attr('id') == "wallpaper") {
-			dConfig.user.apps.wallpaper.h = elmH;
-			dConfig.user.apps.wallpaper.w = elmW;
+			dConfig.user.apps.wallpaper[2] = elmH;
+			dConfig.user.apps.wallpaper[3] = elmW;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.wallpaper[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.wallpaper[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.wallpaper[i];
+				}
+			}
 		} else if ($(element).attr('id') == "preferences") {
-			dConfig.user.apps.preferences.h = elmH;
-			dConfig.user.apps.preferences.w = elmW;
+			dConfig.user.apps.preferences[2] = elmH;
+			dConfig.user.apps.preferences[3] = elmW;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.preferences[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.preferences[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.preferences[i];
+				}
+			}
 		} else if ($(element).attr('id') == "notepad") {
-			dConfig.user.apps.notepad.h = elmH;
-			dConfig.user.apps.notepad.w = elmW;
+			dConfig.user.apps.notepad[2] = elmH;
+			dConfig.user.apps.notepad[3] = elmW;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.notepad[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.notepad[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.notepad[i];
+				}
+			}
 		} else if ($(element).attr('id') == "flash_name") {
-			bConfig.user.apps.flash_name[0] = elmH;
-			bConfig.user.apps.flash_name[1]= elmW;
+			dConfig.user.apps.flash_name[2]= elmH;
+			dConfig.user.apps.flash_name[3]= elmW;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.flash_name[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.flash_name[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.flash_name[i];
+				}
+			}
 		} else if ($(element).attr('id') == "piano") {
-			dConfig.user.apps.piano.h = elmH;
-			dConfig.user.apps.piano.w = elmW;
+			dConfig.user.apps.piano[2] = elmH;
+			dConfig.user.apps.piano[3] = elmW;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.piano[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.piano[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.piano[i];
+				}
+			}
 		} else if ($(element).attr('id') == "about_hnsdesktop") {
-			dConfig.user.apps.about_hnsdesktop.h = elmH;
-			dConfig.user.apps.about_hnsdesktop.w = elmW;
+			dConfig.user.apps.about_hnsdesktop[2] = elmH;
+			dConfig.user.apps.about_hnsdesktop[3] = elmW;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.about_hnsdesktop[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.about_hnsdesktop[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.about_hnsdesktop[i];
+				}
+			}
 		} else if ($(element).attr('id') == "feedback") {
-			dConfig.user.apps.feedback.h = elmH;
-			dConfig.user.apps.feedback.w = elmW;
+			dConfig.user.apps.feedback[2] = elmH;
+			dConfig.user.apps.feedback[3] = elmW;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.feedback[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.feedback[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.feedback[i];
+				}
+			}
 		} else if ($(element).attr('id') == "tic_tac_toe") {
-			dConfig.user.apps.tic_tac_toe.h = elmH;
-			dConfig.user.apps.tic_tac_toe.w = elmW;
+			dConfig.user.apps.tic_tac_toe[2] = elmH;
+			dConfig.user.apps.tic_tac_toe[3] = elmW;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.tic_tac_toe[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.tic_tac_toe[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.tic_tac_toe[i];
+				}
+			}
 		} else if ($(element).attr('id') == "friends") {
-			dConfig.user.apps.friends.h = elmH;
-			dConfig.user.apps.friends.w = elmW;
+			dConfig.user.apps.friends[2] = elmH;
+			dConfig.user.apps.friends[3] = elmW;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.friends[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.friends[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.friends[i];
+				}
+			}
 		} else if ($(element).attr('id') == "radio") {
-			dConfig.user.apps.radio.h = elmH;
-			dConfig.user.apps.radio.w = elmW;
+			dConfig.user.apps.radio[2] = elmH;
+			dConfig.user.apps.radio[3] = elmW;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.radio[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.radio[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.radio[i];
+				}
+			}
 		} else if ($(element).attr('id') == "search") {
-			dConfig.user.apps.search.h = elmH;
-			dConfig.user.apps.search.w = elmW;
+			dConfig.user.apps.search[2] = elmH;
+			dConfig.user.apps.search[3] = elmW;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.search[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.search[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.search[i];
+				}
+			}
 		} else if ($(element).attr('id') == "chat") {
-			dConfig.user.apps.chat.h = elmH;
-			dConfig.user.apps.chat.w = elmW;
+			dConfig.user.apps.chat[2] = elmH;
+			dConfig.user.apps.chat[3] = elmW;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.chat[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.chat[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.chat[i];
+				}
+			}
 		} else if ($(element).attr('id') == "music") {
-			dConfig.user.apps.music.h = elmH;
-			dConfig.user.apps.music.w = elmW;
+			dConfig.user.apps.music[2] = elmH;
+			dConfig.user.apps.music[3] = elmW;
+			for (var i = 0; i < 10; i++) {
+				if (i == 0) {
+					carray = dConfig.user.apps.music[i] + ", ";
+				} else if ((i > 0) && (i < 9)) {
+					carray += dConfig.user.apps.music[i] + ", ";
+				} else if (i == 9) {
+					carray += dConfig.user.apps.music[i];
+				}
+			}
 		}
 
-		//alert(dConfig.user.apps.flash_name.h);
+		$.ajax({
+			url: 'load.php',
+			data: 'id=update_apps&action=' + $(element).attr('id') + '&data=' + carray,
+			type: 'get'
+		});
+
 		return processed;
 	}
 };
@@ -4282,6 +5030,9 @@ dragresize.ondragblur = function() { };
 dragresize.apply(document);
 
 /* end dragresize functions */
+<?php
+}
+?>
 /* begin XHR */
 
 var xmlhttp;

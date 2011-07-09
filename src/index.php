@@ -23,6 +23,9 @@ include ("login.inc.php");
 </head>
 
 <body id="main" scroll="no">
+<div class="noscript">
+We Are Sorry! HnS Desktop Requires A Browser That Supports jQuery & Javascript.
+</div>
 <?php
 include ("tracking_scripts.inc.php");
 ?>

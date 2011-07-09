@@ -17,7 +17,7 @@ $theme_id = 1;
 /* Site Creator: Andrew Gerst
 /* Site Created: Wed, 24 Mar 2010 21:22:05 -0400
 /* Last Updated: <?php echo date(r, filemtime('css.php')) . "\n";?>
-<?php if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) {?>/* Current User: <?php echo $_SESSION['first_name'] . " " . $_SESSION['last_name'] . "\n";} ?>
+<?php if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1)) {?>/* Current User: <?php echo $_SESSION['fullname'] . "\n";} ?>
 /* Select Theme: <?php echo $theme_id . "\n";?>
 /* ---------------------------------------------------- */
 
@@ -2584,7 +2584,7 @@ z-index: 3;
 /*** Begin Friends */
 
 div#friends div.panel-mc {
-overflow: auto;	
+overflow: auto;
 }
 
 div#friends div.friendsection {
@@ -2637,12 +2637,16 @@ padding: 0;
 /* End Radio ***/
 /*** Begin Search */
 
-
+div#search div.panel-mc {
+overflow: auto;
+}
 
 /* End Search ***/
 /*** Begin Chat */
 
-
+div#chat div.panel-mc {
+overflow: auto;
+}
 
 /* End Chat ***/
 /*** Begin Music */
