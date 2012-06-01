@@ -649,7 +649,7 @@ var whiteout = document.createElement('div'); whiteout.setAttribute('id','whiteo
 
 function g(e) { return document.getElementById(e); }
 function refreshCaptcha() { document.captchaimg.src += '?'; }
-function isDefined(variable) { return (typeof(window[variable]) == "undefined") ? false : true; }
+function isDefined(variable) { return (typeof(window[variable]) === "undefined") ? false : true; }
 function getHash() { return decodeURIComponent(window.location.hash.substring(1)); }
 function clearHash() { window.location.replace("#"); }
 function setHash(hash) { window.location.replace("#" + encodeURI(hash)); }
@@ -823,7 +823,7 @@ function isplit(string, regexp, flags) {
 	var splitter = "#@#";
 	while (string.indexOf(splitter) != -1) { splitter += "#"; };
 	flags = (flags && typeof(flags) == "string") ? flags : (!isNaN(parseFloat(flags))) ? "" : "g";
-	string=string.replace(((typeof(regexp) == "string") ? new RegExp(regexp, flags) : regexp), splitter);
+	string = string.replace(((typeof(regexp) == "string") ? new RegExp(regexp, flags) : regexp), splitter);
 	return string.split(splitter);
 }
 
@@ -963,7 +963,7 @@ function div_selection(e, eq) {
 	this.div_pnl_tl = function() { return ['div#', this.selection, ' div.tl'].join(''); }
 }
 
- function maxWindow() {
+function maxWindow() {
 	window.moveTo(0, 0);
 	if (document.all) top.window.resizeTo(screen.availWidth, screen.availHeight);
 	else if (document.layers || document.getElementById) {
