@@ -20,7 +20,7 @@ if (isset($_SESSION['logged']) && ($_SESSION['logged'] == 1 || 0)) {
 $username = $_COOKIE['hnsrememberme']['username'];
 $password = $_COOKIE['hnsrememberme']['password'];
 
-$query = 'SELECT * FROM login u JOIN info i ON u.user_id = i.user_id WHERE username = "' . mysql_real_escape_string($username, $db) . '" AND password = "' . mysql_real_escape_string($password, $db) . '"';
+$query = 'SELECT * FROM login u JOIN info i ON u.user_id = i.user_id WHERE username = "' . mysql_real_escape_string($username, $db) . '" AND pass = "' . mysql_real_escape_string($password, $db) . '"';
 $result = mysql_query($query, $db) or die(mysql_error($db));
 
 if (mysql_num_rows($result) > 0) {

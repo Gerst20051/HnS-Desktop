@@ -17,7 +17,7 @@ $password = (isset($_POST['password'])) ? substr(base64_decode(substr(trim($_POS
 }
 
 $time = time();
-$query = 'SELECT * FROM login u JOIN info i ON u.user_id = i.user_id WHERE username = "' . mysql_real_escape_string($username, $db) . '" AND password = PASSWORD("' . mysql_real_escape_string($password, $db) . '")';
+$query = 'SELECT * FROM login u JOIN info i ON u.user_id = i.user_id WHERE username = "' . mysql_real_escape_string($username, $db) . '" AND pass = PASSWORD("' . mysql_real_escape_string($password, $db) . '")';
 $result = mysql_query($query, $db) or die(mysql_error($db));
 
 if (mysql_num_rows($result) > 0) {
