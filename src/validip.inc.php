@@ -34,5 +34,6 @@ elseif (validip($_SERVER["HTTP_X_FORWARDED"])) return $_SERVER["HTTP_X_FORWARDED
 else return $_SERVER["REMOTE_ADDR"];
 }
 
-$ip = getip();
+// $ip = getip();
+$ip = '0.0.0.0';
 ?>
