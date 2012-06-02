@@ -31,7 +31,7 @@ include ('login.inc.php');
 </style>
 <script type="text/javascript">
 (function() {
-var s=["https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js","https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js","http://www.google.com/buzz/api/button.js","ellipsis.min.js","scrollto.min.js"];
+var s=["https://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js","https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js","http://www.google.com/buzz/api/button.js","scrollto.min.js"];
 var sc="script",tp="text/javascript",ce="createElement",sa="setAttribute",d=document,tn="getElementsByTagName",ua=window.navigator.userAgent,ls=localStorage;
 for(var i=0,l=s.length;i<l;++i){if(ua.indexOf("Firefox")!==-1||ua.indexOf("Opera")!==-1){var t=d[ce](sc);t[sa]("type",tp);t[sa]("src",s[i]);d[tn]("head")[0].appendChild(t);}else{d.write("<"+sc+" type=\""+tp+"\" src=\""+s[i]+"\"></"+sc+">");}}
 function ss(id){var sc="link",tp="text/css",rel="stylesheet";if(ua.indexOf("Firefox")!==-1||ua.indexOf("Opera")!==-1){var t=d[ce](sc);t[sa]("rel",rel);t[sa]("type",tp);t[sa]("href","css.php?id="+id);d[tn]("head")[0].appendChild(t);}else{d.write("<"+sc+" rel=\""+rel+"\" type=\""+tp+"\" href=\"css.php?id="+id+"\" />");}}
@@ -44,4 +44,3 @@ if(window.ls){if(ls.getItem('themeid')){ss(ls.getItem('themeid'));}else{ls.setIt
 <script type="text/javascript" src="javascript.php"></script>
 </body>
 </html>
-<?php if ($db) mysql_close($db); ?>
