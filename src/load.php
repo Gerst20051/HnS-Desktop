@@ -192,7 +192,7 @@ case 'chat':
 if (isset($_GET['action']) && ($action == "send")) {
 	if (isset($_GET['data'])) {
 		$message = $_GET['data'];
-		$chatfile = $_SERVER['DOCUMENT_ROOT'] . "/chat_history.php";
+		$chatfile = dirname(__FILE__) . "/chat_history.php";
 		$fhandle = fopen($chatfile, "r") or exit("Unable to open file!");
 		$content = fread($fhandle, filesize($chatfile));
 		$message = '<div>(' . date("g:i A") . ') <b>' . $username . '</b>: ' . stripslashes(htmlspecialchars($message)) . '<br /></div>' . "\n";
@@ -204,7 +204,7 @@ if (isset($_GET['action']) && ($action == "send")) {
 }
 
 if (isset($_GET['action']) && ($action == "clear")) {
-	$chatfile = $_SERVER['DOCUMENT_ROOT'] . "/chat_history.php";
+	$chatfile = dirname(__FILE__) . "/chat_history.php";
 	$content = "<div>Welcome To Homenet Spaces CHAT!! Enjoy :)</div><br />\n";
 	$fhandle = fopen($chatfile, "w");
 	fwrite($fhandle, $content);
@@ -212,7 +212,7 @@ if (isset($_GET['action']) && ($action == "clear")) {
 }
 
 if (isset($_GET['action']) && ($action == "refresh")) {
-	$chatfile = $_SERVER['DOCUMENT_ROOT'] . "/chat_history.php";
+	$chatfile = dirname(__FILE__) . "/chat_history.php";
 	$mtime = filemtime($chatfile);
 	$ctime = time();
 	$timediff = ($ctime - $mtime);
